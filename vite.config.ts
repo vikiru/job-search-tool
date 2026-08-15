@@ -15,8 +15,8 @@ export default defineConfig({
     tanstackStart({
       importProtection: {
         client: {
-          specifiers: ['drizzle-orm', 'pg', '@google/genai', 'pdf-parse'],
-          files: ['**/server/**'],
+          specifiers: ['drizzle-orm', 'drizzle-orm/**', 'pg', '@google/genai', 'pdf-parse'],
+          files: ['**/server/db/**'],
         },
       },
     }),
