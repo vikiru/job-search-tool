@@ -1,16 +1,16 @@
 name: Format Files
-run-name: Format files using Biome
+run-name: Format files using Oxfmt
 on:
   push:
     branches:
       - main
-permissions:
-  contents: write
-  statuses: write
-  actions: write
+
 jobs:
   format:
+    name: Format Files
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -21,13 +21,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: 'lts/*'
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 11
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile # Install from frozen lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Format files
         run: pnpm run format
       - name: Check for changes
