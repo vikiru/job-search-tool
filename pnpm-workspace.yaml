@@ -1,5 +1,13 @@
+allowBuilds:
+  '@google/genai': true
+  esbuild: true
+  lefthook: true
+  protobufjs: true
 onlyBuiltDependencies:
+  - '@google/genai'
   - '@tailwindcss/oxide'
   - esbuild
   - lefthook
+  - lightningcss
   - unrs-resolver
+  - protobufjs
