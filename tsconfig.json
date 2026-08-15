@@ -20,27 +20,6 @@
     },
     "incremental": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "*.config.ts"],
-  "exclude": [
-    "node_modules",
-    "**.*/",
-    ".next",
-    ".git",
-    ".github",
-    "public",
-    "dist",
-    "build",
-    "out",
-    ".vercel",
-    ".vscode",
-    ".clerk",
-    ".turbo",
-    ".wrangler",
-    "*.json",
-    "*.md",
-    "*.mdx",
-    "*.lock",
-    "*.yaml",
-    "*.yml"
-  ]
+  "include": ["src/**/*", "*.config.ts", "vite.config.ts"],
+  "exclude": ["node_modules", "dist", ".output", ".vinxi", "drizzle", ".git", ".github", ".agent", ".agents", ".serena"]
 }
