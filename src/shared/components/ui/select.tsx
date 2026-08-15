@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type { ComponentProps } from 'react';
 import { Select as SelectPrimitive } from '@base-ui/react/select';
 
 import { cn } from '@/shared/lib/utils';
@@ -121,22 +121,19 @@ function SelectSeparator({ className, ...props }: SelectPrimitive.Separator.Prop
   );
 }
 
-function SelectScrollUpButton({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>) {
+function SelectScrollUpButton({ className, ...props }: ComponentProps<typeof SelectPrimitive.ScrollUpArrow>) {
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-button"
-      className={cn(
-        "top-0 z-10 flex w-full cursor-default items-center justify-center bg-popover py-1 [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
+      className={cn('flex cursor-default items-center justify-center py-1 text-muted-foreground', className)}
       {...props}
     >
-      <ChevronUpIcon />
+      <ChevronUpIcon className="size-4" />
     </SelectPrimitive.ScrollUpArrow>
   );
 }
 
-function SelectScrollDownButton({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>) {
+function SelectScrollDownButton({ className, ...props }: ComponentProps<typeof SelectPrimitive.ScrollDownArrow>) {
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-button"

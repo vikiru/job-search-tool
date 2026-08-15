@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type { ComponentProps } from 'react';
 import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 
 import { cn } from '@/shared/lib/utils';
@@ -220,7 +220,7 @@ function DropdownMenuSeparator({ className, ...props }: MenuPrimitive.Separator.
   );
 }
 
-function DropdownMenuShortcut({ className, ...props }: React.ComponentProps<'span'>) {
+function DropdownMenuShortcut({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span
       data-slot="dropdown-menu-shortcut"
