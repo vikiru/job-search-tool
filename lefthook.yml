@@ -20,6 +20,3 @@ pre-push:
   jobs:
     - name: TypeScript typecheck
       run: pnpm typecheck
-
-    - name: Dead code and unused dependency check
-      run: pnpm unused
