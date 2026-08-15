@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -8,6 +7,7 @@ import {
   Link,
 } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { Button } from '@/shared/components/ui/button';
 import appCss from '@/styles/app.css?url';
 
@@ -24,7 +24,7 @@ export const Route = createRootRouteWithContext<{
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Job Search OS',
+        title: 'JobApp',
       },
     ],
     links: [
@@ -49,7 +49,9 @@ function RootComponent() {
           <HeadContent />
         </head>
         <body className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-primary/20">
-          <Outlet />
+          <ClerkProvider telemetry={false}>
+            <Outlet />
+          </ClerkProvider>
           <Scripts />
         </body>
       </html>
