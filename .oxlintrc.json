@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "jsx-a11y", "typescript", "import", "unicorn"],
+  "categories": {
+    "correctness": "warn",
+    "suspicious": "warn",
+    "pedantic": "off",
+    "style": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
+  },
+  "ignorePatterns": ["dist/**", ".output/**", ".vinxi/**", "node_modules/**", "drizzle/**", "**/routeTree.gen.ts"]
+}
