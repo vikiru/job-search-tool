@@ -11,3 +11,13 @@ onlyBuiltDependencies:
   - lightningcss
   - unrs-resolver
   - protobufjs
+overrides:
+  '@tanstack/form-core@<0.42.1': ^0.42.1
+  drizzle-orm@<0.45.2: ^0.45.2
+  esbuild@<=0.24.2: ^0.25.12
+  fast-uri@>=3.0.0 <3.1.3: ^3.1.3
+  fast-uri@>=3.0.0 <3.1.5: ^3.1.5
+  fast-uri@>=3.0.0 <=3.1.0: ^3.1.1
+  fast-uri@>=3.0.0 <=3.1.1: ^3.1.2
+  fast-uri@>=3.0.0 <=3.1.3: ^3.1.4
+  turbo-stream@<3.0.0: ^3.0.0
