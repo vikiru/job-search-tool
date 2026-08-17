@@ -3,6 +3,7 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useLocation,
   useRouteContext,
   Link,
 } from '@tanstack/react-router';
@@ -12,6 +13,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Footer } from '@/shared/components/Footer';
 import { Navbar } from '@/shared/components/Navbar';
 import { ThemeProvider } from '@/shared/components/ThemeProvider';
+import { clerkAppearance } from '@/shared/config/clerkAppearance';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRouteWithContext<{
@@ -44,6 +46,8 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   const { queryClient } = useRouteContext({ from: '__root__' });
+  const { pathname } = useLocation();
+  const isAuthRoute = pathname.startsWith('/auth');
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -53,14 +57,25 @@ function RootComponent() {
         </head>
         <body className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-primary/20">
           <ThemeProvider>
-            <ClerkProvider telemetry={false}>
-              <div className="flex min-h-screen flex-col">
-                <Navbar />
-                <main id="main-content" className="flex-1">
+            <ClerkProvider
+              appearance={clerkAppearance}
+              telemetry={false}
+              signInFallbackRedirectUrl={import.meta.env.VITE_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL}
+              signUpForceRedirectUrl={import.meta.env.VITE_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL}
+            >
+              {isAuthRoute ? (
+                <main id="main-content" className="min-h-screen">
                   <Outlet />
                 </main>
-                <Footer />
-              </div>
+              ) : (
+                <div className="flex min-h-screen flex-col">
+                  <Navbar />
+                  <main id="main-content" className="flex-1">
+                    <Outlet />
+                  </main>
+                  <Footer />
+                </div>
+              )}
             </ClerkProvider>
           </ThemeProvider>
           <Scripts />
