@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { ApplicationsKanban } from '@/pages/applications/components/ApplicationsKanban';
-import { ApplicationsEmptyState } from '@/pages/applications/components/ApplicationsEmptyState';
-import { ApplicationsPagination } from '@/pages/applications/components/ApplicationsPagination';
-import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/applications/components/ApplicationsTable';
-import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
+import type { SortDirection, SortKey } from '@/pages/applications/components/ApplicationsTable';
 import {
   applications as sampleApplications,
   statusSortOrder,
@@ -12,9 +8,9 @@ import {
   type ApplicationView,
   type InterestRating,
 } from '@/pages/applications/data';
-import { Card } from '@/shared/components/ui/card';
+import { ApplicationsWorkspaceSection } from '@/pages/applications/sections/ApplicationsWorkspaceSection';
 
-function ApplicationsPage() {
+export function ApplicationsPage() {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'ALL'>('ALL');
   const [interestFilter, setInterestFilter] = useState<InterestRating | 'ALL'>('ALL');
@@ -57,8 +53,6 @@ function ApplicationsPage() {
     setPageIndex(0);
   }, [interestFilter, search, sortDirection, sortKey, statusFilter]);
 
-  const paginatedApplications = filteredApplications.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
       setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
@@ -92,42 +86,28 @@ function ApplicationsPage() {
           </p>
         </header>
 
-        <Card className="min-w-0 overflow-hidden">
-          <ApplicationsToolbar
-            search={search}
-            onSearchChange={setSearch}
-            statusFilter={statusFilter}
-            onStatusFilterChange={setStatusFilter}
-            interestFilter={interestFilter}
-            onInterestFilterChange={setInterestFilter}
-            view={view}
-            onViewChange={setView}
-          />
-          {filteredApplications.length === 0 ? (
-            <ApplicationsEmptyState isFiltered={isFiltered} onClear={clearFilters} />
-          ) : view === 'table' ? (
-            <>
-              <ApplicationsTable
-                applications={paginatedApplications}
-                sortKey={sortKey}
-                sortDirection={sortDirection}
-                onSort={handleSort}
-              />
-              <ApplicationsPagination
-                pageIndex={pageIndex}
-                pageSize={pageSize}
-                total={filteredApplications.length}
-                onPageChange={setPageIndex}
-                onPageSizeChange={handlePageSizeChange}
-              />
-            </>
-          ) : (
-            <ApplicationsKanban applications={filteredApplications} />
-          )}
-        </Card>
+        <ApplicationsWorkspaceSection
+          applications={filteredApplications}
+          filteredApplications={filteredApplications}
+          interestFilter={interestFilter}
+          isFiltered={isFiltered}
+          onClearFilters={clearFilters}
+          onInterestFilterChange={setInterestFilter}
+          onPageChange={setPageIndex}
+          onPageSizeChange={handlePageSizeChange}
+          onSearchChange={setSearch}
+          onSort={handleSort}
+          onStatusFilterChange={setStatusFilter}
+          onViewChange={setView}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          search={search}
+          sortDirection={sortDirection}
+          sortKey={sortKey}
+          statusFilter={statusFilter}
+          view={view}
+        />
       </div>
     </div>
   );
 }
-
-export { ApplicationsPage };

@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SignIn } from '@clerk/tanstack-react-start';
+import { LoginPage } from '@/pages/auth/LoginPage';
 
 export const Route = createFileRoute('/auth/login')({
   head: () => ({
@@ -8,13 +8,5 @@ export const Route = createFileRoute('/auth/login')({
       { name: 'description', content: 'Log in to keep your applications, follow-ups, and next steps together.' },
     ],
   }),
-  component: LoginPageComponent,
+  component: LoginPage,
 });
-
-function LoginPageComponent() {
-  return (
-    <div className="w-full max-w-md py-4">
-      <SignIn routing="path" path="/auth/login" signUpUrl="/auth/register" />
-    </div>
-  );
-}

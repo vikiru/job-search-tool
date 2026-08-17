@@ -1,15 +1,13 @@
 import { ArrowLeft, BriefcaseBusiness, CalendarDays, MapPin, Trash2 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-import {
-  ApplicationActivityCard,
-  ApplicationDetailsCard,
-  ApplicationLinksCard,
-  FitAnalysisCard,
-  JobDescriptionCard,
-  NotesCard,
-} from '@/pages/applications/components/ApplicationDetailSections';
 import { EditApplicationDialog } from '@/pages/applications/components/EditApplicationDialog';
+import { ApplicationActivitySection } from '@/pages/applications/details/sections/ApplicationActivitySection';
+import { ApplicationDetailsSection } from '@/pages/applications/details/sections/ApplicationDetailsSection';
+import { FitAnalysisSection } from '@/pages/applications/details/sections/FitAnalysisSection';
+import { ApplicationLinksSection } from '@/pages/applications/details/sections/ApplicationLinksSection';
+import { JobDescriptionSection } from '@/pages/applications/details/sections/JobDescriptionSection';
+import { NotesSection } from '@/pages/applications/details/sections/NotesSection';
 import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/data';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';
@@ -18,7 +16,7 @@ interface ApplicationDetailPageProps {
   application: ApplicationRecord;
 }
 
-function ApplicationDetailPage({ application }: ApplicationDetailPageProps) {
+export function ApplicationDetailPage({ application }: ApplicationDetailPageProps) {
   return (
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-6 sm:space-y-8">
@@ -32,14 +30,14 @@ function ApplicationDetailPage({ application }: ApplicationDetailPageProps) {
         <ApplicationDetailHeader application={application} />
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-8">
           <main className="min-w-0 space-y-6">
-            <JobDescriptionCard application={application} />
-            <FitAnalysisCard hasAnalysis={false} />
-            <NotesCard />
+            <JobDescriptionSection application={application} />
+            <FitAnalysisSection hasAnalysis={false} />
+            <NotesSection />
           </main>
           <aside className="min-w-0 space-y-6">
-            <ApplicationDetailsCard application={application} />
-            <ApplicationLinksCard />
-            <ApplicationActivityCard />
+            <ApplicationDetailsSection application={application} />
+            <ApplicationLinksSection />
+            <ApplicationActivitySection />
           </aside>
         </div>
       </div>
@@ -91,5 +89,3 @@ function ApplicationDetailHeader({ application }: { application: ApplicationReco
     </header>
   );
 }
-
-export { ApplicationDetailPage };

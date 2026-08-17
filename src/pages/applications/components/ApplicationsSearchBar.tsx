@@ -7,7 +7,7 @@ interface ApplicationsSearchBarProps {
   onChange: (value: string) => void;
 }
 
-function ApplicationsSearchBar({ onChange, value }: ApplicationsSearchBarProps) {
+export function ApplicationsSearchBar({ onChange, value }: ApplicationsSearchBarProps) {
   return (
     <div className="relative min-w-0 flex-1 lg:max-w-xl">
       <Search
@@ -24,5 +24,3 @@ function ApplicationsSearchBar({ onChange, value }: ApplicationsSearchBarProps) 
     </div>
   );
 }
-
-export { ApplicationsSearchBar };

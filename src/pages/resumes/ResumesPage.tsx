@@ -1,9 +1,10 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-import { ResumePresentState } from '@/pages/resumes/components/ResumePresentState';
+import { ResumeContentSection } from '@/pages/resumes/sections/ResumeContentSection';
+import { ResumeInsightsSection } from '@/pages/resumes/sections/ResumeInsightsSection';
 
-function ResumesPage() {
+export function ResumesPage() {
   return (
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-6 sm:space-y-8">
@@ -31,35 +32,11 @@ function ResumesPage() {
             <h2 id="resume-start-heading" className="sr-only">
               Current resume
             </h2>
-            <ResumePresentState />
+            <ResumeContentSection />
           </div>
-          <aside className="rounded-xl border border-border/70 bg-muted/30 p-5 sm:p-6">
-            <Sparkles className="size-icon-base text-primary" aria-hidden="true" />
-            <h2 className="mt-4 font-heading text-h5 font-semibold leading-tight tracking-tight text-balance">
-              Make more of your resume
-            </h2>
-            <p className="mt-3 max-w-prose text-small leading-relaxed text-pretty text-muted-foreground">
-              Keep the text you trust ready when you want to compare your experience with a role.
-            </p>
-            <ul className="mt-6 space-y-4 text-small leading-relaxed text-muted-foreground">
-              <li className="flex gap-2">
-                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-                Compare your experience with a job description
-              </li>
-              <li className="flex gap-2">
-                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-                Spot strengths worth bringing into an interview
-              </li>
-              <li className="flex gap-2">
-                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-                Review and refine the extracted text
-              </li>
-            </ul>
-          </aside>
+          <ResumeInsightsSection />
         </section>
       </div>
     </div>
   );
 }
-
-export { ResumesPage };

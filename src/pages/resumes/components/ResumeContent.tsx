@@ -20,7 +20,7 @@ interface ResumeRoleProps {
   position: string;
 }
 
-function ResumeContent({ children, location, name, summary, title }: ResumeContentProps) {
+export function ResumeContent({ children, location, name, summary, title }: ResumeContentProps) {
   return (
     <div className="space-y-8">
       <header className="space-y-2">
@@ -37,7 +37,7 @@ function ResumeContent({ children, location, name, summary, title }: ResumeConte
   );
 }
 
-function ResumeSection({ children, heading }: ResumeSectionProps) {
+export function ResumeSection({ children, heading }: ResumeSectionProps) {
   return (
     <section className="space-y-4" aria-labelledby={`resume-section-${heading.toLowerCase().replaceAll(' ', '-')}`}>
       <h3
@@ -51,7 +51,7 @@ function ResumeSection({ children, heading }: ResumeSectionProps) {
   );
 }
 
-function ResumeRole({ company, description, position }: ResumeRoleProps) {
+export function ResumeRole({ company, description, position }: ResumeRoleProps) {
   return (
     <article className="space-y-2">
       <div>
@@ -62,5 +62,3 @@ function ResumeRole({ company, description, position }: ResumeRoleProps) {
     </article>
   );
 }
-
-export { ResumeContent, ResumeRole, ResumeSection };

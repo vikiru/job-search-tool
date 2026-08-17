@@ -26,7 +26,7 @@ const initialLinks: ApplicationLink[] = [
   { id: 'resume-used', label: 'Resume used', href: 'https://app.jobapp.example/resumes/john-doe' },
 ];
 
-function ApplicationLinksCard() {
+export function ApplicationLinksCard() {
   const [links, setLinks] = useState(initialLinks);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingLink, setEditingLink] = useState<ApplicationLink | null>(null);
@@ -196,5 +196,3 @@ function ApplicationLinkRow({
     </div>
   );
 }
-
-export { ApplicationLinksCard };

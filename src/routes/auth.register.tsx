@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SignUp } from '@clerk/tanstack-react-start';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
 
 export const Route = createFileRoute('/auth/register')({
   head: () => ({
@@ -8,13 +8,5 @@ export const Route = createFileRoute('/auth/register')({
       { name: 'description', content: 'Create your JobApp workspace and start organizing your job search.' },
     ],
   }),
-  component: RegisterPageComponent,
+  component: RegisterPage,
 });
-
-function RegisterPageComponent() {
-  return (
-    <div className="w-full max-w-md py-4">
-      <SignUp routing="path" path="/auth/register" signInUrl="/auth/login" forceRedirectUrl="/onboarding" />
-    </div>
-  );
-}
