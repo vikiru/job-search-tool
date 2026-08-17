@@ -9,6 +9,9 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { Button } from '@/shared/components/ui/button';
+import { Footer } from '@/shared/components/Footer';
+import { Navbar } from '@/shared/components/Navbar';
+import { ThemeProvider } from '@/shared/components/ThemeProvider';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRouteWithContext<{
@@ -49,9 +52,17 @@ function RootComponent() {
           <HeadContent />
         </head>
         <body className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-primary/20">
-          <ClerkProvider telemetry={false}>
-            <Outlet />
-          </ClerkProvider>
+          <ThemeProvider>
+            <ClerkProvider telemetry={false}>
+              <div className="flex min-h-screen flex-col">
+                <Navbar />
+                <main id="main-content" className="flex-1">
+                  <Outlet />
+                </main>
+                <Footer />
+              </div>
+            </ClerkProvider>
+          </ThemeProvider>
           <Scripts />
         </body>
       </html>
