@@ -10,7 +10,7 @@ const initialPublicLinks: PublicLink[] = [
   { label: 'Portfolio', href: 'johndoe.design' },
 ];
 
-function ResumeContactDetails() {
+export function ResumeContactDetails() {
   const [showDetails, setShowDetails] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [publicLinks, setPublicLinks] = useState(initialPublicLinks);
@@ -69,5 +69,3 @@ function ResumeContactDetails() {
     </section>
   );
 }
-
-export { ResumeContactDetails };

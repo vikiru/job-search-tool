@@ -10,7 +10,7 @@ interface ResumePublicLinksProps {
   links: PublicLink[];
 }
 
-function ResumePublicLinks({ links }: ResumePublicLinksProps) {
+export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
   return (
     <div className="mt-6 border-t border-border/60 pt-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -67,4 +67,3 @@ const publicLinkIcons: Record<string, LucideIcon> = {
 };
 
 export type { PublicLink };
-export { ResumePublicLinks };

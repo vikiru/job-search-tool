@@ -4,7 +4,7 @@ import { ResumeContactDetails } from '@/pages/resumes/components/ResumeContactDe
 import { ResumeContent, ResumeRole, ResumeSection } from '@/pages/resumes/components/ResumeContent';
 import { ResumeDocument } from '@/pages/resumes/components/ResumeDocument';
 
-function ResumePresentState() {
+export function ResumeContentSection() {
   return (
     <div className="space-y-6">
       <ResumeDocument filename="john-doe-resume.pdf">
@@ -52,5 +52,3 @@ function ResumePresentState() {
     </div>
   );
 }
-
-export { ResumePresentState };
