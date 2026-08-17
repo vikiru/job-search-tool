@@ -1,6 +1,8 @@
 import { Github, Globe2, Link2, Linkedin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/shared/components/ui/empty';
+
 interface PublicLink {
   href: string;
   label: string;
@@ -46,9 +48,17 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
           ))}
         </div>
       ) : (
-        <p className="mt-4 rounded-lg border border-dashed border-border px-3 py-4 text-small text-muted-foreground">
-          Add a LinkedIn, GitHub, or portfolio link to make it easier for employers to find your work.
-        </p>
+        <Empty className="mt-4 min-h-28 rounded-lg border border-dashed border-border px-4 py-5">
+          <EmptyMedia className="mb-0 text-muted-foreground" variant="default">
+            <Link2 className="size-icon-base" aria-hidden="true" />
+          </EmptyMedia>
+          <EmptyHeader>
+            <EmptyTitle className="text-small">No public links yet</EmptyTitle>
+            <EmptyDescription className="text-caption">
+              Add a LinkedIn, GitHub, or portfolio link to make it easier for employers to find your work.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       )}
     </div>
   );
