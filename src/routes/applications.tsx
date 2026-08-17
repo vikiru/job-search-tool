@@ -1,14 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 import { requireAuth } from '@/features/auth/server';
 
 export const Route = createFileRoute('/applications')({
-  beforeLoad: async () => {
-    await requireAuth();
-  },
-  component: ApplicationsRoute,
+  head: () => ({
+    meta: [
+      { title: 'Applications | JobApp' },
+      { name: 'description', content: 'Track every application, follow-up, and next step in one focused workspace.' },
+    ],
+  }),
+  beforeLoad: async () => await requireAuth(),
+  component: ApplicationsLayout,
 });
 
-function ApplicationsRoute() {
-  return <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" />;
+function ApplicationsLayout() {
+  return <Outlet />;
 }
