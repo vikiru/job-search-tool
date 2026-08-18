@@ -1,10 +1,22 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
+import { ResumesSkeleton } from '@/features/resumes/components/ResumesSkeleton';
+import { useResumes } from '@/features/resumes/hooks/useResumes';
+import { ResumeEmptyState } from '@/pages/resumes/components/ResumeEmptyState';
 import { ResumeContentSection } from '@/pages/resumes/sections/ResumeContentSection';
 import { ResumeInsightsSection } from '@/pages/resumes/sections/ResumeInsightsSection';
 
-export function ResumesPage() {
+interface ResumesPageProps {
+  userId: string;
+}
+
+export function ResumesPage({ userId }: ResumesPageProps) {
+  const resumeQuery = useResumes(userId);
+  const resumeResult = resumeQuery.data;
+  const resume = resumeResult?.success ? resumeResult.data : null;
+  const errorMessage = resumeResult && !resumeResult.success ? resumeResult.error : null;
+
   return (
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-6 sm:space-y-8">
@@ -32,7 +44,19 @@ export function ResumesPage() {
             <h2 id="resume-start-heading" className="sr-only">
               Current resume
             </h2>
-            <ResumeContentSection />
+            {resumeQuery.isPending ? <ResumesSkeleton /> : null}
+            {!resumeQuery.isPending && errorMessage ? (
+              <p
+                className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-small text-destructive"
+                role="alert"
+              >
+                {errorMessage}
+              </p>
+            ) : null}
+            {!resumeQuery.isPending && !errorMessage && resume ? (
+              <ResumeContentSection resume={resume} userId={userId} />
+            ) : null}
+            {!resumeQuery.isPending && !errorMessage && !resume ? <ResumeEmptyState userId={userId} /> : null}
           </div>
           <ResumeInsightsSection />
         </section>
