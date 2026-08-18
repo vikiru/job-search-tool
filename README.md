@@ -1,4 +1,4 @@
-<h1 align="center">JobApp <br> AI-assisted Job Application Tracking Workspace</h1>
+<h1 align="center">JobApp <br> AI-Powered Job Tracker </h1>
 
 <div align="center" id="badges">
   <a href="https://github.com/vikiru/job-search-tool/blob/main/LICENSE">
