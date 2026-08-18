@@ -34,9 +34,10 @@ const emptyColumnMessages = {
 interface KanbanColumnProps {
   applications: ApplicationRecord[];
   column: KanbanColumnDefinition;
+  userId: string;
 }
 
-function KanbanColumn({ applications, column }: KanbanColumnProps) {
+function KanbanColumn({ applications, column, userId }: KanbanColumnProps) {
   const statusApplications = applications.filter((application) =>
     column.statuses.some((status) => status === application.status),
   );
@@ -65,7 +66,7 @@ function KanbanColumn({ applications, column }: KanbanColumnProps) {
       <ScrollArea className="h-72 min-h-40 pr-2 sm:h-96">
         <div className="space-y-2.5">
           {statusApplications.map((application) => (
-            <KanbanCard key={application.id} application={application} />
+            <KanbanCard key={application.id} application={application} userId={userId} />
           ))}
           {statusApplications.length === 0 && <KanbanColumnEmptyState message={emptyColumnMessages[column.id]} />}
         </div>

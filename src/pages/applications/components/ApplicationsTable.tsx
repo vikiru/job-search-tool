@@ -15,6 +15,7 @@ interface ApplicationsTableProps {
   sortKey: SortKey;
   sortDirection: SortDirection;
   onSort: (key: SortKey) => void;
+  userId: string;
 }
 
 const columns: Array<{ key: SortKey; label: string }> = [
@@ -27,7 +28,7 @@ const columns: Array<{ key: SortKey; label: string }> = [
   { key: 'source', label: 'Source' },
 ];
 
-function ApplicationsTable({ applications, sortKey, sortDirection, onSort }: ApplicationsTableProps) {
+function ApplicationsTable({ applications, sortKey, sortDirection, onSort, userId }: ApplicationsTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -91,7 +92,7 @@ function ApplicationsTable({ applications, sortKey, sortDirection, onSort }: App
             </TableCell>
             <TableCell className="px-4 py-4 text-small text-muted-foreground">{application.source}</TableCell>
             <TableCell className="px-4 py-4">
-              <ApplicationActionMenu application={application} />
+              <ApplicationActionMenu application={application} userId={userId} />
             </TableCell>
           </TableRow>
         ))}

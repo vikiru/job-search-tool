@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import type { ApplicationRecord } from '@/pages/applications/data';
+import type { ApplicationStatus } from '@/server/db/zod';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -14,10 +17,28 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 interface ChangeStatusDialogProps {
   application: ApplicationRecord;
   onOpenChange: (open: boolean) => void;
+  onSave: (status: ApplicationStatus) => Promise<boolean>;
   open: boolean;
+  isSubmitting?: boolean;
 }
 
-function ChangeStatusDialog({ application, onOpenChange, open }: ChangeStatusDialogProps) {
+function ChangeStatusDialog({
+  application,
+  isSubmitting = false,
+  onOpenChange,
+  onSave,
+  open,
+}: ChangeStatusDialogProps) {
+  const [status, setStatus] = useState<ApplicationStatus>(application.status);
+
+  useEffect(() => {
+    if (open) setStatus(application.status);
+  }, [application.status, open]);
+
+  async function handleSave() {
+    if (await onSave(status)) onOpenChange(false);
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md gap-7 p-6 sm:max-w-md sm:p-7">
@@ -36,7 +57,7 @@ function ChangeStatusDialog({ application, onOpenChange, open }: ChangeStatusDia
           >
             Status
           </label>
-          <Select defaultValue={application.status}>
+          <Select value={status} onValueChange={(value) => setStatus(value as ApplicationStatus)}>
             <SelectTrigger id={`status-${application.id}`} className="h-10 w-full" aria-label="Application status">
               <SelectValue />
             </SelectTrigger>
@@ -54,7 +75,9 @@ function ChangeStatusDialog({ application, onOpenChange, open }: ChangeStatusDia
         </div>
         <DialogFooter className="mx-0 mb-0 gap-2 rounded-none border-t border-border/60 bg-transparent p-0 pt-5 sm:justify-end">
           <DialogClose render={<Button variant="ghost" className="font-heading" />}>Cancel</DialogClose>
-          <Button className="font-heading">Save status</Button>
+          <Button className="font-heading" disabled={isSubmitting} onClick={handleSave} type="button">
+            {isSubmitting ? 'Saving…' : 'Save status'}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
