@@ -4,6 +4,8 @@ import { db } from '@/server/db';
 import { applicationActivity, applications } from '@/server/db/schema';
 import type { SelectApplicationActivity } from '@/server/db/zod';
 
+export const DASHBOARD_RECENT_ACTIVITY_LIMIT = 4;
+
 export async function findApplicationActivity(
   applicationId: string,
   userId: string,
