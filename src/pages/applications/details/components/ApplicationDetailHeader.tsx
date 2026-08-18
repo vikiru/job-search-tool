@@ -27,7 +27,7 @@ export function ApplicationDetailHeader({ application, userId }: { application: 
       <div className="flex flex-col gap-5">
         <div className="min-w-0 space-y-3">
           <div>
-            <h1 className="max-w-full font-heading text-h2 leading-[1.08] font-semibold tracking-tight text-balance break-words sm:max-w-[34ch] sm:text-h1">
+            <h1 className="max-w-full font-heading text-h2 leading-[1.08] font-semibold tracking-tight text-balance wrap-break-word sm:max-w-[34ch] sm:text-h1">
               {application.position}
             </h1>
             <p className="mt-2 font-heading text-h4 font-medium text-muted-foreground">{application.company}</p>

@@ -88,7 +88,7 @@ export function ResumeContentSection({ resume, userId }: ResumeContentSectionPro
       ) : null}
       <ResumeContactDetails contact={contact} isSaving={saveContact.isPending} onSaveContact={updateContact} />
       <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/5 px-4 py-4 sm:px-5">
-        <ShieldCheck className="size-icon-base mt-0.5 shrink-0 text-success" aria-hidden="true" />
+        <ShieldCheck className="mt-0.5 size-icon-sm shrink-0 text-success" aria-hidden="true" />
         <div className="min-w-0 space-y-1">
           <p className="font-heading text-small leading-snug font-semibold tracking-tight">
             Your source file stays private
