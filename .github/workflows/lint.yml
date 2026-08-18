@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+  push:
+    branches:
+      - main
+
+permissions: {}
+
 jobs:
   lint:
     name: Lint Files
@@ -13,15 +19,14 @@ jobs:
       contents: read
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          node-version: 'lts/*'
+          persist-credentials: false
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/setup@bf5bfae7d43e2b2b1191383f5005cd3fb69b848d # v2.0.2
         with:
-          version: 11
+          runtime: node@22
+          install: false
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Lint files
