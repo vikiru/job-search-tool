@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useApplications } from '@/features/applications/hooks/useApplications';
+import { useApplicationsSearch } from '@/features/applications/hooks/useApplicationsSearch';
 import type { SortDirection, SortKey } from '@/pages/applications/components/ApplicationsTable';
 import {
   toApplicationRecord,
@@ -14,7 +15,10 @@ import { ApplicationsWorkspaceSection } from '@/pages/applications/sections/Appl
 export function ApplicationsPage({ userId }: { userId: string }) {
   const applicationsQuery = useApplications(userId);
   const applicationsResult = applicationsQuery.data;
-  const persistedApplications = applicationsResult?.success ? applicationsResult.data.map(toApplicationRecord) : [];
+  const persistedApplications = useMemo(
+    () => (applicationsResult?.success ? applicationsResult.data.map(toApplicationRecord) : []),
+    [applicationsResult],
+  );
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'ALL'>('ALL');
   const [interestFilter, setInterestFilter] = useState<InterestRating | 'ALL'>('ALL');
@@ -23,21 +27,14 @@ export function ApplicationsPage({ userId }: { userId: string }) {
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const searchResultIds = useApplicationsSearch(persistedApplications, search);
 
   const filteredApplications = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
     const filtered = persistedApplications.filter((application) => {
       const matchesStatus = statusFilter === 'ALL' || application.status === statusFilter;
       const matchesInterest = interestFilter === 'ALL' || (application.interestRating ?? 0) >= interestFilter;
-      const searchableText = [
-        application.company,
-        application.position,
-        application.location,
-        ...application.technologies,
-      ]
-        .join(' ')
-        .toLowerCase();
-      return matchesStatus && matchesInterest && (!normalizedSearch || searchableText.includes(normalizedSearch));
+      const matchesSearch = !search.trim() || searchResultIds.has(application.id);
+      return matchesStatus && matchesInterest && matchesSearch;
     });
 
     return [...filtered].sort((first, second) => {
@@ -51,7 +48,7 @@ export function ApplicationsPage({ userId }: { userId: string }) {
       const comparison = String(firstValue).localeCompare(String(secondValue), undefined, { numeric: true });
       return sortDirection === 'asc' ? comparison : -comparison;
     });
-  }, [interestFilter, persistedApplications, search, sortDirection, sortKey, statusFilter]);
+  }, [interestFilter, persistedApplications, search, searchResultIds, sortDirection, sortKey, statusFilter]);
 
   useEffect(() => {
     setPageIndex(0);
