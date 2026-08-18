@@ -1,81 +1,94 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { functionalUpdate, type SortingState, type Updater } from '@tanstack/react-table';
 
 import { useApplications } from '@/features/applications/hooks/useApplications';
 import { useApplicationsSearch } from '@/features/applications/hooks/useApplicationsSearch';
-import type { SortDirection, SortKey } from '@/pages/applications/components/ApplicationsTable';
 import {
-  toApplicationRecord,
-  statusSortOrder,
-  type ApplicationStatus,
-  type ApplicationView,
-  type InterestRating,
-} from '@/pages/applications/data';
+  applicationSortKeys,
+  type ApplicationsSearch,
+  type ApplicationSortDirection,
+  type ApplicationSortKey,
+} from '@/pages/applications/application-search-params';
+import { statusSortOrder, toApplicationRecord, type ApplicationRecord } from '@/pages/applications/data';
 import { ApplicationsWorkspaceSection } from '@/pages/applications/sections/ApplicationsWorkspaceSection';
 
-export function ApplicationsPage({ userId }: { userId: string }) {
+function sortApplications(
+  applications: ApplicationRecord[],
+  sortKey: ApplicationSortKey,
+  direction: ApplicationSortDirection,
+) {
+  return [...applications].sort((first, second) => {
+    const comparison =
+      sortKey === 'status'
+        ? statusSortOrder[first.status] - statusSortOrder[second.status]
+        : String(first[sortKey] ?? '').localeCompare(String(second[sortKey] ?? ''), undefined, { numeric: true });
+
+    return direction === 'asc' ? comparison : -comparison;
+  });
+}
+
+export function ApplicationsPage({ search, userId }: { search: ApplicationsSearch; userId: string }) {
+  const navigate = useNavigate({ from: '/applications/' });
   const applicationsQuery = useApplications(userId);
   const applicationsResult = applicationsQuery.data;
   const persistedApplications = useMemo(
     () => (applicationsResult?.success ? applicationsResult.data.map(toApplicationRecord) : []),
     [applicationsResult],
   );
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'ALL'>('ALL');
-  const [interestFilter, setInterestFilter] = useState<InterestRating | 'ALL'>('ALL');
-  const [view, setView] = useState<ApplicationView>('table');
-  const [sortKey, setSortKey] = useState<SortKey>('applicationDate');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-  const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const searchResultIds = useApplicationsSearch(persistedApplications, search);
+  const searchResultIds = useApplicationsSearch(persistedApplications, search.search);
+  const searchFilteredApplications = useMemo(
+    () => persistedApplications.filter((application) => !search.search.trim() || searchResultIds.has(application.id)),
+    [persistedApplications, search.search, searchResultIds],
+  );
+  const filteredApplications = useMemo(
+    () =>
+      sortApplications(
+        searchFilteredApplications.filter((application) => {
+          const matchesStatus = search.status === 'ALL' || application.status === search.status;
+          const matchesInterest = search.interest === 'ALL' || (application.interestRating ?? 0) >= search.interest;
+          return matchesStatus && matchesInterest;
+        }),
+        search.sort,
+        search.direction,
+      ),
+    [search.direction, search.interest, search.sort, search.status, searchFilteredApplications],
+  );
+  const pageCount = Math.max(1, Math.ceil(filteredApplications.length / search.pageSize));
+  const pageIndex = Math.min(search.page - 1, pageCount - 1);
 
-  const filteredApplications = useMemo(() => {
-    const filtered = persistedApplications.filter((application) => {
-      const matchesStatus = statusFilter === 'ALL' || application.status === statusFilter;
-      const matchesInterest = interestFilter === 'ALL' || (application.interestRating ?? 0) >= interestFilter;
-      const matchesSearch = !search.trim() || searchResultIds.has(application.id);
-      return matchesStatus && matchesInterest && matchesSearch;
+  const updateSearch = (updates: Partial<ApplicationsSearch>) => {
+    void navigate({
+      resetScroll: false,
+      search: (previous) => ({ ...previous, ...updates }),
     });
+  };
 
-    return [...filtered].sort((first, second) => {
-      if (sortKey === 'status') {
-        const comparison = statusSortOrder[first.status] - statusSortOrder[second.status];
-        return sortDirection === 'asc' ? comparison : -comparison;
-      }
+  const handleSortingChange = (updater: Updater<SortingState>) => {
+    const currentSorting: SortingState = [{ id: search.sort, desc: search.direction === 'desc' }];
+    const nextSorting = functionalUpdate(updater, currentSorting);
+    const nextSort = nextSorting[0];
 
-      const firstValue = first[sortKey] ?? '';
-      const secondValue = second[sortKey] ?? '';
-      const comparison = String(firstValue).localeCompare(String(secondValue), undefined, { numeric: true });
-      return sortDirection === 'asc' ? comparison : -comparison;
-    });
-  }, [interestFilter, persistedApplications, search, searchResultIds, sortDirection, sortKey, statusFilter]);
-
-  useEffect(() => {
-    setPageIndex(0);
-  }, [interestFilter, search, sortDirection, sortKey, statusFilter]);
-
-  const handleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
+    if (!nextSort || !applicationSortKeys.includes(nextSort.id as ApplicationSortKey)) {
+      updateSearch({ sort: 'applicationDate', direction: 'desc', page: 1 });
       return;
     }
 
-    setSortKey(key);
-    setSortDirection('asc');
+    updateSearch({
+      sort: nextSort.id as ApplicationSortKey,
+      direction: nextSort.desc ? 'desc' : 'asc',
+      page: 1,
+    });
   };
 
-  const clearFilters = () => {
-    setSearch('');
-    setStatusFilter('ALL');
-    setInterestFilter('ALL');
-  };
+  const clearFilters = () => updateSearch({ search: '', status: 'ALL', interest: 'ALL', page: 1 });
+  const isFiltered = Boolean(search.search.trim()) || search.status !== 'ALL' || search.interest !== 'ALL';
 
-  const isFiltered = Boolean(search.trim()) || statusFilter !== 'ALL' || interestFilter !== 'ALL';
-
-  const handlePageSizeChange = (nextPageSize: number) => {
-    setPageSize(nextPageSize);
-    setPageIndex(0);
-  };
+  useEffect(() => {
+    if (applicationsResult?.success && search.page > pageCount) {
+      updateSearch({ page: pageCount });
+    }
+  }, [applicationsResult?.success, pageCount, search.page]);
 
   return (
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
@@ -91,23 +104,26 @@ export function ApplicationsPage({ userId }: { userId: string }) {
           errorMessage={applicationsResult && !applicationsResult.success ? applicationsResult.error : null}
           filteredApplications={filteredApplications}
           isLoading={applicationsQuery.isPending}
-          interestFilter={interestFilter}
+          interestFilter={search.interest}
           isFiltered={isFiltered}
           onClearFilters={clearFilters}
-          onInterestFilterChange={setInterestFilter}
-          onPageChange={setPageIndex}
-          onPageSizeChange={handlePageSizeChange}
-          onSearchChange={setSearch}
-          onSort={handleSort}
-          onStatusFilterChange={setStatusFilter}
-          onViewChange={setView}
+          onInterestFilterChange={(interest) => updateSearch({ interest, page: 1 })}
+          onPageChange={(nextPageIndex) => updateSearch({ page: nextPageIndex + 1 })}
+          onPageSizeChange={(pageSize) =>
+            updateSearch({ pageSize: pageSize === 5 || pageSize === 10 || pageSize === 25 ? pageSize : 10, page: 1 })
+          }
+          onSearchChange={(value) => updateSearch({ search: value, page: 1 })}
+          onSortingChange={handleSortingChange}
+          onStatusFilterChange={(status) => updateSearch({ status, page: 1 })}
+          onViewChange={(view) => updateSearch({ view })}
           pageIndex={pageIndex}
-          pageSize={pageSize}
-          search={search}
-          sortDirection={sortDirection}
-          sortKey={sortKey}
-          statusFilter={statusFilter}
-          view={view}
+          pageSize={search.pageSize}
+          search={search.search}
+          searchFilteredApplications={searchFilteredApplications}
+          sortDirection={search.direction}
+          sortKey={search.sort}
+          statusFilter={search.status}
+          view={search.view}
           userId={userId}
         />
       </div>
