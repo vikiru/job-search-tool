@@ -35,7 +35,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
             <a
               key={link.label}
               className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 px-3 py-3 transition-colors motion-reduce:transition-none hover:bg-background"
-              href={`https://${link.href}`}
+              href={link.href.startsWith('http') ? link.href : `https://${link.href}`}
               target="_blank"
               rel="noreferrer"
             >
