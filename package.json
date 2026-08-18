@@ -1,8 +1,8 @@
 {
   "name": "job-search-tool",
-  "description": "An AI-powered job application tracker, using TanStack Start, Gemini AI, Drizzle, PostgreSQL",
   "version": "1.0.0",
   "private": true,
+  "description": "An AI-powered job application tracker, using TanStack Start, Gemini AI, Drizzle, PostgreSQL",
   "license": "MIT",
   "author": "Visakan Kirubakaran",
   "type": "module",
