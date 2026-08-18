@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-import { ResumesSkeleton } from '@/features/resumes/components/ResumesSkeleton';
 import { useResumes } from '@/features/resumes/hooks/useResumes';
 import { ResumeEmptyState } from '@/pages/resumes/components/ResumeEmptyState';
 import { ResumeContentSection } from '@/pages/resumes/sections/ResumeContentSection';
@@ -44,7 +43,6 @@ export function ResumesPage({ userId }: ResumesPageProps) {
             <h2 id="resume-start-heading" className="sr-only">
               Current resume
             </h2>
-            {resumeQuery.isPending ? <ResumesSkeleton /> : null}
             {!resumeQuery.isPending && errorMessage ? (
               <p
                 className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-small text-destructive"

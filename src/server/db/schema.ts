@@ -1,4 +1,15 @@
-import { pgEnum, pgTable, text, timestamp, uuid, smallint, numeric, date, index } from 'drizzle-orm/pg-core';
+import {
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  smallint,
+  numeric,
+  date,
+  index,
+  uniqueIndex,
+} from 'drizzle-orm/pg-core';
 
 export const applicationStatusEnum = pgEnum('application_status', [
   'SAVED',
@@ -25,6 +36,21 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const userLinks = pgTable(
+  'user_links',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    url: text('url').notNull(),
+    label: text('label').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex('user_links_user_url_idx').on(table.userId, table.url)],
+);
 
 export const applications = pgTable(
   'applications',

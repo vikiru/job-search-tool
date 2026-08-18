@@ -7,6 +7,7 @@ import {
   applicationNotes,
   applicationAnalysis,
   resumes,
+  userLinks,
   applicationStatusEnum,
   workArrangementEnum,
   salaryPeriodEnum,
@@ -25,6 +26,11 @@ export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type SelectUser = z.infer<typeof selectUserSchema>;
+
+export const insertUserLinkSchema = createInsertSchema(userLinks);
+export const selectUserLinkSchema = createSelectSchema(userLinks);
+export type InsertUserLink = z.infer<typeof insertUserLinkSchema>;
+export type SelectUserLink = z.infer<typeof selectUserLinkSchema>;
 
 export const insertApplicationSchema = createInsertSchema(applications);
 export const selectApplicationSchema = createSelectSchema(applications);
