@@ -4,8 +4,11 @@ import { AnalysisEmptyState } from '@/pages/applications/components/AnalysisEmpt
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Progress } from '@/shared/components/ui/progress';
+import type { SelectApplicationAnalysis } from '@/server/db/zod';
 
-export function FitAnalysisSection({ hasAnalysis = false }: { hasAnalysis?: boolean }) {
+export function FitAnalysisSection({ analysis }: { analysis: SelectApplicationAnalysis | null }) {
+  const hasAnalysis = Boolean(analysis);
+  const score = analysis?.matchScore ?? 0;
   return (
     <Card>
       <CardHeader className="flex-row items-start justify-between gap-4">
@@ -24,14 +27,14 @@ export function FitAnalysisSection({ hasAnalysis = false }: { hasAnalysis?: bool
             Analyze match
           </Button>
         )}
-        {hasAnalysis && <span className="font-mono text-h3 font-semibold tabular-nums text-primary">78%</span>}
+        {hasAnalysis && <span className="font-mono text-h3 font-semibold tabular-nums text-primary">{score}%</span>}
       </CardHeader>
       <CardContent className="space-y-5">
         {hasAnalysis ? (
           <>
             <Progress
-              value={78}
-              aria-label="Resume fit score: 78 percent"
+              value={score}
+              aria-label={`Resume fit score: ${score} percent`}
               className="gap-0 motion-reduce:transition-none [&_[data-slot=progress-indicator]]:bg-primary [&_[data-slot=progress-track]]:h-2"
             />
             <div className="grid gap-4 sm:grid-cols-2">

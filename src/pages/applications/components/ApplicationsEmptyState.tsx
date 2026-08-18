@@ -15,9 +15,10 @@ import {
 interface ApplicationsEmptyStateProps {
   isFiltered: boolean;
   onClear: () => void;
+  userId: string;
 }
 
-function ApplicationsEmptyState({ isFiltered, onClear }: ApplicationsEmptyStateProps) {
+function ApplicationsEmptyState({ isFiltered, onClear, userId }: ApplicationsEmptyStateProps) {
   if (!isFiltered) {
     return (
       <CardContent className="p-0">
@@ -35,7 +36,7 @@ function ApplicationsEmptyState({ isFiltered, onClear }: ApplicationsEmptyStateP
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <PasteJdDialog />
+            <PasteJdDialog userId={userId} />
             <p className="text-caption leading-relaxed text-muted-foreground">
               You can paste a job description or enter the details yourself.
             </p>

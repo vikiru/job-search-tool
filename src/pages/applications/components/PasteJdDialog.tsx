@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import { FilePenLine, FileText, Sparkles } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
+import { toast } from 'sonner';
 
+import { useCreateApplication } from '@/features/applications/hooks/useApplicationMutations';
 import { AiApplicationForm } from '@/pages/applications/components/AiApplicationForm';
-import { ManualApplicationForm } from '@/pages/applications/components/ManualApplicationForm';
+import {
+  ManualApplicationForm,
+  type ManualApplicationSubmitValues,
+} from '@/pages/applications/components/ManualApplicationForm';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -13,9 +20,36 @@ import {
 } from '@/shared/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
-function PasteJdDialog() {
+function PasteJdDialog({ userId }: { userId: string }) {
+  const navigate = useNavigate();
+  const createApplication = useCreateApplication(userId);
+  const [open, setOpen] = useState(false);
+
+  async function saveManualApplication(values: ManualApplicationSubmitValues) {
+    const result = await createApplication.mutateAsync({
+      applicationUrl: values.applicationUrl,
+      company: values.company,
+      interestRating: values.interestRating,
+      jobDescriptionMd: values.jobDescriptionMd,
+      location: values.location,
+      position: values.position,
+      source: values.source,
+      status: values.status,
+      workArrangement: values.workArrangement ? (values.workArrangement as 'REMOTE' | 'HYBRID' | 'ONSITE') : null,
+    });
+
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+
+    toast.success('Application added');
+    setOpen(false);
+    await navigate({ to: '/applications/$id', params: { id: result.data.id } });
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button className="w-full font-heading sm:w-auto" size="lg">
@@ -49,7 +83,11 @@ function PasteJdDialog() {
             <AiApplicationForm />
           </TabsContent>
           <TabsContent value="manual">
-            <ManualApplicationForm />
+            <ManualApplicationForm
+              isSubmitting={createApplication.isPending}
+              onSubmit={saveManualApplication}
+              submitLabel={createApplication.isPending ? 'Saving…' : 'Save application'}
+            />
           </TabsContent>
         </Tabs>
       </DialogContent>

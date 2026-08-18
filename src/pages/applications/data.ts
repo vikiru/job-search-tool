@@ -45,6 +45,39 @@ export interface ApplicationRecord {
   applicationDate: string;
   source: string;
   technologies: string[];
+  applicationUrl?: string | null;
+  jobDescriptionMd?: string;
+  workArrangement?: string | null;
+}
+
+export function toApplicationRecord(application: {
+  id: string;
+  company: string;
+  position: string;
+  status: ApplicationStatus;
+  location: string | null;
+  interestRating: number | null;
+  applicationDate: string;
+  source: string | null;
+  applicationUrl?: string | null;
+  jobDescriptionMd?: string;
+  workArrangement?: string | null;
+  analysis?: { technologies: string[] | null } | null;
+}): ApplicationRecord {
+  return {
+    applicationDate: application.applicationDate,
+    applicationUrl: application.applicationUrl,
+    company: application.company,
+    id: application.id,
+    interestRating: application.interestRating as InterestRating | null,
+    jobDescriptionMd: application.jobDescriptionMd,
+    location: application.location ?? 'Not specified',
+    position: application.position,
+    source: application.source ?? 'Not specified',
+    status: application.status,
+    technologies: application.analysis?.technologies ?? [],
+    workArrangement: application.workArrangement,
+  };
 }
 
 export function getApplicationJobDescription(application: ApplicationRecord) {
