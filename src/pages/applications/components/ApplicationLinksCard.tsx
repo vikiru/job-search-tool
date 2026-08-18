@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
+import { ScrollArea } from '@/shared/components/ui/scroll-area';
 
 interface ApplicationLink {
   href: string;
@@ -43,6 +44,22 @@ export function ApplicationLinksCard({
   const [editingLink, setEditingLink] = useState<ApplicationLink | null>(null);
   const [label, setLabel] = useState('');
   const [href, setHref] = useState('');
+  const linksContent = (
+    <div className="space-y-3">
+      {links.map((link) => (
+        <ApplicationLinkRow
+          key={link.id}
+          link={link}
+          onEdit={openEditDialog}
+          onRemove={async () => {
+            const result = await linkMutations.remove.mutateAsync(link.id);
+            if (result.success) toast.success('Link removed.');
+            else toast.error(result.error);
+          }}
+        />
+      ))}
+    </div>
+  );
 
   function openAddDialog() {
     setEditingLink(null);
@@ -87,19 +104,14 @@ export function ApplicationLinksCard({
             Keep the posting, portfolio, and other useful references close by.
           </p>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {links.map((link) => (
-            <ApplicationLinkRow
-              key={link.id}
-              link={link}
-              onEdit={openEditDialog}
-              onRemove={async () => {
-                const result = await linkMutations.remove.mutateAsync(link.id);
-                if (result.success) toast.success('Link removed.');
-                else toast.error(result.error);
-              }}
-            />
-          ))}
+        <CardContent>
+          {links.length > 5 ? (
+            <ScrollArea className="h-52 pr-2 sm:h-64" aria-label="Application links">
+              {linksContent}
+            </ScrollArea>
+          ) : (
+            linksContent
+          )}
         </CardContent>
       </Card>
 
