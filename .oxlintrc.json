@@ -1,7 +1,12 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["eslint", "oxc", "node", "react", "jsx-a11y", "typescript", "import", "unicorn", "promise", "react-perf"],
-  "jsPlugins": ["eslint-plugin-regexp"],
+  "jsPlugins": ["eslint-plugin-regexp", "oxlint-tailwindcss"],
+  "settings": {
+    "tailwindcss": {
+      "entryPoint": "src/styles/app.css"
+    }
+  },
   "options": {
     "typeAware": false,
     "typeCheck": false
@@ -23,6 +28,15 @@
     "regexp/no-useless-backreference": "warn",
     "regexp/no-useless-escape": "warn",
     "regexp/strict": "warn",
+    "tailwindcss/no-unknown-classes": "error",
+    "tailwindcss/no-duplicate-classes": "error",
+    "tailwindcss/no-conflicting-classes": "error",
+    "tailwindcss/no-deprecated-classes": "error",
+    "tailwindcss/no-unnecessary-whitespace": "error",
+    "tailwindcss/enforce-consistent-important-position": "warn",
+    "tailwindcss/enforce-negative-arbitrary-values": "warn",
+    "tailwindcss/no-hardcoded-colors": "warn",
+    "tailwindcss/no-unnecessary-arbitrary-value": "warn",
     "eqeqeq": "warn",
     "unicorn/prefer-string-replace-all": "warn",
     "typescript/no-base-to-string": "off",
