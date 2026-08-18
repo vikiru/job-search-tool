@@ -6,9 +6,12 @@ import {
   useDashboardStatusCounts,
   useDashboardWeeklyActivity,
 } from '@/features/dashboard/hooks/useDashboard';
+import { DashboardEmptyState } from '@/pages/dashboard/components/DashboardEmptyState';
+import { DashboardErrorState } from '@/pages/dashboard/components/DashboardErrorState';
 import { DashboardActivitySection } from '@/pages/dashboard/sections/DashboardActivitySection';
 import { DashboardInsightsSection } from '@/pages/dashboard/sections/DashboardInsightsSection';
 import { DashboardOverviewSection } from '@/pages/dashboard/sections/DashboardOverviewSection';
+import { Loader } from '@/shared/components/ui/Loader';
 
 function DashboardPage({
   profile,
@@ -26,6 +29,10 @@ function DashboardPage({
   const statusQuery = useDashboardStatusCounts(userId);
   const weeklyActivityQuery = useDashboardWeeklyActivity(userId, weekStart, weekEnd);
   const recentActivityQuery = useDashboardRecentActivity(userId);
+  const queries = [statsQuery, statusQuery, weeklyActivityQuery, recentActivityQuery];
+  const isLoading = queries.some((query) => query.isPending);
+  const failedQuery = queries.find((query) => query.data && !query.data.success);
+  const stats = statsQuery.data?.success ? statsQuery.data.data : null;
   const userName =
     [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') ||
     (user ? [user.firstName, user.lastName].filter(Boolean).join(' ') || user.username : null) ||
@@ -39,20 +46,32 @@ function DashboardPage({
             <h1 className="font-heading text-h1 font-semibold leading-tight tracking-tight text-balance">
               Welcome back, {userName}.
             </h1>
-            <p className="mt-3 max-w-xl text-base leading-relaxed text-pretty text-muted-foreground">
+            <p className="mt-3 max-w-3xl text-base leading-relaxed text-pretty text-muted-foreground">
               A clear view of your applications, progress, and the work that needs your attention.
             </p>
           </div>
         </header>
 
-        <DashboardOverviewSection stats={statsQuery.data?.success ? statsQuery.data.data : null} />
-        <DashboardInsightsSection
-          statusCounts={statusQuery.data?.success ? statusQuery.data.data : []}
-          weekEnd={weekEnd}
-          weekStart={weekStart}
-          weeklyActivity={weeklyActivityQuery.data?.success ? weeklyActivityQuery.data.data : []}
-        />
-        <DashboardActivitySection activity={recentActivityQuery.data?.success ? recentActivityQuery.data.data : []} />
+        {isLoading ? (
+          <Loader label="Loading dashboard" />
+        ) : failedQuery?.data && !failedQuery.data.success ? (
+          <DashboardErrorState message={failedQuery.data.error} />
+        ) : stats?.total === 0 ? (
+          <DashboardEmptyState />
+        ) : (
+          <>
+            <DashboardOverviewSection stats={stats} />
+            <DashboardInsightsSection
+              statusCounts={statusQuery.data?.success ? statusQuery.data.data : []}
+              weekEnd={weekEnd}
+              weekStart={weekStart}
+              weeklyActivity={weeklyActivityQuery.data?.success ? weeklyActivityQuery.data.data : []}
+            />
+            <DashboardActivitySection
+              activity={recentActivityQuery.data?.success ? recentActivityQuery.data.data : []}
+            />
+          </>
+        )}
       </div>
     </div>
   );
