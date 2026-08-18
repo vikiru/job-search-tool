@@ -26,6 +26,11 @@ export const workArrangementEnum = pgEnum('work_arrangement', ['REMOTE', 'HYBRID
 
 export const salaryPeriodEnum = pgEnum('salary_period', ['YEARLY', 'HOURLY', 'MONTHLY', 'WEEKLY']);
 
+export const applicationActivityEventEnum = pgEnum('application_activity_event', [
+  'APPLICATION_CREATED',
+  'STATUS_CHANGED',
+]);
+
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email'),
@@ -130,6 +135,27 @@ export const applicationAnalysis = pgTable('application_analysis', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+export const applicationActivity = pgTable(
+  'application_activity',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    applicationId: uuid('application_id')
+      .notNull()
+      .references(() => applications.id, { onDelete: 'cascade' }),
+    eventType: applicationActivityEventEnum('event_type').notNull(),
+    previousStatus: applicationStatusEnum('previous_status'),
+    nextStatus: applicationStatusEnum('next_status'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index('application_activity_user_created_idx').on(table.userId, table.createdAt.desc()),
+    index('application_activity_application_created_idx').on(table.applicationId, table.createdAt.desc()),
+  ],
+);
 
 export const resumes = pgTable('resumes', {
   id: uuid('id').defaultRandom().primaryKey(),

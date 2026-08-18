@@ -1,28 +1,13 @@
-import { ArrowRight, BriefcaseBusiness, CircleCheck, FileText } from 'lucide-react';
+import { ArrowRight, CircleCheck, FileText } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { formatDistanceToNow } from 'date-fns';
 
+import type { RecentApplicationActivity } from '@/features/applications/types';
+import { RecentActivityEmptyState } from '@/pages/dashboard/components/RecentActivityEmptyState';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
-const recentActivity = [
-  {
-    company: 'Northstar Labs',
-    role: 'Product Designer',
-    event: 'Moved to Interview',
-    time: 'Today',
-    icon: CircleCheck,
-  },
-  { company: 'Arc & Field', role: 'UX Researcher', event: 'Application added', time: 'Yesterday', icon: FileText },
-  {
-    company: 'Monument Studio',
-    role: 'Design Lead',
-    event: 'Moved to Screening',
-    time: '2 days ago',
-    icon: BriefcaseBusiness,
-  },
-];
-
-function RecentActivity() {
+function RecentActivity({ activity }: { activity: RecentApplicationActivity[] }) {
   return (
     <Card className="h-full min-w-0">
       <CardHeader className="flex-row items-start justify-between gap-4">
@@ -43,22 +28,40 @@ function RecentActivity() {
         </Button>
       </CardHeader>
       <CardContent className="space-y-1 pt-2">
-        {recentActivity.map(({ company, role, event, time, icon: Icon }) => (
-          <div key={`${company}-${event}`} className="flex items-start gap-3 rounded-lg px-1 py-3">
-            <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
-              <Icon className="size-icon-sm" aria-hidden="true" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-heading text-small font-semibold text-foreground">{company}</p>
-              <p className="mt-0.5 truncate text-small leading-normal text-muted-foreground">{role}</p>
-              <p className="mt-1 font-heading text-caption text-muted-foreground">{event}</p>
-            </div>
-            <time className="shrink-0 pt-0.5 font-mono text-caption text-muted-foreground">{time}</time>
-          </div>
-        ))}
+        {activity.length === 0 && <RecentActivityEmptyState />}
+        {activity.map((item) => {
+          const Icon = item.activity.eventType === 'APPLICATION_CREATED' ? FileText : CircleCheck;
+          const event = getActivityLabel(item);
+
+          return (
+            <Link
+              key={item.activity.id}
+              className="flex items-start gap-3 rounded-lg px-1 py-3 transition-colors motion-reduce:transition-none hover:bg-muted/60"
+              to="/applications/$id"
+              params={{ id: item.activity.applicationId }}
+            >
+              <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                <Icon className="size-icon-sm" aria-hidden="true" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-heading text-small font-semibold text-foreground">{item.company}</p>
+                <p className="mt-0.5 truncate text-small leading-normal text-muted-foreground">{item.position}</p>
+                <p className="mt-1 font-heading text-caption text-muted-foreground">{event}</p>
+              </div>
+              <time className="shrink-0 pt-0.5 font-mono text-caption text-muted-foreground">
+                {formatDistanceToNow(item.activity.createdAt, { addSuffix: true })}
+              </time>
+            </Link>
+          );
+        })}
       </CardContent>
     </Card>
   );
+}
+
+function getActivityLabel({ activity }: RecentApplicationActivity) {
+  if (activity.eventType === 'APPLICATION_CREATED') return 'Application added';
+  return activity.nextStatus ? `Moved to ${activity.nextStatus.toLowerCase()}` : 'Status changed';
 }
 
 export { RecentActivity };
