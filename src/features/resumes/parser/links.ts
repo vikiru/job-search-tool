@@ -1,6 +1,7 @@
 import type { ParsedResumeLink } from '@/features/resumes/parser/types';
 
-const linkPattern = /(?:https?:\/\/|www\.)[^\s|]+|(?:linkedin\.com|github\.com|[\w-]+\.vercel\.app)(?:\/[^\s|]*)?/gi;
+const linkPattern =
+  /(?:https?:\/\/|www\.)[^\s|]+|(?<![@\w])(?:[\w-]+\.)+(?:pages\.dev|netlify\.app|vercel\.app|github\.io|com|ca|dev|org|net|io|app)\b(?:\/[^\s|]*)?/gi;
 
 function normalizeHref(value: string): string {
   const trimmed = value.replace(/[),.;]+$/, '');
@@ -11,7 +12,7 @@ function getLabel(href: string): string {
   const host = new URL(href).hostname.replace(/^www\./, '').toLowerCase();
   if (host.includes('linkedin')) return 'LinkedIn';
   if (host.includes('github')) return 'GitHub';
-  if (host.endsWith('vercel.app')) return 'Portfolio';
+  if (host.endsWith('pages.dev') || host.endsWith('netlify.app') || host.endsWith('vercel.app')) return 'Portfolio';
   return host;
 }
 
