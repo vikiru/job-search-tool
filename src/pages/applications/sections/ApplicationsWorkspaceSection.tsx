@@ -5,12 +5,14 @@ import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/app
 import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
 import { KanbanSkeleton } from '@/pages/applications/components/KanbanSkeleton';
 import type { ApplicationRecord, ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/data';
+import type { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { Loader } from '@/shared/components/ui/Loader';
 
 interface ApplicationsWorkspaceSectionProps {
   errorMessage: string | null;
   filteredApplications: ApplicationRecord[];
+  searchFilteredApplications: ApplicationRecord[];
   isLoading: boolean;
   interestFilter: InterestRating | 'ALL';
   isFiltered: boolean;
@@ -19,7 +21,7 @@ interface ApplicationsWorkspaceSectionProps {
   onPageChange: (pageIndex: number) => void;
   onPageSizeChange: (pageSize: number) => void;
   onSearchChange: (value: string) => void;
-  onSort: (key: SortKey) => void;
+  onSortingChange: OnChangeFn<SortingState>;
   onStatusFilterChange: (value: ApplicationStatus | 'ALL') => void;
   onViewChange: (value: ApplicationView) => void;
   pageIndex: number;
@@ -35,6 +37,7 @@ interface ApplicationsWorkspaceSectionProps {
 export function ApplicationsWorkspaceSection({
   errorMessage,
   filteredApplications,
+  searchFilteredApplications,
   isLoading,
   interestFilter,
   isFiltered,
@@ -43,7 +46,7 @@ export function ApplicationsWorkspaceSection({
   onPageChange,
   onPageSizeChange,
   onSearchChange,
-  onSort,
+  onSortingChange,
   onStatusFilterChange,
   onViewChange,
   pageIndex,
@@ -55,8 +58,6 @@ export function ApplicationsWorkspaceSection({
   view,
   userId,
 }: ApplicationsWorkspaceSectionProps) {
-  const paginatedApplications = filteredApplications.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-
   return (
     <Card className="min-w-0 overflow-hidden">
       <ApplicationsToolbar
@@ -90,10 +91,14 @@ export function ApplicationsWorkspaceSection({
       ) : view === 'table' ? (
         <>
           <ApplicationsTable
-            applications={paginatedApplications}
-            sortKey={sortKey}
-            sortDirection={sortDirection}
-            onSort={onSort}
+            applications={searchFilteredApplications}
+            columnFilters={[
+              ...(statusFilter === 'ALL' ? [] : [{ id: 'status', value: statusFilter }]),
+              ...(interestFilter === 'ALL' ? [] : [{ id: 'interestRating', value: interestFilter }]),
+            ]}
+            onSortingChange={onSortingChange}
+            pagination={{ pageIndex, pageSize }}
+            sorting={[{ id: sortKey, desc: sortDirection === 'desc' }]}
             userId={userId}
           />
           <ApplicationsPagination
