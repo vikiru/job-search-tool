@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+/* oxlint-disable jsx_a11y/prefer-tag-over-role -- the custom chart needs an accessible graphic landmark. */
+
 import { format, parseISO } from 'date-fns';
 import type { DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 

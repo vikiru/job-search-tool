@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { analyzeApplication } from '@/features/gemini/analysis/server';
-import { applicationKeys } from '@/features/applications/hooks/useApplications';
-import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis.schema';
+import { applicationKeys } from '@/features/applications/application-keys';
+import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis-schema';
 import { error, type Result } from '@/shared/lib/result';
 
 export function useAnalyzeApplication(userId: string, applicationId: string) {

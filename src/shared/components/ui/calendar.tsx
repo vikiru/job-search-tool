@@ -1,3 +1,5 @@
+/* oxlint-disable react/no-unstable-nested-components -- react-day-picker requires this inline component override. */
+
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { DayPicker, type DayPickerProps } from 'react-day-picker';
 

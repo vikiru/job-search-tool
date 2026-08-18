@@ -1,3 +1,5 @@
+/* oxlint-disable jsx_a11y/prefer-tag-over-role, jsx_a11y/no-noninteractive-element-interactions -- input group addons intentionally provide focus behavior for the associated control. */
+
 import type { ComponentProps } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 

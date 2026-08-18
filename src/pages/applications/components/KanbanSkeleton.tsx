@@ -6,7 +6,7 @@ export function KanbanSkeleton() {
       className="grid min-w-[760px] grid-cols-4 gap-3 p-3 sm:min-w-[920px] sm:p-5"
       aria-label="Loading application pipeline"
     >
-      {Array.from({ length: 4 }, (_, columnIndex) => (
+      {Array.from({ length: 4 }, (__, columnIndex) => (
         <div key={columnIndex} className="space-y-3 rounded-xl border border-border/60 bg-muted/45 p-3">
           <div className="flex items-center justify-between gap-3">
             <Skeleton className="h-4 w-24" />

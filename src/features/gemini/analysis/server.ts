@@ -7,7 +7,7 @@ import { findApplicationById } from '@/server/db/queries/applications';
 import { upsertAnalysis } from '@/server/db/queries/analysis';
 import { findResumeByUserId } from '@/server/db/queries/resumes';
 import { error, success, type Result } from '@/shared/lib/result';
-import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis.schema';
+import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis-schema';
 
 const analyzeApplicationSchema = z.object({
   applicationId: z.string().uuid(),

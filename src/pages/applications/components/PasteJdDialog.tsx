@@ -158,7 +158,7 @@ function formatSalary({
   salaryMax?: number | null;
   salaryMin?: number | null;
 }) {
-  if (salaryMin === null && salaryMax === null) return null;
+  if (salaryMin == null && salaryMax == null) return null;
   const range = [salaryMin, salaryMax]
     .filter((value): value is number => value !== null && value !== undefined)
     .map((value) => value.toLocaleString('en-CA'))

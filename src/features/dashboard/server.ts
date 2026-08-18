@@ -11,6 +11,7 @@ import { DASHBOARD_RECENT_ACTIVITY_LIMIT, findRecentApplicationActivity } from '
 import { error, success, type Result } from '@/shared/lib/result';
 import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 import type { RecentApplicationActivity } from '@/features/applications/types';
+import { logServerError } from '@/server/lib/log-error';
 
 const weekSchema = z.object({ weekStart: z.string().date(), weekEnd: z.string().date() });
 
@@ -24,7 +25,8 @@ export const getDashboardStats = createServerFn({ method: 'GET' }).handler(
       const userId = await getUserId();
       if (!userId) return error('Unauthorized');
       return success(await findDashboardStats(userId));
-    } catch {
+    } catch (cause) {
+      logServerError('dashboard:stats', cause);
       return error('We could not load your dashboard stats.');
     }
   },
@@ -36,7 +38,8 @@ export const getDashboardStatusCounts = createServerFn({ method: 'GET' }).handle
       const userId = await getUserId();
       if (!userId) return error('Unauthorized');
       return success(await findDashboardStatusCounts(userId));
-    } catch {
+    } catch (cause) {
+      logServerError('dashboard:status-counts', cause);
       return error('We could not load your application pipeline.');
     }
   },
@@ -49,7 +52,8 @@ export const getDashboardWeeklyActivity = createServerFn({ method: 'GET' })
       const userId = await getUserId();
       if (!userId) return error('Unauthorized');
       return success(await findDashboardWeeklyActivity(userId, data.weekStart, data.weekEnd));
-    } catch {
+    } catch (cause) {
+      logServerError('dashboard:weekly-activity', cause);
       return error('We could not load this week’s activity.');
     }
   });
@@ -60,7 +64,8 @@ export const getDashboardRecentActivity = createServerFn({ method: 'GET' }).hand
       const userId = await getUserId();
       if (!userId) return error('Unauthorized');
       return success(await findRecentApplicationActivity(userId, DASHBOARD_RECENT_ACTIVITY_LIMIT));
-    } catch {
+    } catch (cause) {
+      logServerError('dashboard:recent-activity', cause);
       return error('We could not load recent activity.');
     }
   },

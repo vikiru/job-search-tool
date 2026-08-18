@@ -59,7 +59,7 @@ function AnalysisSummary({ analysis }: { analysis: SelectApplicationAnalysis }) 
       {analysis.tldr && (
         <section className="space-y-3 rounded-lg bg-muted/40 p-4 sm:p-5">
           <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">TL;DR</h3>
-          <p className="max-w-[72ch] break-words text-[0.9375rem] leading-7 text-foreground/80">{analysis.tldr}</p>
+          <p className="max-w-readable break-words text-analysis text-foreground/80">{analysis.tldr}</p>
         </section>
       )}
       <div className="space-y-6">
@@ -89,16 +89,16 @@ function AnalysisTags({
         {tone === 'warning' ? (
           <CircleAlert className="size-icon-sm text-destructive" aria-hidden="true" />
         ) : (
-          <CheckCircle2 className="size-icon-sm text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+          <CheckCircle2 className="size-icon-sm text-success" aria-hidden="true" />
         )}
         <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">{title}</h3>
       </div>
       {values.length > 0 ? (
-        <ul className="max-w-[72ch] space-y-3.5 pl-1 text-[0.9375rem] leading-7 text-foreground/80">
+        <ul className="max-w-readable space-y-3.5 pl-1 text-analysis text-foreground/80">
           {values.map((value, index) => (
             <li key={`${value}-${index}`} className="flex min-w-0 gap-3">
               <span
-                className={`mt-[0.72em] size-1.5 shrink-0 rounded-full ${tone === 'warning' ? 'bg-destructive/70' : 'bg-emerald-600/70 dark:bg-emerald-400/70'}`}
+                className={`mt-[0.72em] size-1.5 shrink-0 rounded-full ${tone === 'warning' ? 'bg-destructive/70' : 'bg-success/70'}`}
                 aria-hidden="true"
               />
               <span className="min-w-0 break-words">{value}</span>
@@ -130,7 +130,7 @@ function AnalysisBlock({
       </h3>
       {items.length > 0 ? (
         <ul
-          className={`max-w-[72ch] list-disc space-y-3 pl-6 text-[0.9375rem] leading-7 ${tone === 'warning' ? 'marker:text-destructive' : 'marker:text-primary'} text-foreground/80`}
+          className={`max-w-readable list-disc space-y-3 pl-6 text-analysis ${tone === 'warning' ? 'marker:text-destructive' : 'marker:text-primary'} text-foreground/80`}
         >
           {items.map((item, index) => (
             <li key={`${item}-${index}`} className="break-words pl-1">

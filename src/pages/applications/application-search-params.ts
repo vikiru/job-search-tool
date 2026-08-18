@@ -5,7 +5,7 @@ import {
   type ApplicationStatus,
   type ApplicationView,
   type InterestRating,
-} from '@/pages/applications/data';
+} from '@/pages/applications/application-model';
 
 export const applicationSortKeys = [
   'company',

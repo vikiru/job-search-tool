@@ -15,6 +15,6 @@ export function success<T>(data: T): SuccessResult<T> {
   return { success: true, data };
 }
 
-export function error<E = string>(error: E, issues?: string[]): ErrorResult<E> {
-  return { success: false, error, issues };
+export function error<E = string>(cause: E, issues?: string[]): ErrorResult<E> {
+  return { success: false, error: cause, issues };
 }

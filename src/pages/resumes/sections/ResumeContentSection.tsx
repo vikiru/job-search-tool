@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useSaveUserContact, useUserContact } from '@/features/profile/hooks/useUserContact';
 import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
 import { useRemoveResume, useUploadResume, type ResumeData } from '@/features/resumes/hooks/useResumes';
-import { parseResumeText } from '@/features/resumes/parser/parseResumeText';
+import { parseResumeText } from '@/features/resumes/parser/parse-resume-text';
 import { ParsedResumeContent } from '@/pages/resumes/components/ParsedResumeContent';
 import { ResumeContactDetails } from '@/pages/resumes/components/ResumeContactDetails';
 import { ResumeDocument } from '@/pages/resumes/components/ResumeDocument';

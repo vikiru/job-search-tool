@@ -44,6 +44,18 @@ export const Route = createRootRouteWithContext<{
       {
         title: 'JobApp',
       },
+      {
+        name: 'robots',
+        content: 'noindex, nofollow',
+      },
+      {
+        name: 'referrer',
+        content: 'strict-origin-when-cross-origin',
+      },
+      {
+        httpEquiv: 'Permissions-Policy',
+        content: 'geolocation=(), microphone=(), camera=()',
+      },
     ],
     links: [
       {
@@ -120,14 +132,12 @@ function QueryCacheIdentityBoundary({ children }: { children: React.ReactNode })
   return children;
 }
 
-function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function RootErrorComponent({ reset }: { reset: () => void }) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
       <div className="max-w-md space-y-4">
         <h1 className="font-heading text-3xl font-bold tracking-tight text-destructive">Something went wrong</h1>
-        <p className="text-sm text-muted-foreground font-body">
-          {error.message || 'An unexpected error occurred while loading this page.'}
-        </p>
+        <p className="font-body text-sm text-muted-foreground">An unexpected error occurred while loading this page.</p>
         <div className="flex justify-center gap-3 pt-2">
           <Button variant="outline" onClick={reset}>
             Try again

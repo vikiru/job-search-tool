@@ -88,29 +88,37 @@ export const applications = pgTable(
   (table) => [
     index('applications_user_status_idx').on(table.userId, table.status),
     index('applications_user_created_idx').on(table.userId, table.createdAt.desc()),
-    index('applications_app_date_idx').on(table.applicationDate),
+    index('applications_user_application_date_idx').on(table.userId, table.applicationDate),
   ],
 );
 
-export const applicationLinks = pgTable('application_links', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  applicationId: uuid('application_id')
-    .notNull()
-    .references(() => applications.id, { onDelete: 'cascade' }),
-  url: text('url').notNull(),
-  label: text('label'),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-});
+export const applicationLinks = pgTable(
+  'application_links',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    applicationId: uuid('application_id')
+      .notNull()
+      .references(() => applications.id, { onDelete: 'cascade' }),
+    url: text('url').notNull(),
+    label: text('label'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index('application_links_application_created_idx').on(table.applicationId, table.createdAt.desc())],
+);
 
-export const applicationNotes = pgTable('application_notes', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  applicationId: uuid('application_id')
-    .notNull()
-    .references(() => applications.id, { onDelete: 'cascade' }),
-  content: text('content').notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-});
+export const applicationNotes = pgTable(
+  'application_notes',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    applicationId: uuid('application_id')
+      .notNull()
+      .references(() => applications.id, { onDelete: 'cascade' }),
+    content: text('content').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index('application_notes_application_created_idx').on(table.applicationId, table.createdAt.desc())],
+);
 
 export const applicationAnalysis = pgTable('application_analysis', {
   id: uuid('id').defaultRandom().primaryKey(),

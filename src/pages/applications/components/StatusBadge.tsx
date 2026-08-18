@@ -1,6 +1,6 @@
 import { Badge } from '@/shared/components/ui/badge';
 
-import { formatStatus, type ApplicationStatus } from '@/pages/applications/data';
+import { formatStatus, type ApplicationStatus } from '@/pages/applications/application-model';
 
 const statusClassNames: Record<ApplicationStatus, string> = {
   SAVED: 'border-primary/20 bg-primary/10 text-primary',

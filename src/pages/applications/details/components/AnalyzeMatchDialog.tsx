@@ -1,3 +1,5 @@
+/* oxlint-disable react/react-compiler -- the editable analysis input is seeded from the loaded resume. */
+
 import { useEffect, useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';

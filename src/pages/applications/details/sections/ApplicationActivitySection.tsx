@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
 import type { SelectApplicationActivity } from '@/server/db/zod';
-import { formatStatus } from '@/pages/applications/data';
+import { formatStatus } from '@/pages/applications/application-model';
 import { ApplicationActivityEmptyState } from '@/pages/applications/details/components/ApplicationActivityEmptyState';
 
 export function ApplicationActivitySection({ activity }: { activity: SelectApplicationActivity[] }) {

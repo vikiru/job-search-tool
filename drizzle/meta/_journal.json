@@ -22,6 +22,13 @@
       "when": 1787001000000,
       "tag": "0002_add_application_activity",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1787068800000,
+      "tag": "0003_optimize_application_queries",
+      "breakpoints": true
     }
   ]
 }

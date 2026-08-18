@@ -1,3 +1,5 @@
+/* oxlint-disable jsx_a11y/no-noninteractive-tabindex -- dnd-kit uses this focusable drag surface for keyboard dragging. */
+
 import { Link } from '@tanstack/react-router';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -6,7 +8,11 @@ import { ApplicationActionMenu } from '@/pages/applications/components/Applicati
 import { InterestRating } from '@/pages/applications/components/InterestRating';
 import { KanbanStatusSelect } from '@/pages/applications/components/KanbanStatusSelect';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
-import { formatApplicationDate, type ApplicationRecord, type ApplicationStatus } from '@/pages/applications/data';
+import {
+  formatApplicationDate,
+  type ApplicationRecord,
+  type ApplicationStatus,
+} from '@/pages/applications/application-model';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 interface KanbanCardProps {
