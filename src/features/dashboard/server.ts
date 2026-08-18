@@ -7,7 +7,7 @@ import {
   findDashboardStatusCounts,
   findDashboardWeeklyActivity,
 } from '@/server/db/queries/dashboard';
-import { findRecentApplicationActivity } from '@/server/db/queries/activity';
+import { DASHBOARD_RECENT_ACTIVITY_LIMIT, findRecentApplicationActivity } from '@/server/db/queries/activity';
 import { error, success, type Result } from '@/shared/lib/result';
 import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 import type { RecentApplicationActivity } from '@/features/applications/types';
@@ -59,7 +59,7 @@ export const getDashboardRecentActivity = createServerFn({ method: 'GET' }).hand
     try {
       const userId = await getUserId();
       if (!userId) return error('Unauthorized');
-      return success(await findRecentApplicationActivity(userId, 5));
+      return success(await findRecentApplicationActivity(userId, DASHBOARD_RECENT_ACTIVITY_LIMIT));
     } catch {
       return error('We could not load recent activity.');
     }
