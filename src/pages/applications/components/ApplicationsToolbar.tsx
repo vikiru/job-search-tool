@@ -32,9 +32,13 @@ function ApplicationsToolbar({
 }: ApplicationsToolbarProps) {
   return (
     <div className="space-y-4 border-b border-border/70 p-3 sm:p-5">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-5">
         <ApplicationsSearchBar value={search} onChange={onSearchChange} />
-        <div className="grid grid-cols-2 gap-2">
+        <div
+          className="grid w-full min-w-0 grid-cols-2 gap-2 sm:w-auto sm:min-w-[22rem] lg:w-[22rem] lg:shrink-0"
+          role="group"
+          aria-label="Application filters"
+        >
           <Select
             value={statusFilter}
             onValueChange={(value) => onStatusFilterChange(value as ApplicationStatus | 'ALL')}
@@ -43,7 +47,7 @@ function ApplicationsToolbar({
               <ListFilter className="size-icon-sm text-muted-foreground" aria-hidden="true" />
               <SelectValue placeholder="All statuses" />
             </SelectTrigger>
-            <SelectContent className="min-w-48 p-2">
+            <SelectContent className="min-w-48 p-2" alignItemWithTrigger={false}>
               <SelectItem value="ALL">All statuses</SelectItem>
               <SelectItem value="SAVED">Saved</SelectItem>
               <SelectItem value="APPLIED">Applied</SelectItem>
@@ -66,7 +70,7 @@ function ApplicationsToolbar({
               <Star className="size-icon-sm text-muted-foreground" aria-hidden="true" />
               <SelectValue placeholder="Interest" />
             </SelectTrigger>
-            <SelectContent className="min-w-44 p-2">
+            <SelectContent className="min-w-44 p-2" alignItemWithTrigger={false}>
               <SelectItem value="ALL">Any interest</SelectItem>
               <SelectItem value="5">5 of 5</SelectItem>
               <SelectItem value="4">4+ of 5</SelectItem>

@@ -8,7 +8,7 @@ import {
   useUpdateApplicationStatus,
 } from '@/features/applications/hooks/useApplicationMutations';
 import { ChangeStatusDialog } from '@/pages/applications/components/ChangeStatusDialog';
-import type { ApplicationRecord } from '@/pages/applications/data';
+import { formatStatus, type ApplicationRecord } from '@/pages/applications/data';
 import type { ApplicationStatus } from '@/server/db/zod';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';
@@ -38,7 +38,9 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
       toast.error(result.error);
       return false;
     }
-    toast.success('Application status updated.');
+    toast.success('Application status updated.', {
+      description: `Application changed from ${formatStatus(application.status)} to ${formatStatus(status)}.`,
+    });
     return true;
   }
 
@@ -74,7 +76,7 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
           <ExternalLink className="size-icon-sm" aria-hidden="true" />
           View details
         </DropdownMenuItem>
-        {(context === 'table' || context === 'kanban') && (
+        {context === 'table' && (
           <DropdownMenuItem
             className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
             onClick={() => setStatusDialogOpen(true)}
@@ -93,13 +95,15 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
           Delete application
         </DropdownMenuItem>
       </DropdownMenuContent>
-      <ChangeStatusDialog
-        application={application}
-        isSubmitting={statusMutation.isPending}
-        open={statusDialogOpen}
-        onOpenChange={setStatusDialogOpen}
-        onSave={saveStatus}
-      />
+      {context === 'table' && (
+        <ChangeStatusDialog
+          application={application}
+          isSubmitting={statusMutation.isPending}
+          open={statusDialogOpen}
+          onOpenChange={setStatusDialogOpen}
+          onSave={saveStatus}
+        />
+      )}
       <ConfirmDialog
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
