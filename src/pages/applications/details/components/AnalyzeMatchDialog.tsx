@@ -42,7 +42,9 @@ export function AnalyzeMatchDialog({ applicationId, userId }: AnalyzeMatchDialog
       return;
     }
 
-    toast.success('Fit analysis updated.');
+    toast.success('Fit analysis updated.', {
+      description: `${result.data.matchScore}% match based on your resume and this role.`,
+    });
     setOpen(false);
   }
 
