@@ -1,15 +1,16 @@
-import { ArrowLeft } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { ArrowLeft } from 'lucide-react';
 
+import type { ApplicationDetail } from '@/features/applications/types';
+
+import { toApplicationRecord } from '@/pages/applications/application-model';
 import { ApplicationDetailHeader } from '@/pages/applications/details/components/ApplicationDetailHeader';
 import { ApplicationActivitySection } from '@/pages/applications/details/sections/ApplicationActivitySection';
 import { ApplicationDetailsSection } from '@/pages/applications/details/sections/ApplicationDetailsSection';
-import { FitAnalysisSection } from '@/pages/applications/details/sections/FitAnalysisSection';
 import { ApplicationLinksSection } from '@/pages/applications/details/sections/ApplicationLinksSection';
+import { FitAnalysisSection } from '@/pages/applications/details/sections/FitAnalysisSection';
 import { JobDescriptionSection } from '@/pages/applications/details/sections/JobDescriptionSection';
 import { NotesSection } from '@/pages/applications/details/sections/NotesSection';
-import { toApplicationRecord } from '@/pages/applications/application-model';
-import type { ApplicationDetail } from '@/features/applications/types';
 
 interface ApplicationDetailPageProps {
   application: ApplicationDetail;
@@ -23,7 +24,7 @@ export function ApplicationDetailPage({ application: detail, userId }: Applicati
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-7 sm:space-y-9">
         <Link
-          className="inline-flex items-center gap-2 font-heading text-small font-medium text-muted-foreground transition-colors motion-reduce:transition-none hover:text-foreground"
+          className="inline-flex items-center gap-2 font-heading text-small font-medium text-muted-foreground transition-colors hover:text-foreground motion-reduce:transition-none"
           to="/applications"
         >
           <ArrowLeft className="size-icon-sm" aria-hidden="true" />

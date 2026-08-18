@@ -85,7 +85,7 @@ function normalizeJobDescriptionMarkdown(value: string | null): string | null {
   return (
     normalizedLines
       .join('\n')
-      .replace(/\n{3,}/g, '\n\n')
+      .replaceAll(/\n{3,}/g, '\n\n')
       .trim() || null
   );
 }

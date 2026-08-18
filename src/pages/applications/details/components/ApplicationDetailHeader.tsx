@@ -1,10 +1,10 @@
-import { BriefcaseBusiness, CalendarDays, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { BriefcaseBusiness, CalendarDays, MapPin, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { useDeleteApplication } from '@/features/applications/hooks/useApplicationMutations';
-import { EditApplicationDialog } from '@/pages/applications/components/EditApplicationDialog';
 import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/application-model';
+import { EditApplicationDialog } from '@/pages/applications/components/EditApplicationDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';
 
@@ -27,7 +27,7 @@ export function ApplicationDetailHeader({ application, userId }: { application: 
       <div className="flex flex-col gap-5">
         <div className="min-w-0 space-y-3">
           <div>
-            <h1 className="max-w-full break-words font-heading text-h2 font-semibold leading-[1.08] tracking-tight text-balance sm:max-w-[34ch] sm:text-h1">
+            <h1 className="max-w-full font-heading text-h2 leading-[1.08] font-semibold tracking-tight text-balance break-words sm:max-w-[34ch] sm:text-h1">
               {application.position}
             </h1>
             <p className="mt-2 font-heading text-h4 font-medium text-muted-foreground">{application.company}</p>

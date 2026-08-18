@@ -1,5 +1,6 @@
-import { Github, Globe2, Link2, Linkedin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+
+import { Github, Globe2, Link2, Linkedin } from 'lucide-react';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/shared/components/ui/empty';
 import { toSafeHttpUrl } from '@/shared/lib/urls';
@@ -24,7 +25,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Link2 className="size-icon-sm text-primary" aria-hidden="true" />
-            <h3 className="font-heading text-h5 font-semibold leading-tight tracking-tight">Public links</h3>
+            <h3 className="font-heading text-h5 leading-tight font-semibold tracking-tight">Public links</h3>
           </div>
           <p className="mt-2 max-w-prose text-small leading-relaxed text-muted-foreground">
             Profiles and sites you choose to share with employers.
@@ -39,7 +40,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
           {safeLinks.map((link) => (
             <a
               key={link.label}
-              className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 px-3 py-3 transition-colors motion-reduce:transition-none hover:bg-background"
+              className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 px-3 py-3 transition-colors hover:bg-background motion-reduce:transition-none"
               href={link.href}
               target="_blank"
               rel="noreferrer"

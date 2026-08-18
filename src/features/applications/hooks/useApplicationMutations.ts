@@ -1,5 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import type { CreateApplicationInput, UpdateApplicationInput } from '@/features/applications/server';
+import type { ApplicationDetail, ApplicationListItem } from '@/features/applications/types';
+import type { ApplicationStatus } from '@/server/db/zod';
+
+import { applicationKeys } from '@/features/applications/application-keys';
+import { invalidateApplicationQueries, withFallback } from '@/features/applications/hooks/application-mutation-utils';
 import {
   createApplication,
   deleteApplication,
@@ -10,11 +16,6 @@ import {
   createApplicationFromJobDescription,
   type CreatedApplicationFromJobDescription,
 } from '@/features/gemini/extract/server';
-import type { CreateApplicationInput, UpdateApplicationInput } from '@/features/applications/server';
-import { applicationKeys } from '@/features/applications/application-keys';
-import { invalidateApplicationQueries, withFallback } from '@/features/applications/hooks/application-mutation-utils';
-import type { ApplicationDetail, ApplicationListItem } from '@/features/applications/types';
-import type { ApplicationStatus } from '@/server/db/zod';
 import { success, type Result } from '@/shared/lib/result';
 
 type ApplicationMutationResult = Result<ApplicationDetail>;

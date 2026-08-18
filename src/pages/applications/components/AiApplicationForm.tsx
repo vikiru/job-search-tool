@@ -4,6 +4,7 @@ import { Button } from '@/shared/components/ui/button';
 import { DialogClose, DialogFooter } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
+import { getFormString } from '@/shared/lib/utils';
 
 interface AiApplicationFormProps {
   isSubmitting?: boolean;
@@ -15,8 +16,8 @@ function AiApplicationForm({ isSubmitting = false, onSubmit }: AiApplicationForm
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     await onSubmit({
-      applicationUrl: String(formData.get('applicationUrl') ?? ''),
-      jobDescriptionMd: String(formData.get('jobDescriptionMd') ?? ''),
+      applicationUrl: getFormString(formData, 'applicationUrl'),
+      jobDescriptionMd: getFormString(formData, 'jobDescriptionMd'),
     });
   }
 

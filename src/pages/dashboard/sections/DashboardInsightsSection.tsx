@@ -1,6 +1,7 @@
+import type { DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
+
 import { ActivityTrend } from '@/pages/dashboard/components/ActivityTrend';
 import { PipelineOverview } from '@/pages/dashboard/components/PipelineOverview';
-import type { DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 
 function DashboardInsightsSection({
   statusCounts,

@@ -1,22 +1,21 @@
 /* oxlint-disable import/no-unassigned-import -- this import intentionally prevents client bundling. */
 
 import '@tanstack/react-start/server-only';
-
 import pdf from 'pdf-parse';
 
 import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
-import { error, success, type Result } from '@/shared/lib/result';
 import { logServerError } from '@/server/lib/log-error';
+import { error, success, type Result } from '@/shared/lib/result';
 
 const emailPattern = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 const phonePattern = /(?<!\w)(?:\+?\d[\d\s().-]{7,}\d)(?!\w)/g;
 
 function sanitizeResumeText(text: string): string {
   return text
-    .replace(emailPattern, '')
-    .replace(phonePattern, '')
-    .replace(/[ \t]+\n/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
+    .replaceAll(emailPattern, '')
+    .replaceAll(phonePattern, '')
+    .replaceAll(/[ \t]+\n/g, '\n')
+    .replaceAll(/\n{3,}/g, '\n\n')
     .trim();
 }
 

@@ -13,7 +13,7 @@ function WorkflowStepCard({ title, description, icon: Icon }: WorkflowStepCardPr
         <Icon className="size-5" aria-hidden="true" />
       </div>
       <div>
-        <h3 className="font-heading text-h4 font-semibold leading-snug tracking-tight text-foreground">{title}</h3>
+        <h3 className="font-heading text-h4 leading-snug font-semibold tracking-tight text-foreground">{title}</h3>
         <p className="mt-2 max-w-prose text-base leading-relaxed text-pretty text-muted-foreground">{description}</p>
       </div>
     </article>

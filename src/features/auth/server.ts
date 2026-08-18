@@ -1,13 +1,15 @@
+import { auth } from '@clerk/tanstack-react-start/server';
 import { redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
-import { auth } from '@clerk/tanstack-react-start/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
+
+import type { SelectUser } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema';
-import { success, error, type Result } from '@/shared/lib/result';
-import type { SelectUser } from '@/server/db/zod';
 import { logServerError } from '@/server/lib/log-error';
+import { success, error, type Result } from '@/shared/lib/result';
 
 export const userProfileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),

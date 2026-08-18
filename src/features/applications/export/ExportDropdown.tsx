@@ -1,11 +1,11 @@
+import { ChevronDown, Download } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { ChevronDown, Download } from 'lucide-react';
 
-import { exportApplications } from '@/features/applications/export/export.server';
-import { exportFormatSchema, type ExportFormat } from '@/features/applications/export/export.schema';
 import { serializeApplicationsToCsv } from '@/features/applications/export/csv';
 import { downloadApplicationExport } from '@/features/applications/export/download';
+import { exportFormatSchema, type ExportFormat } from '@/features/applications/export/export.schema';
+import { exportApplications } from '@/features/applications/export/export.server';
 import { serializeApplicationsToJson } from '@/features/applications/export/json';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -62,7 +62,7 @@ export function ExportDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-52 p-2" align="end">
         <DropdownMenuItem
-          className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
+          className="gap-2.5 py-2.5 font-heading text-small leading-normal font-medium tracking-tight"
           disabled={isExporting}
           onClick={() => void handleExport('csv')}
         >
@@ -70,7 +70,7 @@ export function ExportDropdown() {
           Export as CSV
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
+          className="gap-2.5 py-2.5 font-heading text-small leading-normal font-medium tracking-tight"
           disabled={isExporting}
           onClick={() => void handleExport('json')}
         >

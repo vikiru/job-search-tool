@@ -1,9 +1,11 @@
+import { toast } from 'sonner';
+
+import type { SelectApplicationNote } from '@/server/db/zod';
+
+import { useApplicationNotes } from '@/features/applications/hooks/useApplicationNotes';
 import { AddNoteDialog } from '@/pages/applications/components/AddNoteDialog';
 import { EditNoteDialog } from '@/pages/applications/components/EditNoteDialog';
 import { NotesEmptyState } from '@/pages/applications/components/NotesEmptyState';
-import { useApplicationNotes } from '@/features/applications/hooks/useApplicationNotes';
-import type { SelectApplicationNote } from '@/server/db/zod';
-import { toast } from 'sonner';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
@@ -68,7 +70,7 @@ export function NotesSection({
               {notes.map((note) => (
                 <article key={note.id} className="rounded-lg border border-border/70 p-4">
                   <div className="flex items-start justify-between gap-3">
-                    <p className="whitespace-pre-wrap text-small leading-relaxed">{note.content}</p>
+                    <p className="text-small leading-relaxed whitespace-pre-wrap">{note.content}</p>
                     <div className="flex shrink-0 items-center gap-1">
                       <EditNoteDialog
                         content={note.content}

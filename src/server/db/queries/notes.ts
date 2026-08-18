@@ -1,7 +1,9 @@
 import { and, eq, desc } from 'drizzle-orm';
+
+import type { SelectApplicationNote } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { applicationNotes, applications } from '@/server/db/schema';
-import type { SelectApplicationNote } from '@/server/db/zod';
 
 export async function findNotesByApplicationId(
   applicationId: string,

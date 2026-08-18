@@ -1,5 +1,5 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { formatStatus, type ApplicationStatus } from '@/pages/applications/application-model';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 
 interface KanbanStatusSelectProps {
   onChange: (status: ApplicationStatus) => void;
@@ -12,7 +12,7 @@ export function KanbanStatusSelect({ onChange, statuses, value }: KanbanStatusSe
     <div onPointerDown={(event) => event.stopPropagation()}>
       <Select value={value} onValueChange={(nextValue) => nextValue && onChange(nextValue as ApplicationStatus)}>
         <SelectTrigger
-          className="h-7 min-w-0 max-w-full gap-1 rounded-full border-border/70 bg-muted/50 px-2 text-caption font-medium"
+          className="h-7 max-w-full min-w-0 gap-1 rounded-full border-border/70 bg-muted/50 px-2 text-caption font-medium"
           aria-label={`Change status from ${formatStatus(value)}`}
         >
           <SelectValue />

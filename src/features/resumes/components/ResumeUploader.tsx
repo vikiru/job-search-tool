@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
 import { FileUp, ShieldCheck } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
@@ -59,16 +59,16 @@ export function ResumeUploader({ userId }: ResumeUploaderProps) {
           void handleFile(event.dataTransfer.files[0]);
         }}
         aria-disabled={upload.isPending}
-        className="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-primary/35 bg-primary/[0.03] px-5 py-8 text-center transition-colors motion-reduce:transition-none hover:border-primary/60 hover:bg-primary/[0.06] has-[:disabled]:pointer-events-none has-[:disabled]:opacity-70 focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/30"
+        className="group flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-primary/35 bg-primary/[0.03] px-5 py-8 text-center transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/30 hover:border-primary/60 hover:bg-primary/[0.06] has-[:disabled]:pointer-events-none has-[:disabled]:opacity-70 motion-reduce:transition-none"
       >
-        <span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform motion-reduce:transition-none group-hover:-translate-y-0.5">
+        <span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform group-hover:-translate-y-0.5 motion-reduce:transition-none">
           {upload.isPending ? (
             <Spinner className="size-icon-lg" />
           ) : (
             <FileUp className="size-icon-lg" aria-hidden="true" />
           )}
         </span>
-        <span className="mt-4 font-heading text-p font-semibold leading-tight tracking-tight">
+        <span className="mt-4 font-heading text-p leading-tight font-semibold tracking-tight">
           {upload.isPending ? 'Processing your resume…' : 'Drop your resume here'}
         </span>
         <span className="mt-2 max-w-md text-small leading-relaxed text-muted-foreground">

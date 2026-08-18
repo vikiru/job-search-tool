@@ -1,13 +1,14 @@
-import { useState, type FormEvent } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { useState, type FormEvent } from 'react';
+
+import type { Result } from '@/shared/lib/result';
 
 import { getUserProfile, saveUserProfile } from '@/features/auth/server';
-import type { Result } from '@/shared/lib/result';
-import { Card, CardContent } from '@/shared/components/ui/card';
 import { OnboardingActionsSection } from '@/pages/onboarding/sections/OnboardingActionsSection';
 import { OnboardingFeedbackSection } from '@/pages/onboarding/sections/OnboardingFeedbackSection';
 import { OnboardingHeaderSection } from '@/pages/onboarding/sections/OnboardingHeaderSection';
 import { OnboardingProfileFieldsSection } from '@/pages/onboarding/sections/OnboardingProfileFieldsSection';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 type OnboardingProfile = Awaited<ReturnType<typeof getUserProfile>>;
 

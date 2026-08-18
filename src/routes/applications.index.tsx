@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { requireAuth } from '@/features/auth/server';
 import { applicationsQueryOptions } from '@/features/applications/hooks/useApplications';
+import { requireAuth } from '@/features/auth/server';
 import { applicationsSearchSchema } from '@/pages/applications/application-search-params';
 import { ApplicationsPage } from '@/pages/applications/ApplicationsPage';
 

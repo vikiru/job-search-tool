@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { functionalUpdate, type SortingState, type Updater } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useApplications } from '@/features/applications/hooks/useApplications';
 import { useApplicationsSearch } from '@/features/applications/hooks/useApplicationsSearch';
+import { statusSortOrder, toApplicationRecord, type ApplicationRecord } from '@/pages/applications/application-model';
 import {
   applicationSortKeys,
   type ApplicationsSearch,
   type ApplicationSortDirection,
   type ApplicationSortKey,
 } from '@/pages/applications/application-search-params';
-import { statusSortOrder, toApplicationRecord, type ApplicationRecord } from '@/pages/applications/application-model';
 
 function sortApplications(
   applications: ApplicationRecord[],

@@ -1,13 +1,14 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 
+import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis-schema';
+
 import { analyzeJobApplication } from '@/features/gemini/analysis/analyze-match';
-import { findApplicationById } from '@/server/db/queries/applications';
 import { upsertAnalysis } from '@/server/db/queries/analysis';
+import { findApplicationById } from '@/server/db/queries/applications';
 import { findResumeByUserId } from '@/server/db/queries/resumes';
 import { error, success, type Result } from '@/shared/lib/result';
-import type { MatchAnalysisData } from '@/features/gemini/analysis/analysis-schema';
 
 const analyzeApplicationSchema = z.object({
   applicationId: z.string().uuid(),

@@ -42,8 +42,8 @@ function DashboardPage({
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-8">
         <header className="flex flex-col gap-5 border-b border-border/70 pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0 max-w-full">
-            <h1 className="font-heading text-h1 font-semibold leading-tight tracking-tight text-balance">
+          <div className="max-w-full min-w-0">
+            <h1 className="font-heading text-h1 leading-tight font-semibold tracking-tight text-balance">
               Welcome back, {userName}.
             </h1>
             <p className="mt-3 max-w-3xl text-base leading-relaxed text-pretty text-muted-foreground">

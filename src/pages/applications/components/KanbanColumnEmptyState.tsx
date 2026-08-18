@@ -1,5 +1,5 @@
-import { Inbox } from 'lucide-react';
 import { useDroppable } from '@dnd-kit/core';
+import { Inbox } from 'lucide-react';
 
 import { Empty, EmptyMedia, EmptyTitle } from '@/shared/components/ui/empty';
 
@@ -21,7 +21,7 @@ function KanbanColumnEmptyState({ columnId, message }: KanbanColumnEmptyStatePro
       <EmptyMedia className="mb-0 text-muted-foreground/70" variant="default">
         <Inbox className="size-icon-base" aria-hidden="true" />
       </EmptyMedia>
-      <EmptyTitle className="max-w-32 text-caption font-normal leading-relaxed text-muted-foreground">
+      <EmptyTitle className="max-w-32 text-caption leading-relaxed font-normal text-muted-foreground">
         {message}
       </EmptyTitle>
     </Empty>

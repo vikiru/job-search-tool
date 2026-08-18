@@ -1,8 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { ScrollArea } from '@/shared/components/ui/scroll-area';
 import type { SelectApplicationActivity } from '@/server/db/zod';
+
 import { formatStatus } from '@/pages/applications/application-model';
 import { ApplicationActivityEmptyState } from '@/pages/applications/details/components/ApplicationActivityEmptyState';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { ScrollArea } from '@/shared/components/ui/scroll-area';
 
 export function ApplicationActivitySection({ activity }: { activity: SelectApplicationActivity[] }) {
   const activityContent =
@@ -17,7 +18,7 @@ export function ApplicationActivitySection({ activity }: { activity: SelectAppli
               {index < activity.length - 1 && <span className="absolute top-4 h-[calc(100%+1rem)] w-px bg-border" />}
             </div>
             <div className="min-w-0">
-              <p className="font-heading text-small font-medium leading-snug">{getActivityLabel(item)}</p>
+              <p className="font-heading text-small leading-snug font-medium">{getActivityLabel(item)}</p>
               <time className="mt-1 block font-mono text-caption text-muted-foreground">
                 {new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }).format(
                   item.createdAt,

@@ -1,6 +1,7 @@
 'use client';
 
 import type { ComponentProps } from 'react';
+
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover';
 
 import { cn } from '@/shared/lib/utils';

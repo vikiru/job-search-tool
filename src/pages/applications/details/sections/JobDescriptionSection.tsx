@@ -1,10 +1,12 @@
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+
 import type { ApplicationRecord } from '@/pages/applications/application-model';
+
 import { Badge } from '@/shared/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { toSafeHttpUrl } from '@/shared/lib/urls';
 import { Separator } from '@/shared/components/ui/separator';
+import { toSafeHttpUrl } from '@/shared/lib/urls';
 
 export function JobDescriptionSection({
   application,
@@ -81,7 +83,7 @@ export function JobDescriptionSection({
 
 function removeRedundantAboutHeading(value: string) {
   return value
-    .replace(/^\s*#{1,6}\s+about the job\s*$/gim, '')
+    .replaceAll(/^\s*#{1,6}\s+about the job\s*$/gim, '')
     .replace(/^\s*about the job\s+/i, '')
     .trim();
 }
@@ -91,7 +93,7 @@ function PostingList({ title, items }: { title: string; items: string[] }) {
 
   return (
     <section className="space-y-3.5">
-      <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight text-foreground">{title}</h3>
+      <h3 className="font-heading text-h4 leading-tight font-semibold tracking-tight text-foreground">{title}</h3>
       <ul className="max-w-[68ch] space-y-2.5 text-[0.9375rem] leading-7 text-foreground/80">
         {items.map((item) => (
           <li key={item} className="flex gap-3">
@@ -106,20 +108,20 @@ function PostingList({ title, items }: { title: string; items: string[] }) {
 
 const markdownComponents: Components = {
   h1: ({ children }) => (
-    <h2 className="mt-0 mb-5 font-heading text-h3 font-semibold leading-tight tracking-tight text-foreground">
+    <h2 className="mt-0 mb-5 font-heading text-h3 leading-tight font-semibold tracking-tight text-foreground">
       {children}
     </h2>
   ),
   h2: ({ children }) => (
-    <h2 className="mt-10 mb-4 font-heading text-h4 font-semibold leading-tight tracking-tight text-foreground first:mt-0">
+    <h2 className="mt-10 mb-4 font-heading text-h4 leading-tight font-semibold tracking-tight text-foreground first:mt-0">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="mt-8 mb-3 font-heading text-p font-semibold leading-snug text-foreground">{children}</h3>
+    <h3 className="mt-8 mb-3 font-heading text-p leading-snug font-semibold text-foreground">{children}</h3>
   ),
   h4: ({ children }) => (
-    <h4 className="mt-6 mb-2 font-heading text-small font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+    <h4 className="mt-6 mb-2 font-heading text-small font-semibold tracking-[0.08em] text-muted-foreground uppercase">
       {children}
     </h4>
   ),
@@ -146,7 +148,7 @@ const markdownComponents: Components = {
     );
   },
   blockquote: ({ children }) => (
-    <blockquote className="my-6 border-l-2 border-primary/40 pl-4 italic text-muted-foreground">{children}</blockquote>
+    <blockquote className="my-6 border-l-2 border-primary/40 pl-4 text-muted-foreground italic">{children}</blockquote>
   ),
   hr: () => <hr className="my-8 border-border/70" />,
 };

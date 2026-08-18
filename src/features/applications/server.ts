@@ -1,6 +1,8 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
+
+import type { ApplicationDetail, ApplicationListItem, RecentApplicationActivity } from '@/features/applications/types';
 
 import {
   applicationResourceSchema,
@@ -13,8 +15,8 @@ import {
   statusUpdateSchema,
   updateApplicationSchema,
 } from '@/features/applications/application-schemas';
-import { getOrCreateUser } from '@/server/db/users';
 import { findApplicationActivity, findRecentApplicationActivity } from '@/server/db/queries/activity';
+import { findAnalysisByApplicationId } from '@/server/db/queries/analysis';
 import {
   findApplicationById,
   findApplicationsWithAnalysis,
@@ -23,12 +25,11 @@ import {
   updateApplicationStatusWithActivity,
   deleteApplication as deleteApplicationQuery,
 } from '@/server/db/queries/applications';
-import { findAnalysisByApplicationId } from '@/server/db/queries/analysis';
 import { deleteLink, findLinksByApplicationId, insertLink, updateLink } from '@/server/db/queries/links';
 import { deleteNote, findNotesByApplicationId, insertNote, updateNote } from '@/server/db/queries/notes';
-import { error, success, type Result } from '@/shared/lib/result';
-import type { ApplicationDetail, ApplicationListItem, RecentApplicationActivity } from '@/features/applications/types';
+import { getOrCreateUser } from '@/server/db/users';
 import { logServerError } from '@/server/lib/log-error';
+import { error, success, type Result } from '@/shared/lib/result';
 
 export type { CreateApplicationInput, UpdateApplicationInput } from '@/features/applications/application-schemas';
 

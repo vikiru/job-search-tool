@@ -1,9 +1,10 @@
 import { eq } from 'drizzle-orm';
 
 import type { UserContactUpdate } from '@/features/profile/types';
+import type { SelectUser, SelectUserLink } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { userLinks, users } from '@/server/db/schema';
-import type { SelectUser, SelectUserLink } from '@/server/db/zod';
 
 export async function findUserContactById(userId: string): Promise<{
   email: string | null;

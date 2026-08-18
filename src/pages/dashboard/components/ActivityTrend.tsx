@@ -1,8 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { format, parseISO } from 'date-fns';
 /* oxlint-disable jsx_a11y/prefer-tag-over-role -- the custom chart needs an accessible graphic landmark. */
 
-import { format, parseISO } from 'date-fns';
 import type { DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 function ActivityTrend({
   weekEnd,
@@ -27,7 +28,7 @@ function ActivityTrend({
     <Card className="h-full min-w-0">
       <CardHeader>
         <CardTitle className="font-heading text-h4 font-semibold">Applications this week</CardTitle>
-        <p className="mt-2 font-mono text-small font-medium leading-normal tracking-tight text-muted-foreground">
+        <p className="mt-2 font-mono text-small leading-normal font-medium tracking-tight text-muted-foreground">
           {format(parseISO(weekStart), 'MMM d')} {'–'} {format(parseISO(weekEnd), 'MMM d, yyyy')}
         </p>
       </CardHeader>
@@ -37,7 +38,7 @@ function ActivityTrend({
           role="img"
           aria-label={`Bar chart showing applications added from ${format(parseISO(weekStart), 'MMMM d')} through ${format(parseISO(weekEnd), 'MMMM d, yyyy')}`}
         >
-          <div className="flex h-40 flex-col justify-between pb-6 text-right font-mono text-caption leading-none tabular-nums text-muted-foreground sm:h-56 lg:h-80">
+          <div className="flex h-40 flex-col justify-between pb-6 text-right font-mono text-caption leading-none text-muted-foreground tabular-nums sm:h-56 lg:h-80">
             {yAxisLabels.map((label) => (
               <span key={label}>{label}</span>
             ))}

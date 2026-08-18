@@ -1,7 +1,7 @@
 /* oxlint-disable react/react-compiler -- the editable analysis input is seeded from the loaded resume. */
 
-import { useEffect, useState } from 'react';
 import { Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { useAnalyzeApplication } from '@/features/gemini/analysis/hooks/useAnalyzeApplication';
@@ -62,7 +62,7 @@ export function AnalyzeMatchDialog({ applicationId, userId }: AnalyzeMatchDialog
       />
       <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-2xl overflow-y-auto p-5 sm:max-h-[calc(100dvh-3rem)] sm:max-w-3xl sm:p-7">
         <DialogHeader className="gap-3 pr-8">
-          <DialogTitle className="font-heading text-h3 font-semibold leading-tight tracking-tight">
+          <DialogTitle className="font-heading text-h3 leading-tight font-semibold tracking-tight">
             Compare your fit
           </DialogTitle>
           <DialogDescription className="max-w-prose text-small leading-relaxed text-pretty">

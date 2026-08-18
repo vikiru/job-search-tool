@@ -1,5 +1,6 @@
 /* oxlint-disable react/no-unstable-nested-components -- TanStack Table cell renderers are render callbacks, not component definitions. */
 
+import { Link } from '@tanstack/react-router';
 import {
   createColumnHelper,
   createFilteredRowModel,
@@ -16,11 +17,9 @@ import {
   type PaginationState,
   type SortingState,
 } from '@tanstack/react-table';
-import { useMemo } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
-import { type ApplicationSortDirection, type ApplicationSortKey } from '@/pages/applications/application-search-params';
 import {
   formatApplicationDate,
   statusSortOrder,
@@ -28,6 +27,7 @@ import {
   type ApplicationStatus,
   type InterestRating,
 } from '@/pages/applications/application-model';
+import { type ApplicationSortDirection, type ApplicationSortKey } from '@/pages/applications/application-search-params';
 import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
 import { InterestRating as InterestRatingDisplay } from '@/pages/applications/components/InterestRating';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
@@ -89,7 +89,7 @@ function ApplicationsTable({
           sortFn: 'auto',
           cell: ({ row }) => (
             <Link
-              className="font-heading text-small font-semibold text-foreground transition-colors motion-reduce:transition-none hover:text-primary"
+              className="font-heading text-small font-semibold text-foreground transition-colors hover:text-primary motion-reduce:transition-none"
               to="/applications/$id"
               params={{ id: row.original.id }}
             >
@@ -102,7 +102,7 @@ function ApplicationsTable({
           sortFn: 'auto',
           cell: ({ row }) => (
             <Link
-              className="block truncate text-small text-muted-foreground transition-colors motion-reduce:transition-none hover:text-primary"
+              className="block truncate text-small text-muted-foreground transition-colors hover:text-primary motion-reduce:transition-none"
               to="/applications/$id"
               params={{ id: row.original.id }}
             >
@@ -133,7 +133,7 @@ function ApplicationsTable({
           header: 'Application date',
           sortFn: 'auto',
           cell: ({ row }) => (
-            <span className="font-mono text-caption tabular-nums text-muted-foreground">
+            <span className="font-mono text-caption text-muted-foreground tabular-nums">
               {formatApplicationDate(row.original.applicationDate)}
             </span>
           ),
@@ -182,7 +182,7 @@ function ApplicationsTable({
                     <span className="sr-only">Actions</span>
                   ) : (
                     <button
-                      className="inline-flex items-center gap-1.5 rounded-sm font-heading text-caption font-semibold tracking-wide text-muted-foreground uppercase transition-colors outline-none motion-reduce:transition-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="inline-flex items-center gap-1.5 rounded-sm font-heading text-caption font-semibold tracking-wide text-muted-foreground uppercase transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-reduce:transition-none"
                       type="button"
                       onClick={header.column.getToggleSortingHandler()}
                       aria-label={`Sort by ${String(header.column.columnDef.header)}${sorted ? `, currently ${sorted}` : ''}`}

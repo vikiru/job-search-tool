@@ -2,8 +2,9 @@ import { ShieldCheck } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import { useSaveUserContact, useUserContact } from '@/features/profile/hooks/useUserContact';
 import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+
+import { useSaveUserContact, useUserContact } from '@/features/profile/hooks/useUserContact';
 import { useRemoveResume, useUploadResume, type ResumeData } from '@/features/resumes/hooks/useResumes';
 import { parseResumeText } from '@/features/resumes/parser/parse-resume-text';
 import { ParsedResumeContent } from '@/pages/resumes/components/ParsedResumeContent';
@@ -87,9 +88,9 @@ export function ResumeContentSection({ resume, userId }: ResumeContentSectionPro
       ) : null}
       <ResumeContactDetails contact={contact} isSaving={saveContact.isPending} onSaveContact={updateContact} />
       <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/5 px-4 py-4 sm:px-5">
-        <ShieldCheck className="mt-0.5 size-icon-base shrink-0 text-success" aria-hidden="true" />
+        <ShieldCheck className="size-icon-base mt-0.5 shrink-0 text-success" aria-hidden="true" />
         <div className="min-w-0 space-y-1">
-          <p className="font-heading text-small font-semibold leading-snug tracking-tight">
+          <p className="font-heading text-small leading-snug font-semibold tracking-tight">
             Your source file stays private
           </p>
           <p className="max-w-prose text-small leading-relaxed text-pretty text-muted-foreground">

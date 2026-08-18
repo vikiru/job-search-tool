@@ -1,5 +1,6 @@
-import { ApplicationLinksCard } from '@/pages/applications/components/ApplicationLinksCard';
 import type { SelectApplicationLink } from '@/server/db/zod';
+
+import { ApplicationLinksCard } from '@/pages/applications/components/ApplicationLinksCard';
 
 export function ApplicationLinksSection({
   applicationId,

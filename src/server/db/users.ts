@@ -1,7 +1,9 @@
 import { eq } from 'drizzle-orm';
+
+import type { InsertUser, SelectUser } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { users } from '@/server/db/schema';
-import type { InsertUser, SelectUser } from '@/server/db/zod';
 
 export async function getOrCreateUser(
   userId: string,

@@ -1,8 +1,9 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { listApplications } from '@/features/applications/server';
 import type { ApplicationListItem } from '@/features/applications/types';
+
 import { applicationKeys } from '@/features/applications/application-keys';
+import { listApplications } from '@/features/applications/server';
 import { error, type Result } from '@/shared/lib/result';
 
 export function applicationsQueryOptions(userId: string) {
