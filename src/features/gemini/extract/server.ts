@@ -16,6 +16,14 @@ const createFromJobDescriptionSchema = z.object({
 export interface CreatedApplicationFromJobDescription {
   extractionFailed: boolean;
   id: string;
+  metadata: {
+    company: string;
+    location: string | null;
+    position: string;
+    salaryCurrency: string | null;
+    salaryMax: number | null;
+    salaryMin: number | null;
+  };
 }
 
 export const createApplicationFromJobDescription = createServerFn({ method: 'POST' })
@@ -76,7 +84,18 @@ export const createApplicationFromJobDescription = createServerFn({ method: 'POS
         );
       }
 
-      return success({ extractionFailed: !extraction.success, id: application.id });
+      return success({
+        extractionFailed: !extraction.success,
+        id: application.id,
+        metadata: {
+          company: metadata?.company || 'Unknown company',
+          location: metadata?.location ?? null,
+          position: metadata?.position || 'Untitled role',
+          salaryCurrency: metadata?.salaryCurrency ?? null,
+          salaryMax: metadata?.salaryMax ?? null,
+          salaryMin: metadata?.salaryMin ?? null,
+        },
+      });
     } catch {
       return error('We could not save this application.');
     }
