@@ -18,5 +18,5 @@ pre-commit:
 pre-push:
   parallel: false
   jobs:
-    - name: TypeScript typecheck
+    - name: TypeScript 7 verification
       run: pnpm typecheck

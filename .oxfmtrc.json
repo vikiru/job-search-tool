@@ -9,5 +9,20 @@
   "trailingComma": "all",
   "bracketSpacing": true,
   "arrowParens": "always",
-  "plugins": ["oxfmt-plugin-tailwindcss"]
+  "sortImports": {
+    "groups": [
+      "type-import",
+      ["value-builtin", "value-external"],
+      "type-internal",
+      "value-internal",
+      ["type-parent", "type-sibling", "type-index"],
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+  "sortTailwindcss": {
+    "stylesheet": "./src/styles/app.css",
+    "functions": ["clsx", "cn", "cva"],
+    "preserveWhitespace": true
+  }
 }

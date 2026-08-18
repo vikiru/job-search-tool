@@ -1,6 +1,11 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "jsx-a11y", "typescript", "import", "unicorn", "promise", "react-perf"],
+  "plugins": ["eslint", "oxc", "node", "react", "jsx-a11y", "typescript", "import", "unicorn", "promise", "react-perf"],
+  "jsPlugins": ["eslint-plugin-regexp"],
+  "options": {
+    "typeAware": false,
+    "typeCheck": false
+  },
   "categories": {
     "correctness": "warn",
     "suspicious": "warn",
@@ -11,7 +16,21 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/react-compiler": "warn",
+    "regexp/no-dupe-disjunctions": "warn",
+    "regexp/no-empty-character-class": "warn",
+    "regexp/no-invalid-regexp": "warn",
+    "regexp/no-super-linear-backtracking": "warn",
+    "regexp/no-useless-backreference": "warn",
+    "regexp/no-useless-escape": "warn",
+    "regexp/strict": "warn",
+    "eqeqeq": "warn",
+    "unicorn/prefer-string-replace-all": "warn",
+    "typescript/no-base-to-string": "off",
+    "typescript/no-redundant-type-constituents": "off",
+    "typescript/no-unnecessary-type-assertion": "off",
+    "typescript/no-unsafe-type-assertion": "off",
+    "typescript/no-useless-default-assignment": "off",
+    "typescript/restrict-template-expressions": "off",
     "no-unused-vars": "warn",
     "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
   },
