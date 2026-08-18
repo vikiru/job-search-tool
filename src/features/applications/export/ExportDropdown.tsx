@@ -40,7 +40,9 @@ export function ExportDropdown() {
           ? serializeApplicationsToCsv(result.data.applications)
           : serializeApplicationsToJson(result.data.applications);
       downloadApplicationExport(content, format);
-      toast.success(`Applications exported as ${format.toUpperCase()}.`);
+      toast.success(`Applications exported as ${format.toUpperCase()}.`, {
+        description: `${result.data.applications.length} application${result.data.applications.length === 1 ? '' : 's'} downloaded.`,
+      });
     } catch {
       toast.error('We could not export your applications.');
     } finally {
