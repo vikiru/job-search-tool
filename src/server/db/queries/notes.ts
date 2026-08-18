@@ -23,6 +23,16 @@ export async function findNotesByApplicationId(
     .orderBy(desc(applicationNotes.createdAt));
 }
 
+export async function findNotesByUserId(userId: string): Promise<SelectApplicationNote[]> {
+  return db
+    .select({ note: applicationNotes })
+    .from(applicationNotes)
+    .innerJoin(applications, eq(applicationNotes.applicationId, applications.id))
+    .where(eq(applications.userId, userId))
+    .orderBy(desc(applicationNotes.createdAt))
+    .then((rows) => rows.map(({ note }) => note));
+}
+
 export async function insertNote(
   applicationId: string,
   content: string,

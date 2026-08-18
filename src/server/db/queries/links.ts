@@ -23,6 +23,16 @@ export async function findLinksByApplicationId(
     .orderBy(desc(applicationLinks.createdAt));
 }
 
+export async function findLinksByUserId(userId: string): Promise<SelectApplicationLink[]> {
+  return db
+    .select({ link: applicationLinks })
+    .from(applicationLinks)
+    .innerJoin(applications, eq(applicationLinks.applicationId, applications.id))
+    .where(eq(applications.userId, userId))
+    .orderBy(desc(applicationLinks.createdAt))
+    .then((rows) => rows.map(({ link }) => link));
+}
+
 export async function insertLink(
   applicationId: string,
   url: string,
