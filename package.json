@@ -85,7 +85,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint-plugin-regexp": "^3.2.0",
     "knip": "^6.32.2",
-    "lefthook": "^1.13.6",
+    "lefthook": "^2.1.10",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.79.0",
     "oxlint-tailwindcss": "^1.9.0",
