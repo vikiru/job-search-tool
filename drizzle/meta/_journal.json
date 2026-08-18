@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1786995252192,
+      "tag": "0000_dear_the_spike",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787000000000,
+      "tag": "0001_add_user_links",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1787001000000,
+      "tag": "0002_add_application_activity",
+      "breakpoints": true
+    }
+  ]
+}
