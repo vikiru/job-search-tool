@@ -3,6 +3,7 @@ import { Slider as SliderPrimitive } from '@base-ui/react/slider';
 import { cn } from '@/shared/lib/utils';
 
 function Slider({ className, defaultValue, value, min = 0, max = 100, ...props }: SliderPrimitive.Root.Props) {
+  // oxlint-disable-next-line no-underscore-dangle -- Base UI exposes this private-compatible value for range rendering
   const _values = Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max];
 
   return (

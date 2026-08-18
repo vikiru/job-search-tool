@@ -7,6 +7,7 @@ import { db } from '@/server/db';
 import { users } from '@/server/db/schema';
 import { success, error, type Result } from '@/shared/lib/result';
 import type { SelectUser } from '@/server/db/zod';
+import { logServerError } from '@/server/lib/log-error';
 
 export const userProfileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -38,27 +39,32 @@ export const saveUserProfile = createServerFn({ method: 'POST' })
       return error('Unauthorized');
     }
 
-    await db
-      .insert(users)
-      .values({
-        id: userId,
-        email: data.email ?? null,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber ?? null,
-        location: data.location ?? null,
-      })
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
+    try {
+      await db
+        .insert(users)
+        .values({
+          id: userId,
           email: data.email ?? null,
           firstName: data.firstName,
           lastName: data.lastName,
           phoneNumber: data.phoneNumber ?? null,
           location: data.location ?? null,
-          updatedAt: new Date(),
-        },
-      });
+        })
+        .onConflictDoUpdate({
+          target: users.id,
+          set: {
+            email: data.email ?? null,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber ?? null,
+            location: data.location ?? null,
+            updatedAt: new Date(),
+          },
+        });
+    } catch (cause) {
+      logServerError('auth:save-profile', cause);
+      return error('We could not save your profile.');
+    }
 
     return success({ id: userId });
   });
@@ -69,7 +75,11 @@ export const getUserProfile = createServerFn({ method: 'GET' }).handler(async ()
     return null;
   }
 
-  const [user] = await db.select().from(users).where(eq(users.id, userId));
-
-  return user ?? null;
+  try {
+    const [user] = await db.select().from(users).where(eq(users.id, userId));
+    return user ?? null;
+  } catch (cause) {
+    logServerError('auth:get-profile', cause);
+    return null;
+  }
 });

@@ -1,8 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 
-import { analysisGenerationConfig, GEMINI_ANALYSIS_MODEL } from '@/features/gemini/analysis/analysis.config';
-import { buildAnalysisPrompt } from '@/features/gemini/analysis/analysis.prompt';
-import { analysisSchema, type MatchAnalysisData } from '@/features/gemini/analysis/analysis.schema';
+import { analysisGenerationConfig, GEMINI_ANALYSIS_MODEL } from '@/features/gemini/analysis/analysis-config';
+import { buildAnalysisPrompt } from '@/features/gemini/analysis/analysis-prompt';
+import { analysisSchema, type MatchAnalysisData } from '@/features/gemini/analysis/analysis-schema';
 import { validateServerEnv } from '@/shared/config/env';
 import { error, success, type Result } from '@/shared/lib/result';
 

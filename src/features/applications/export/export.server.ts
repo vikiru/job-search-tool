@@ -7,6 +7,7 @@ import { findApplicationsWithAnalysis } from '@/server/db/queries/applications';
 import { findLinksByUserId } from '@/server/db/queries/links';
 import { findNotesByUserId } from '@/server/db/queries/notes';
 import { error, success, type Result } from '@/shared/lib/result';
+import { logServerError } from '@/server/lib/log-error';
 
 export const exportApplications = createServerFn({ method: 'GET' })
   .validator((input: unknown) => exportRequestSchema.safeParse(input))
@@ -45,7 +46,8 @@ export const exportApplications = createServerFn({ method: 'GET' })
           notes: notesByApplicationId.get(application.id) ?? [],
         })),
       });
-    } catch {
+    } catch (cause) {
+      logServerError('applications:export', cause);
       return error('We could not export your applications.');
     }
   });

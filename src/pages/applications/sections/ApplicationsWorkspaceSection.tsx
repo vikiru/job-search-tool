@@ -4,7 +4,12 @@ import { ApplicationsPagination } from '@/pages/applications/components/Applicat
 import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/applications/components/ApplicationsTable';
 import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
 import { KanbanSkeleton } from '@/pages/applications/components/KanbanSkeleton';
-import type { ApplicationRecord, ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/data';
+import type {
+  ApplicationRecord,
+  ApplicationStatus,
+  ApplicationView,
+  InterestRating,
+} from '@/pages/applications/application-model';
 import type { OnChangeFn, SortingState } from '@tanstack/react-table';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { Loader } from '@/shared/components/ui/Loader';

@@ -1,3 +1,5 @@
+/* oxlint-disable jsx_a11y/prefer-tag-over-role -- the button is the combobox trigger required by the ARIA pattern. */
+
 import { Check, ChevronsUpDown } from 'lucide-react';
 
 import { Button } from '@/shared/components/ui/button';

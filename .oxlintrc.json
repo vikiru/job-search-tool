@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "jsx-a11y", "typescript", "import", "unicorn"],
+  "plugins": ["react", "jsx-a11y", "typescript", "import", "unicorn", "promise", "react-perf"],
   "categories": {
     "correctness": "warn",
     "suspicious": "warn",
@@ -11,6 +11,7 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "react/react-compiler": "warn",
     "no-unused-vars": "warn",
     "no-console": ["warn", { "allow": ["warn", "error", "info"] }]
   },

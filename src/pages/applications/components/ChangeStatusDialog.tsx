@@ -1,6 +1,8 @@
+/* oxlint-disable react/react-compiler -- dialog draft state is reset when its selected application changes. */
+
 import { useEffect, useState } from 'react';
 
-import type { ApplicationRecord } from '@/pages/applications/data';
+import type { ApplicationRecord } from '@/pages/applications/application-model';
 import type { ApplicationStatus } from '@/server/db/zod';
 import { Button } from '@/shared/components/ui/button';
 import {

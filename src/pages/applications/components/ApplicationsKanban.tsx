@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   closestCorners,
   DndContext,
@@ -10,14 +10,10 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { toast } from 'sonner';
-
-import { useUpdateApplicationStatusForUser } from '@/features/applications/hooks/useApplicationMutations';
-import { formatStatus, kanbanColumns, type ApplicationRecord, type ApplicationStatus } from '@/pages/applications/data';
+import { kanbanColumns, type ApplicationRecord } from '@/pages/applications/application-model';
 import { KanbanColumn } from '@/pages/applications/components/KanbanColumn';
 import { KanbanDragOverlay } from '@/pages/applications/components/KanbanDragOverlay';
-
-const DRAG_DEBOUNCE_MS = 400;
+import { useKanban } from '@/pages/applications/hooks/useKanban';
 
 const columnStatus = {
   SAVED: 'SAVED',
@@ -26,11 +22,6 @@ const columnStatus = {
   CLOSED: 'REJECTED',
 } as const satisfies Record<(typeof kanbanColumns)[number]['id'], ApplicationRecord['status']>;
 
-interface PendingStatusChange {
-  originalStatus: ApplicationRecord['status'];
-  nextStatus: ApplicationRecord['status'];
-}
-
 interface ApplicationsKanbanProps {
   applications: ApplicationRecord[];
   userId: string;
@@ -38,10 +29,7 @@ interface ApplicationsKanbanProps {
 
 function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [statusOverrides, setStatusOverrides] = useState<Record<string, ApplicationRecord['status']>>({});
-  const statusMutation = useUpdateApplicationStatusForUser(userId);
-  const pendingChanges = useRef(new Map<string, PendingStatusChange>());
-  const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+  const { handleStatusChange, statusOverrides } = useKanban(userId);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -56,87 +44,18 @@ function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
   );
   const activeApplication = displayedApplications.find((application) => application.id === activeId) ?? null;
 
-  useEffect(() => {
-    return () => {
-      for (const timer of timers.current.values()) clearTimeout(timer);
-    };
-  }, []);
-
-  function getColumnId(id: string) {
-    const column = kanbanColumns.find((candidate) => candidate.id === id);
-    if (column) return column.id;
-
-    const application = displayedApplications.find((candidate) => candidate.id === id);
-    return application
-      ? kanbanColumns.find((candidate) => isStatusInColumn(candidate, application.status))?.id
-      : undefined;
-  }
-
-  function scheduleStatusChange(application: ApplicationRecord, nextStatus: ApplicationRecord['status']) {
-    const existing = pendingChanges.current.get(application.id);
-    const originalStatus = existing?.originalStatus ?? application.status;
-    const previousTimer = timers.current.get(application.id);
-    if (previousTimer) clearTimeout(previousTimer);
-
-    pendingChanges.current.set(application.id, { nextStatus, originalStatus });
-    const timer = setTimeout(() => {
-      void persistStatusChange(application, nextStatus, originalStatus);
-    }, DRAG_DEBOUNCE_MS);
-    timers.current.set(application.id, timer);
-  }
-
-  async function persistStatusChange(
-    application: ApplicationRecord,
-    nextStatus: ApplicationRecord['status'],
-    originalStatus: ApplicationRecord['status'],
-  ) {
-    const result = await statusMutation.mutateAsync({ id: application.id, status: nextStatus });
-    const pending = pendingChanges.current.get(application.id);
-    if (!pending || pending.nextStatus !== nextStatus) return;
-
-    pendingChanges.current.delete(application.id);
-    timers.current.delete(application.id);
-
-    if (!result.success) {
-      setStatusOverrides((current) => {
-        const next = { ...current };
-        delete next[application.id];
-        return next;
-      });
-      toast.error('Application status was not saved.', {
-        description: `Application remains ${formatStatus(originalStatus)}.`,
-      });
-      return;
-    }
-
-    setStatusOverrides((current) => {
-      const next = { ...current };
-      delete next[application.id];
-      return next;
-    });
-    toast.success('Application moved.', {
-      description: `Application changed from ${formatStatus(originalStatus)} to ${formatStatus(nextStatus)}.`,
-    });
-  }
-
   function handleDragEnd({ active, over }: DragEndEvent) {
     setActiveId(null);
     if (!over || active.id === over.id) return;
 
     const application = displayedApplications.find((candidate) => candidate.id === active.id);
-    const targetColumnId = getColumnId(String(over.id));
+    const targetColumnId = findKanbanColumnId(String(over.id), displayedApplications);
     if (!application || !targetColumnId) return;
 
-    const currentColumnId = getColumnId(application.id);
+    const currentColumnId = findKanbanColumnId(application.id, displayedApplications);
     if (!currentColumnId || currentColumnId === targetColumnId) return;
 
     handleStatusChange(application, columnStatus[targetColumnId]);
-  }
-
-  function handleStatusChange(application: ApplicationRecord, nextStatus: ApplicationStatus) {
-    if (application.status === nextStatus) return;
-    setStatusOverrides((current) => ({ ...current, [application.id]: nextStatus }));
-    scheduleStatusChange(application, nextStatus);
   }
 
   return (
@@ -189,6 +108,16 @@ function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
 
 function isStatusInColumn(column: (typeof kanbanColumns)[number], status: ApplicationRecord['status']) {
   return (column.statuses as readonly ApplicationRecord['status'][]).includes(status);
+}
+
+function findKanbanColumnId(id: string, applicationRecords: ApplicationRecord[]) {
+  const column = kanbanColumns.find((candidate) => candidate.id === id);
+  if (column) return column.id;
+
+  const application = applicationRecords.find((candidate) => candidate.id === id);
+  return application
+    ? kanbanColumns.find((candidate) => isStatusInColumn(candidate, application.status))?.id
+    : undefined;
 }
 
 export { ApplicationsKanban };

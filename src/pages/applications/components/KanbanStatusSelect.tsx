@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
-import { formatStatus, type ApplicationStatus } from '@/pages/applications/data';
+import { formatStatus, type ApplicationStatus } from '@/pages/applications/application-model';
 
 interface KanbanStatusSelectProps {
   onChange: (status: ApplicationStatus) => void;

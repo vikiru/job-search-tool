@@ -8,7 +8,7 @@ import {
   useUpdateApplicationStatus,
 } from '@/features/applications/hooks/useApplicationMutations';
 import { ChangeStatusDialog } from '@/pages/applications/components/ChangeStatusDialog';
-import { formatStatus, type ApplicationRecord } from '@/pages/applications/data';
+import { formatStatus, type ApplicationRecord } from '@/pages/applications/application-model';
 import type { ApplicationStatus } from '@/server/db/zod';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';

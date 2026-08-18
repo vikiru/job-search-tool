@@ -1,7 +1,7 @@
 import { AddNoteDialog } from '@/pages/applications/components/AddNoteDialog';
 import { EditNoteDialog } from '@/pages/applications/components/EditNoteDialog';
 import { NotesEmptyState } from '@/pages/applications/components/NotesEmptyState';
-import { useApplicationNotes } from '@/features/applications/hooks/useApplicationMutations';
+import { useApplicationNotes } from '@/features/applications/hooks/useApplicationNotes';
 import type { SelectApplicationNote } from '@/server/db/zod';
 import { toast } from 'sonner';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';

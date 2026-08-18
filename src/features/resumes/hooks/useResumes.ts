@@ -1,12 +1,9 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getResume, removeResume, saveResumeText, uploadResume } from '@/features/resumes/server';
+import { resumeKeys } from '@/features/resumes/resume-keys';
 import type { SelectResume } from '@/server/db/zod';
 import { error } from '@/shared/lib/result';
-
-export const resumeKeys = {
-  all: (userId: string) => ['resumes', userId] as const,
-};
 
 export function resumesQueryOptions(userId: string) {
   return queryOptions({

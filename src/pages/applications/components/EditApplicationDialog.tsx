@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { useUpdateApplication } from '@/features/applications/hooks/useApplicationMutations';
 import { ManualApplicationForm } from '@/pages/applications/components/ManualApplicationForm';
-import type { ApplicationRecord } from '@/pages/applications/data';
+import type { ApplicationRecord } from '@/pages/applications/application-model';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
