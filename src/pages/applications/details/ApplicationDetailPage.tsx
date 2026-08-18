@@ -25,7 +25,7 @@ export function ApplicationDetailPage({ application: detail, userId }: Applicati
 
   return (
     <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-      <div className="space-y-6 sm:space-y-8">
+      <div className="space-y-7 sm:space-y-9">
         <Link
           className="inline-flex items-center gap-2 font-heading text-small font-medium text-muted-foreground transition-colors motion-reduce:transition-none hover:text-foreground"
           to="/applications"
@@ -36,8 +36,8 @@ export function ApplicationDetailPage({ application: detail, userId }: Applicati
         <ApplicationDetailHeader application={application} userId={userId} />
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-8">
           <main className="min-w-0 space-y-6">
-            <JobDescriptionSection application={application} />
-            <FitAnalysisSection analysis={detail.analysis} />
+            <JobDescriptionSection application={application} showExtractedMetadata={Boolean(detail.analysis)} />
+            <FitAnalysisSection analysis={detail.analysis} applicationId={application.id} userId={userId} />
             <NotesSection applicationId={application.id} userId={userId} notes={detail.notes} />
           </main>
           <aside className="min-w-0 space-y-6">
@@ -66,15 +66,17 @@ function ApplicationDetailHeader({ application, userId }: { application: Applica
   }
 
   return (
-    <header className="space-y-5 border-b border-border/70 pb-6 sm:pb-8">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+    <header className="space-y-6 border-b border-border/70 pb-6 sm:pb-8">
+      <div className="flex flex-col gap-5">
         <div className="min-w-0 space-y-3">
           <div>
-            <h1 className="font-heading text-h1 font-semibold leading-tight tracking-tight text-balance">
+            <h1 className="max-w-full break-words font-heading text-h2 font-semibold leading-[1.08] tracking-tight text-balance sm:max-w-[34ch] sm:text-h1">
               {application.position}
             </h1>
             <p className="mt-2 font-heading text-h4 font-medium text-muted-foreground">{application.company}</p>
           </div>
+        </div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-small text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <MapPin className="size-icon-sm" aria-hidden="true" />
@@ -89,21 +91,21 @@ function ApplicationDetailHeader({ application, userId }: { application: Applica
               {application.source}
             </span>
           </div>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <EditApplicationDialog application={application} userId={userId} />
-          <ConfirmDialog
-            trigger={
-              <Button variant="destructive" className="font-heading">
-                <Trash2 data-icon="inline-start" aria-hidden="true" />
-                Delete application
-              </Button>
-            }
-            heading="Delete this application?"
-            body="This will permanently remove the application, notes, links, and analysis connected to it. This action cannot be undone."
-            actionLabel="Delete application"
-            onConfirm={deleteApplication}
-          />
+          <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <EditApplicationDialog application={application} userId={userId} />
+            <ConfirmDialog
+              trigger={
+                <Button variant="destructive" className="w-full font-heading sm:w-auto">
+                  <Trash2 data-icon="inline-start" aria-hidden="true" />
+                  Delete application
+                </Button>
+              }
+              heading="Delete this application?"
+              body="This will permanently remove the application, notes, links, and analysis connected to it. This action cannot be undone."
+              actionLabel="Delete application"
+              onConfirm={deleteApplication}
+            />
+          </div>
         </div>
       </div>
     </header>

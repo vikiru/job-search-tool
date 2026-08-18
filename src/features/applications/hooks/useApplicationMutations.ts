@@ -12,6 +12,10 @@ import {
   updateApplicationNote,
   updateApplicationStatus,
 } from '@/features/applications/server';
+import {
+  createApplicationFromJobDescription,
+  type CreatedApplicationFromJobDescription,
+} from '@/features/gemini/extract/server';
 import type { CreateApplicationInput, UpdateApplicationInput } from '@/features/applications/server';
 import { applicationKeys } from '@/features/applications/hooks/useApplications';
 import { dashboardKeys } from '@/features/dashboard/hooks/useDashboard';
@@ -41,6 +45,22 @@ export function useCreateApplication(userId: string) {
   return useMutation({
     mutationFn: (data: CreateApplicationInput) =>
       withFallback(() => createApplication({ data }), 'We could not save this application.'),
+    onSuccess: (result) => {
+      if (result.success) invalidateApplicationQueries(queryClient, userId);
+    },
+  });
+}
+
+export function useCreateApplicationFromJobDescription(userId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    Result<CreatedApplicationFromJobDescription>,
+    Error,
+    { applicationUrl: string; jobDescriptionMd: string }
+  >({
+    mutationFn: (data) =>
+      withFallback(() => createApplicationFromJobDescription({ data }), 'We could not save this application.'),
     onSuccess: (result) => {
       if (result.success) invalidateApplicationQueries(queryClient, userId);
     },
