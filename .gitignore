@@ -1,6 +1,7 @@
 .astro
 .docusaurus
-.clerk
+# clerk configuration (can include secrets)
+/.clerk/
 
 todos.md
 *.md
@@ -100,6 +101,11 @@ dist
 .vinxi
 src/routeTree.gen.ts
 drizzle/
+!drizzle/
+!drizzle/*.sql
+!drizzle/meta/
+!drizzle/meta/*.json
+drizzle/meta/0000_snapshot.json
 out
 .next
 .nuxt
