@@ -3,7 +3,10 @@ import { FilePenLine, FileText, Sparkles } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
-import { useCreateApplication } from '@/features/applications/hooks/useApplicationMutations';
+import {
+  useCreateApplication,
+  useCreateApplicationFromJobDescription,
+} from '@/features/applications/hooks/useApplicationMutations';
 import { AiApplicationForm } from '@/pages/applications/components/AiApplicationForm';
 import {
   ManualApplicationForm,
@@ -23,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui
 function PasteJdDialog({ userId }: { userId: string }) {
   const navigate = useNavigate();
   const createApplication = useCreateApplication(userId);
+  const createApplicationFromJobDescription = useCreateApplicationFromJobDescription(userId);
   const [open, setOpen] = useState(false);
 
   async function saveManualApplication(values: ManualApplicationSubmitValues) {
@@ -44,6 +48,24 @@ function PasteJdDialog({ userId }: { userId: string }) {
     }
 
     toast.success('Application added');
+    setOpen(false);
+    await navigate({ to: '/applications/$id', params: { id: result.data.id } });
+  }
+
+  async function analyzeJobDescription(values: { applicationUrl: string; jobDescriptionMd: string }) {
+    const result = await createApplicationFromJobDescription.mutateAsync(values);
+
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+
+    if (result.data.extractionFailed) {
+      toast.error('AI extraction failed. The application was saved for you to complete manually.');
+    } else {
+      toast.success('Application added');
+    }
+
     setOpen(false);
     await navigate({ to: '/applications/$id', params: { id: result.data.id } });
   }
@@ -80,7 +102,10 @@ function PasteJdDialog({ userId }: { userId: string }) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="ai">
-            <AiApplicationForm />
+            <AiApplicationForm
+              isSubmitting={createApplicationFromJobDescription.isPending}
+              onSubmit={analyzeJobDescription}
+            />
           </TabsContent>
           <TabsContent value="manual">
             <ManualApplicationForm
