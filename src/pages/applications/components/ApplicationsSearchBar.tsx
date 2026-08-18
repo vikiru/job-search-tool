@@ -18,7 +18,7 @@ export function ApplicationsSearchBar({ onChange, value }: ApplicationsSearchBar
         className="h-10 pl-9 text-base sm:text-small"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Search by company, role, or technology"
+        placeholder="Search by company or role"
         aria-label="Search applications"
       />
     </div>
