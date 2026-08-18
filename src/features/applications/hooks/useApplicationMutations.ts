@@ -19,11 +19,21 @@ import {
 import type { CreateApplicationInput, UpdateApplicationInput } from '@/features/applications/server';
 import { applicationKeys } from '@/features/applications/hooks/useApplications';
 import { dashboardKeys } from '@/features/dashboard/hooks/useDashboard';
-import type { ApplicationDetail } from '@/features/applications/types';
+import type { ApplicationDetail, ApplicationListItem } from '@/features/applications/types';
 import type { ApplicationStatus } from '@/server/db/zod';
-import { error, type Result } from '@/shared/lib/result';
+import { error, success, type Result } from '@/shared/lib/result';
 
 type ApplicationMutationResult = Result<ApplicationDetail>;
+
+interface StatusMutationInput {
+  id: string;
+  status: ApplicationStatus;
+}
+
+interface StatusMutationContext {
+  detailSnapshot: Result<ApplicationDetail> | undefined;
+  listSnapshot: Result<ApplicationListItem[]> | undefined;
+}
 
 async function withFallback<T>(operation: () => Promise<Result<T>>, message: string): Promise<Result<T>> {
   try {
@@ -82,22 +92,63 @@ export function useUpdateApplication(userId: string, id: string) {
   });
 }
 
-export function useUpdateApplicationStatus(userId: string, id: string) {
+export function useUpdateApplicationStatusForUser(userId: string) {
   const queryClient = useQueryClient();
 
-  return useMutation<ApplicationMutationResult, Error, ApplicationStatus>({
-    mutationFn: (status) =>
+  return useMutation<ApplicationMutationResult, Error, StatusMutationInput, StatusMutationContext>({
+    mutationFn: ({ id, status }) =>
       withFallback(
         () => updateApplicationStatus({ data: { id, status } }),
         'We could not change the application status.',
       ),
-    onSuccess: (result) => {
-      if (result.success) {
-        queryClient.setQueryData(applicationKeys.detail(userId, id), result);
-        invalidateApplicationQueries(queryClient, userId, id);
+    onMutate: async ({ id, status }) => {
+      await queryClient.cancelQueries({ queryKey: applicationKeys.all(userId) });
+      await queryClient.cancelQueries({ queryKey: applicationKeys.detail(userId, id) });
+
+      const listSnapshot = queryClient.getQueryData<Result<ApplicationListItem[]>>(applicationKeys.all(userId));
+      const detailSnapshot = queryClient.getQueryData<Result<ApplicationDetail>>(applicationKeys.detail(userId, id));
+
+      queryClient.setQueryData<Result<ApplicationListItem[]>>(applicationKeys.all(userId), (current) => {
+        if (!current?.success) return current;
+        return success(
+          current.data.map((application) => (application.id === id ? { ...application, status } : application)),
+        );
+      });
+
+      queryClient.setQueryData<Result<ApplicationDetail>>(applicationKeys.detail(userId, id), (current) => {
+        if (!current?.success) return current;
+        return success({ ...current.data, status });
+      });
+
+      return { detailSnapshot, listSnapshot };
+    },
+    onError: (_error, { id }, context) => {
+      if (!context) return;
+      if (context.listSnapshot) queryClient.setQueryData(applicationKeys.all(userId), context.listSnapshot);
+      if (context.detailSnapshot) queryClient.setQueryData(applicationKeys.detail(userId, id), context.detailSnapshot);
+    },
+    onSuccess: (result, { id }, context) => {
+      if (!result.success) {
+        if (!context) return;
+        if (context.listSnapshot) queryClient.setQueryData(applicationKeys.all(userId), context.listSnapshot);
+        if (context.detailSnapshot)
+          queryClient.setQueryData(applicationKeys.detail(userId, id), context.detailSnapshot);
+        return;
       }
+
+      queryClient.setQueryData(applicationKeys.detail(userId, id), result);
+      invalidateApplicationQueries(queryClient, userId, id);
     },
   });
+}
+
+export function useUpdateApplicationStatus(userId: string, id: string) {
+  const mutation = useUpdateApplicationStatusForUser(userId);
+
+  return {
+    ...mutation,
+    mutateAsync: (status: ApplicationStatus) => mutation.mutateAsync({ id, status }),
+  };
 }
 
 export function useDeleteApplication(userId: string, id: string) {
