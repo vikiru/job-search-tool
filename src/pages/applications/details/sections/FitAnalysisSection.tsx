@@ -1,17 +1,23 @@
-import { Sparkles } from 'lucide-react';
+import { CheckCircle2, CircleAlert, Sparkles } from 'lucide-react';
 
+import { AnalyzeMatchDialog } from '@/pages/applications/details/components/AnalyzeMatchDialog';
 import { AnalysisEmptyState } from '@/pages/applications/components/AnalysisEmptyState';
-import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Progress } from '@/shared/components/ui/progress';
 import type { SelectApplicationAnalysis } from '@/server/db/zod';
 
-export function FitAnalysisSection({ analysis }: { analysis: SelectApplicationAnalysis | null }) {
-  const hasAnalysis = Boolean(analysis);
+interface FitAnalysisSectionProps {
+  analysis: SelectApplicationAnalysis | null;
+  applicationId: string;
+  userId: string;
+}
+
+export function FitAnalysisSection({ analysis, applicationId, userId }: FitAnalysisSectionProps) {
+  const hasMatchAnalysis = analysis?.matchScore !== null && analysis?.matchScore !== undefined;
   const score = analysis?.matchScore ?? 0;
   return (
-    <Card>
-      <CardHeader className="flex-row items-start justify-between gap-4">
+    <Card className="min-w-0">
+      <CardHeader className="flex-col items-start justify-between gap-5 sm:flex-row">
         <div className="space-y-1">
           <CardTitle className="flex items-center gap-2 font-heading text-h4 font-semibold">
             <Sparkles className="size-icon-base text-primary" aria-hidden="true" />
@@ -21,32 +27,23 @@ export function FitAnalysisSection({ analysis }: { analysis: SelectApplicationAn
             A quick comparison between this role and your resume.
           </p>
         </div>
-        {!hasAnalysis && (
-          <Button className="shrink-0 font-heading" size="sm">
-            <Sparkles data-icon="inline-start" aria-hidden="true" />
-            Analyze match
-          </Button>
+        {!hasMatchAnalysis && <AnalyzeMatchDialog applicationId={applicationId} userId={userId} />}
+        {hasMatchAnalysis && (
+          <div className="shrink-0 text-right">
+            <p className="font-mono text-caption uppercase tracking-[0.08em] text-muted-foreground">Match score</p>
+            <p className="font-mono text-h3 font-semibold leading-none tabular-nums text-primary">{score}%</p>
+          </div>
         )}
-        {hasAnalysis && <span className="font-mono text-h3 font-semibold tabular-nums text-primary">{score}%</span>}
       </CardHeader>
-      <CardContent className="space-y-5">
-        {hasAnalysis ? (
+      <CardContent className="min-w-0 space-y-5 sm:p-7">
+        {hasMatchAnalysis && analysis ? (
           <>
             <Progress
               value={score}
               aria-label={`Resume fit score: ${score} percent`}
               className="gap-0 motion-reduce:transition-none [&_[data-slot=progress-indicator]]:bg-primary [&_[data-slot=progress-track]]:h-2"
             />
-            <div className="grid gap-4 sm:grid-cols-2">
-              <AnalysisPoint
-                title="Strong matches"
-                description="Product design, prototyping, and design systems experience align well with the role."
-              />
-              <AnalysisPoint
-                title="Worth preparing"
-                description="Bring examples of cross-functional delivery and research-led decisions."
-              />
-            </div>
+            <AnalysisSummary analysis={analysis} />
           </>
         ) : (
           <AnalysisEmptyState />
@@ -56,11 +53,94 @@ export function FitAnalysisSection({ analysis }: { analysis: SelectApplicationAn
   );
 }
 
-function AnalysisPoint({ title, description }: { title: string; description: string }) {
+function AnalysisSummary({ analysis }: { analysis: SelectApplicationAnalysis }) {
   return (
-    <div className="rounded-lg bg-muted/60 p-4">
-      <p className="font-heading text-small font-semibold">{title}</p>
-      <p className="mt-1 text-small leading-relaxed text-muted-foreground">{description}</p>
+    <div className="min-w-0 space-y-8">
+      {analysis.tldr && (
+        <section className="space-y-3 rounded-lg bg-muted/40 p-4 sm:p-5">
+          <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">TL;DR</h3>
+          <p className="max-w-[72ch] break-words text-[0.9375rem] leading-7 text-foreground/80">{analysis.tldr}</p>
+        </section>
+      )}
+      <div className="space-y-6">
+        <AnalysisTags title="Strong matches" values={analysis.matchedRequirements ?? []} />
+        <AnalysisTags title="Missing requirements" values={analysis.missingRequirements ?? []} tone="warning" />
+      </div>
+      <AnalysisBlock title="Strengths" items={analysis.strengths ?? []} />
+      <AnalysisBlock title="Gaps to prepare for" items={analysis.gaps ?? []} tone="warning" />
+      <AnalysisBlock title="Recommendations" items={analysis.recommendations ?? []} />
+      {analysis.observations && <AnalysisBlock title="Recruiter observations" items={[analysis.observations]} />}
     </div>
+  );
+}
+
+function AnalysisTags({
+  title,
+  values,
+  tone = 'default',
+}: {
+  title: string;
+  values: string[];
+  tone?: 'default' | 'warning';
+}) {
+  return (
+    <section className="min-w-0 space-y-4 border-t border-border/60 pt-6 first:border-t-0 first:pt-0">
+      <div className="flex items-center gap-2.5">
+        {tone === 'warning' ? (
+          <CircleAlert className="size-icon-sm text-destructive" aria-hidden="true" />
+        ) : (
+          <CheckCircle2 className="size-icon-sm text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+        )}
+        <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">{title}</h3>
+      </div>
+      {values.length > 0 ? (
+        <ul className="max-w-[72ch] space-y-3.5 pl-1 text-[0.9375rem] leading-7 text-foreground/80">
+          {values.map((value, index) => (
+            <li key={`${value}-${index}`} className="flex min-w-0 gap-3">
+              <span
+                className={`mt-[0.72em] size-1.5 shrink-0 rounded-full ${tone === 'warning' ? 'bg-destructive/70' : 'bg-emerald-600/70 dark:bg-emerald-400/70'}`}
+                aria-hidden="true"
+              />
+              <span className="min-w-0 break-words">{value}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-small leading-relaxed text-muted-foreground">None identified.</p>
+      )}
+    </section>
+  );
+}
+
+function AnalysisBlock({
+  title,
+  items,
+  tone = 'default',
+}: {
+  title: string;
+  items: string[];
+  tone?: 'default' | 'warning';
+}) {
+  return (
+    <section className="min-w-0 space-y-3 border-t border-border/60 pt-6 first:border-t-0 first:pt-0">
+      <h3
+        className={`font-heading text-h4 font-semibold leading-tight tracking-tight ${tone === 'warning' ? 'text-destructive' : ''}`}
+      >
+        {title}
+      </h3>
+      {items.length > 0 ? (
+        <ul
+          className={`max-w-[72ch] list-disc space-y-3 pl-6 text-[0.9375rem] leading-7 ${tone === 'warning' ? 'marker:text-destructive' : 'marker:text-primary'} text-foreground/80`}
+        >
+          {items.map((item, index) => (
+            <li key={`${item}-${index}`} className="break-words pl-1">
+              {item}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-small leading-relaxed text-muted-foreground">None identified.</p>
+      )}
+    </section>
   );
 }
