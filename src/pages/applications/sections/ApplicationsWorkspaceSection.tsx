@@ -75,6 +75,7 @@ export function ApplicationsWorkspaceSection({
             sortKey={sortKey}
             sortDirection={sortDirection}
             onSort={onSort}
+            userId={userId}
           />
           <ApplicationsPagination
             pageIndex={pageIndex}
@@ -85,7 +86,7 @@ export function ApplicationsWorkspaceSection({
           />
         </>
       ) : (
-        <ApplicationsKanban applications={applications} />
+        <ApplicationsKanban applications={applications} userId={userId} />
       )}
     </Card>
   );

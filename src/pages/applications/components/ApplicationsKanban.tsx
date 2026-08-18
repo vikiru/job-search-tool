@@ -3,9 +3,10 @@ import { KanbanColumn } from '@/pages/applications/components/KanbanColumn';
 
 interface ApplicationsKanbanProps {
   applications: ApplicationRecord[];
+  userId: string;
 }
 
-function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
+function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
   return (
     <div className="space-y-4 p-3 sm:space-y-5 sm:p-5">
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2 border-b border-border/60 pb-4">
@@ -22,7 +23,7 @@ function ApplicationsKanban({ applications }: ApplicationsKanbanProps) {
       <div className="overflow-x-auto overscroll-x-contain pb-1">
         <div className="grid min-w-[760px] grid-cols-4 gap-3 pr-1 sm:min-w-[920px]">
           {kanbanColumns.map((column) => (
-            <KanbanColumn key={column.id} applications={applications} column={column} />
+            <KanbanColumn key={column.id} applications={applications} column={column} userId={userId} />
           ))}
         </div>
       </div>
