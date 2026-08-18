@@ -17,6 +17,17 @@ import { clerkAppearance } from '@/shared/config/clerkAppearance';
 import { Toaster } from '@/shared/components/ui/sonner';
 import appCss from '@/styles/app.css?url';
 
+const themeInitScript = `
+  (() => {
+    const storedTheme = window.localStorage.getItem('jobapp-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = storedTheme === 'dark' || (storedTheme !== 'light' && prefersDark);
+    const root = document.documentElement;
+    root.classList.toggle('dark', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
+  })();
+`;
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
@@ -55,6 +66,7 @@ function RootComponent() {
       <html lang="en" suppressHydrationWarning>
         <head>
           <HeadContent />
+          <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         </head>
         <body className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-primary/20">
           <ThemeProvider>

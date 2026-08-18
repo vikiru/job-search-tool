@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Eye, EyeOff, LockKeyhole } from 'lucide-react';
 
-import { EditResumeContactDialog } from '@/pages/resumes/components/EditResumeContactDialog';
-import { ResumePublicLinks, type PublicLink } from '@/pages/resumes/components/ResumePublicLinks';
+import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+import { EditContactDialog } from '@/pages/resumes/components/EditContactDialog';
+import { ResumePublicLinks } from '@/pages/resumes/components/ResumePublicLinks';
 import { Button } from '@/shared/components/ui/button';
 
 interface ResumeContactDetailsProps {
-  links: PublicLink[];
+  contact: UserContactData;
+  isSaving: boolean;
+  onSaveContact: (contact: UserContactUpdate) => Promise<boolean>;
 }
 
-export function ResumeContactDetails({ links }: ResumeContactDetailsProps) {
+export function ResumeContactDetails({ contact, isSaving, onSaveContact }: ResumeContactDetailsProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [publicLinks, setPublicLinks] = useState(links);
-
-  useEffect(() => setPublicLinks(links), [links]);
 
   return (
     <section
@@ -40,11 +40,12 @@ export function ResumeContactDetails({ links }: ResumeContactDetailsProps) {
             )}
             {showDetails ? 'Hide details' : 'Show details'}
           </Button>
-          <EditResumeContactDialog
-            links={publicLinks}
+          <EditContactDialog
+            contact={contact}
+            isSaving={isSaving}
             open={editOpen}
             onOpenChange={setEditOpen}
-            onSaveLinks={setPublicLinks}
+            onSaveContact={onSaveContact}
           />
         </div>
       </div>
@@ -57,16 +58,29 @@ export function ResumeContactDetails({ links }: ResumeContactDetailsProps) {
         <div className="rounded-lg border border-border/70 bg-background/70 px-3 py-3">
           <p className="font-heading text-caption font-medium text-muted-foreground">Email</p>
           <p className="mt-1 truncate text-small font-medium">
-            {showDetails ? 'john.doe@example.com' : 'j••••@example.com'}
+            {showDetails ? (contact.email ?? 'Not added') : maskEmail(contact.email)}
           </p>
         </div>
         <div className="rounded-lg border border-border/70 bg-background/70 px-3 py-3">
           <p className="font-heading text-caption font-medium text-muted-foreground">Phone</p>
-          <p className="mt-1 text-small font-medium">{showDetails ? '(416) 555-0142' : '(•••) •••-0142'}</p>
+          <p className="mt-1 text-small font-medium">
+            {showDetails ? (contact.phoneNumber ?? 'Not added') : maskPhone(contact.phoneNumber)}
+          </p>
         </div>
       </div>
 
-      <ResumePublicLinks links={publicLinks} />
+      <ResumePublicLinks links={contact.links} />
     </section>
   );
+}
+
+function maskEmail(email: string | null): string {
+  if (!email) return 'Not added';
+  const [localPart, domain] = email.split('@');
+  return `${localPart.slice(0, 1)}••••@${domain}`;
+}
+
+function maskPhone(phoneNumber: string | null): string {
+  if (!phoneNumber) return 'Not added';
+  return `•••• ${phoneNumber.slice(-4)}`;
 }

@@ -2,6 +2,8 @@ import { ShieldCheck } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
+import { useSaveUserContact, useUserContact } from '@/features/profile/hooks/useUserContact';
+import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
 import { useRemoveResume, useUploadResume, type ResumeData } from '@/features/resumes/hooks/useResumes';
 import { parseResumeText } from '@/features/resumes/parser/parseResumeText';
 import { ParsedResumeContent } from '@/pages/resumes/components/ParsedResumeContent';
@@ -15,6 +17,8 @@ interface ResumeContentSectionProps {
 
 export function ResumeContentSection({ resume, userId }: ResumeContentSectionProps) {
   const parsedResume = useMemo(() => parseResumeText(resume.extractedText), [resume.extractedText]);
+  const contactQuery = useUserContact(userId);
+  const saveContact = useSaveUserContact(userId);
   const upload = useUploadResume(userId);
   const remove = useRemoveResume(userId);
   const [replaceError, setReplaceError] = useState<string | null>(null);
@@ -44,6 +48,21 @@ export function ResumeContentSection({ resume, userId }: ResumeContentSectionPro
     toast.success('Resume deleted');
   }
 
+  async function updateContact(contact: UserContactUpdate): Promise<boolean> {
+    const result = await saveContact.mutateAsync(contact);
+    if (!result.success) {
+      toast.error(result.error);
+      return false;
+    }
+
+    toast.success('Contact information updated');
+    return true;
+  }
+
+  const contact: UserContactData = contactQuery.data?.success
+    ? contactQuery.data.data
+    : { email: null, links: parsedResume.links, phoneNumber: null };
+
   return (
     <div className="space-y-6">
       <ResumeDocument
@@ -66,7 +85,7 @@ export function ResumeContentSection({ resume, userId }: ResumeContentSectionPro
           {deleteError}
         </p>
       ) : null}
-      <ResumeContactDetails links={parsedResume.links} />
+      <ResumeContactDetails contact={contact} isSaving={saveContact.isPending} onSaveContact={updateContact} />
       <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/5 px-4 py-4 sm:px-5">
         <ShieldCheck className="mt-0.5 size-icon-base shrink-0 text-success" aria-hidden="true" />
         <div className="min-w-0 space-y-1">
