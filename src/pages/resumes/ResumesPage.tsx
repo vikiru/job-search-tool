@@ -22,7 +22,7 @@ export function ResumesPage({ userId }: ResumesPageProps) {
         <header className="flex flex-col gap-5 border-b border-border/70 pb-6 sm:pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <h1 className="font-heading text-h1 font-semibold leading-tight tracking-tight">Your resume</h1>
-            <p className="mt-3 max-w-xl text-p leading-relaxed text-pretty text-muted-foreground">
+            <p className="mt-3 max-w-3xl text-p leading-relaxed text-pretty text-muted-foreground">
               Keep the version you trust close by, then use it to make every fit comparison more useful.
             </p>
           </div>
