@@ -7,7 +7,7 @@ pre-commit:
   parallel: false
   jobs:
     - name: Format staged files with oxfmt
-      glob: '*.{js,mjs,cjs,ts,jsx,tsx,json,css,md}'
+      glob: '*.{js,mjs,cjs,ts,jsx,tsx,json,css}'
       run: pnpm format {staged_files}
       stage_fixed: true
 
