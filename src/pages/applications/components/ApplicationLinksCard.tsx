@@ -74,18 +74,18 @@ export function ApplicationLinksCard({
   return (
     <>
       <Card>
-        <CardHeader className="flex-row items-center justify-between gap-4">
-          <div>
+        <CardHeader className="gap-3">
+          <div className="flex items-center justify-between gap-4">
             <CardTitle className="font-heading text-h4 font-semibold">Links</CardTitle>
-            <p className="mt-1 text-small leading-relaxed text-muted-foreground">
-              Keep the posting, portfolio, and other useful references close by.
-            </p>
+            <Button variant="outline" size="sm" className="shrink-0 font-heading" onClick={openAddDialog}>
+              <Plus data-icon="inline-start" aria-hidden="true" />
+              <span className="hidden sm:inline">Add link</span>
+              <span className="sm:hidden">Add</span>
+            </Button>
           </div>
-          <Button variant="outline" size="sm" className="shrink-0 font-heading" onClick={openAddDialog}>
-            <Plus data-icon="inline-start" aria-hidden="true" />
-            <span className="hidden sm:inline">Add link</span>
-            <span className="sm:hidden">Add</span>
-          </Button>
+          <p className="max-w-full text-small leading-6 text-pretty text-muted-foreground">
+            Keep the posting, portfolio, and other useful references close by.
+          </p>
         </CardHeader>
         <CardContent className="space-y-3">
           {links.map((link) => (

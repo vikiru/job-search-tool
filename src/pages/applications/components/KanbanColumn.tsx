@@ -45,7 +45,7 @@ function KanbanColumn({ applications, column, userId }: KanbanColumnProps) {
 
   return (
     <section
-      className={`min-w-0 rounded-xl border border-border/60 border-t-2 bg-muted/45 p-2 ${styles.accent}`}
+      className={`min-w-0 rounded-xl border border-border/60 border-t bg-muted/45 p-2 ${styles.accent}`}
       aria-labelledby={`kanban-${column.id}`}
     >
       <header className="flex min-h-16 items-start justify-between gap-2 px-2 py-2">

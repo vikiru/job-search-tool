@@ -45,9 +45,21 @@ export interface ApplicationRecord {
   applicationDate: string;
   source: string;
   technologies: string[];
+  skills?: string[];
+  benefits?: string[];
+  applicationInstructions?: string[];
+  qualifications?: string[];
+  keywords?: string[];
   applicationUrl?: string | null;
   jobDescriptionMd?: string;
   workArrangement?: string | null;
+  employmentType?: string | null;
+  salaryMin?: string | null;
+  salaryMax?: string | null;
+  salaryCurrency?: string | null;
+  salaryPeriod?: string | null;
+  hoursPerWeek?: string | null;
+  requisitionNumber?: string | null;
 }
 
 export function toApplicationRecord(application: {
@@ -60,9 +72,23 @@ export function toApplicationRecord(application: {
   applicationDate: string;
   source: string | null;
   applicationUrl?: string | null;
+  applicationInstructions?: string[] | null;
   jobDescriptionMd?: string;
   workArrangement?: string | null;
-  analysis?: { technologies: string[] | null } | null;
+  employmentType?: string | null;
+  salaryMin?: string | null;
+  salaryMax?: string | null;
+  salaryCurrency?: string | null;
+  salaryPeriod?: string | null;
+  hoursPerWeek?: string | null;
+  requisitionNumber?: string | null;
+  analysis?: {
+    technologies: string[] | null;
+    skills: string[] | null;
+    benefits: string[] | null;
+    qualifications: string[] | null;
+    keywords: string[] | null;
+  } | null;
 }): ApplicationRecord {
   return {
     applicationDate: application.applicationDate,
@@ -71,8 +97,20 @@ export function toApplicationRecord(application: {
     id: application.id,
     interestRating: application.interestRating as InterestRating | null,
     jobDescriptionMd: application.jobDescriptionMd,
+    applicationInstructions: application.applicationInstructions ?? [],
+    benefits: application.analysis?.benefits ?? [],
+    employmentType: application.employmentType,
+    hoursPerWeek: application.hoursPerWeek,
+    keywords: application.analysis?.keywords ?? [],
     location: application.location ?? 'Not specified',
+    qualifications: application.analysis?.qualifications ?? [],
     position: application.position,
+    requisitionNumber: application.requisitionNumber,
+    salaryCurrency: application.salaryCurrency,
+    salaryMax: application.salaryMax,
+    salaryMin: application.salaryMin,
+    salaryPeriod: application.salaryPeriod,
+    skills: application.analysis?.skills ?? [],
     source: application.source ?? 'Not specified',
     status: application.status,
     technologies: application.analysis?.technologies ?? [],
