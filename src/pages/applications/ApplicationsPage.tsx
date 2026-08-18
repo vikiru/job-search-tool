@@ -87,17 +87,10 @@ export function ApplicationsPage({ userId }: { userId: string }) {
           </p>
         </header>
 
-        {applicationsResult && !applicationsResult.success ? (
-          <p
-            className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-small text-destructive"
-            role="alert"
-          >
-            {applicationsResult.error}
-          </p>
-        ) : null}
         <ApplicationsWorkspaceSection
-          applications={filteredApplications}
+          errorMessage={applicationsResult && !applicationsResult.success ? applicationsResult.error : null}
           filteredApplications={filteredApplications}
+          isLoading={applicationsQuery.isPending}
           interestFilter={interestFilter}
           isFiltered={isFiltered}
           onClearFilters={clearFilters}
