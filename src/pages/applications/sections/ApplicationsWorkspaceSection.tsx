@@ -26,6 +26,7 @@ interface ApplicationsWorkspaceSectionProps {
   sortKey: SortKey;
   statusFilter: ApplicationStatus | 'ALL';
   view: ApplicationView;
+  userId: string;
 }
 
 export function ApplicationsWorkspaceSection({
@@ -48,6 +49,7 @@ export function ApplicationsWorkspaceSection({
   sortKey,
   statusFilter,
   view,
+  userId,
 }: ApplicationsWorkspaceSectionProps) {
   const paginatedApplications = filteredApplications.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
@@ -62,9 +64,10 @@ export function ApplicationsWorkspaceSection({
         onInterestFilterChange={onInterestFilterChange}
         view={view}
         onViewChange={onViewChange}
+        userId={userId}
       />
       {filteredApplications.length === 0 ? (
-        <ApplicationsEmptyState isFiltered={isFiltered} onClear={onClearFilters} />
+        <ApplicationsEmptyState isFiltered={isFiltered} onClear={onClearFilters} userId={userId} />
       ) : view === 'table' ? (
         <>
           <ApplicationsTable

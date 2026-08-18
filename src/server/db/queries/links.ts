@@ -66,3 +66,21 @@ export async function deleteLink(id: string, userId: string): Promise<boolean> {
     .returning({ id: applicationLinks.id });
   return Boolean(deleted);
 }
+
+export async function updateLink(
+  id: string,
+  data: { url: string; label: string | null },
+  userId: string,
+): Promise<SelectApplicationLink | undefined> {
+  const [existing] = await db
+    .select({ id: applicationLinks.id })
+    .from(applicationLinks)
+    .innerJoin(applications, eq(applicationLinks.applicationId, applications.id))
+    .where(and(eq(applicationLinks.id, id), eq(applications.userId, userId)));
+
+  if (!existing) return undefined;
+
+  const [updated] = await db.update(applicationLinks).set(data).where(eq(applicationLinks.id, id)).returning();
+
+  return updated;
+}

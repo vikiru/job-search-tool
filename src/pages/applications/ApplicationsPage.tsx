@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useApplications } from '@/features/applications/hooks/useApplications';
 import type { SortDirection, SortKey } from '@/pages/applications/components/ApplicationsTable';
 import {
-  applications as sampleApplications,
+  toApplicationRecord,
   statusSortOrder,
   type ApplicationStatus,
   type ApplicationView,
@@ -10,7 +11,10 @@ import {
 } from '@/pages/applications/data';
 import { ApplicationsWorkspaceSection } from '@/pages/applications/sections/ApplicationsWorkspaceSection';
 
-export function ApplicationsPage() {
+export function ApplicationsPage({ userId }: { userId: string }) {
+  const applicationsQuery = useApplications(userId);
+  const applicationsResult = applicationsQuery.data;
+  const persistedApplications = applicationsResult?.success ? applicationsResult.data.map(toApplicationRecord) : [];
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | 'ALL'>('ALL');
   const [interestFilter, setInterestFilter] = useState<InterestRating | 'ALL'>('ALL');
@@ -22,7 +26,7 @@ export function ApplicationsPage() {
 
   const filteredApplications = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
-    const filtered = sampleApplications.filter((application) => {
+    const filtered = persistedApplications.filter((application) => {
       const matchesStatus = statusFilter === 'ALL' || application.status === statusFilter;
       const matchesInterest = interestFilter === 'ALL' || (application.interestRating ?? 0) >= interestFilter;
       const searchableText = [
@@ -47,7 +51,7 @@ export function ApplicationsPage() {
       const comparison = String(firstValue).localeCompare(String(secondValue), undefined, { numeric: true });
       return sortDirection === 'asc' ? comparison : -comparison;
     });
-  }, [interestFilter, search, sortDirection, sortKey, statusFilter]);
+  }, [interestFilter, persistedApplications, search, sortDirection, sortKey, statusFilter]);
 
   useEffect(() => {
     setPageIndex(0);
@@ -86,6 +90,14 @@ export function ApplicationsPage() {
           </p>
         </header>
 
+        {applicationsResult && !applicationsResult.success ? (
+          <p
+            className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-small text-destructive"
+            role="alert"
+          >
+            {applicationsResult.error}
+          </p>
+        ) : null}
         <ApplicationsWorkspaceSection
           applications={filteredApplications}
           filteredApplications={filteredApplications}
@@ -106,6 +118,7 @@ export function ApplicationsPage() {
           sortKey={sortKey}
           statusFilter={statusFilter}
           view={view}
+          userId={userId}
         />
       </div>
     </div>

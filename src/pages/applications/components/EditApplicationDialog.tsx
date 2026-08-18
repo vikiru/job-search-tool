@@ -1,7 +1,10 @@
 import { Pencil } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
+import { useUpdateApplication } from '@/features/applications/hooks/useApplicationMutations';
 import { ManualApplicationForm } from '@/pages/applications/components/ManualApplicationForm';
-import { getApplicationJobDescription, type ApplicationRecord } from '@/pages/applications/data';
+import type { ApplicationRecord } from '@/pages/applications/data';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -12,9 +15,37 @@ import {
   DialogTrigger,
 } from '@/shared/components/ui/dialog';
 
-function EditApplicationDialog({ application }: { application: ApplicationRecord }) {
+function EditApplicationDialog({ application, userId }: { application: ApplicationRecord; userId: string }) {
+  const [open, setOpen] = useState(false);
+  const updateMutation = useUpdateApplication(userId, application.id);
+
+  async function saveApplication(
+    values: Parameters<NonNullable<React.ComponentProps<typeof ManualApplicationForm>['onSubmit']>>[0],
+  ) {
+    const result = await updateMutation.mutateAsync({
+      id: application.id,
+      data: {
+        applicationUrl: values.applicationUrl,
+        company: values.company,
+        interestRating: values.interestRating,
+        jobDescriptionMd: values.jobDescriptionMd,
+        location: values.location,
+        position: values.position,
+        source: values.source,
+        status: values.status,
+        workArrangement: values.workArrangement as 'REMOTE' | 'HYBRID' | 'ONSITE' | undefined,
+      },
+    });
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+    toast.success('Application updated.');
+    setOpen(false);
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button variant="outline" className="font-heading">
@@ -41,8 +72,12 @@ function EditApplicationDialog({ application }: { application: ApplicationRecord
             source: application.source,
             status: application.status,
             interestRating: application.interestRating,
-            jobDescription: getApplicationJobDescription(application),
+            applicationUrl: application.applicationUrl ?? '',
+            jobDescription: application.jobDescriptionMd ?? '',
+            workArrangement: application.workArrangement ?? '',
           }}
+          isSubmitting={updateMutation.isPending}
+          onSubmit={saveApplication}
           submitLabel="Save changes"
         />
       </DialogContent>
