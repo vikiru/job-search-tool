@@ -1,10 +1,9 @@
 import { z } from 'zod';
 
 const serverEnvSchema = z.object({
-  DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
+  DATABASE_URL: z.string().trim().min(1, 'DATABASE_URL is required'),
   CLERK_SECRET_KEY: z.string().min(1, 'CLERK_SECRET_KEY is required'),
-  GEMINI_API_KEY: z.string().min(1, 'GEMINI_API_KEY is required'),
-  CLERK_WEBHOOK_SIGNING_SECRET: z.string().optional(),
+  GEMINI_API_KEY: z.string().trim().min(1, 'GEMINI_API_KEY is required'),
 });
 
 const clientEnvSchema = z.object({
