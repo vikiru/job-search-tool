@@ -1,15 +1,9 @@
-import { ChevronDown, Download, ListFilter, Star } from 'lucide-react';
+import { ListFilter, Star } from 'lucide-react';
 
+import { ExportDropdown } from '@/features/applications/export/ExportDropdown';
 import { ApplicationsSearchBar } from '@/pages/applications/components/ApplicationsSearchBar';
 import { PasteJdDialog } from '@/pages/applications/components/PasteJdDialog';
 import type { ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/data';
-import { Button } from '@/shared/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
@@ -95,26 +89,7 @@ function ApplicationsToolbar({
           </TabsList>
         </Tabs>
         <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={<Button className="w-full font-heading sm:w-auto" variant="outline" size="lg" />}
-              aria-label="Export applications"
-            >
-              <Download data-icon="inline-start" aria-hidden="true" />
-              Export
-              <ChevronDown data-icon="inline-end" aria-hidden="true" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="min-w-52 p-2" align="end">
-              <DropdownMenuItem className="gap-2.5 py-2.5 text-small">
-                <Download className="size-icon-sm" aria-hidden="true" />
-                Export as CSV
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2.5 py-2.5 text-small">
-                <Download className="size-icon-sm" aria-hidden="true" />
-                Export as JSON
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ExportDropdown />
           <PasteJdDialog userId={userId} />
         </div>
       </div>
