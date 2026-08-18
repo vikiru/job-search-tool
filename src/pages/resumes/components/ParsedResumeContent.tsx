@@ -13,7 +13,7 @@ export function ParsedResumeContent({ parsedResume }: ParsedResumeContentProps) 
     <div className="space-y-8">
       <header className="space-y-2">
         {header.name ? (
-          <h2 className="font-heading text-h2 font-semibold leading-tight tracking-tight text-foreground">
+          <h2 className="font-heading text-h2 leading-tight font-semibold tracking-tight text-foreground">
             {header.name}
           </h2>
         ) : null}
@@ -64,7 +64,7 @@ function ParsedResumeSection({ section }: { section: ParsedResumeSection }) {
           ))}
         </div>
       ) : (
-        <p className="max-w-prose whitespace-pre-wrap text-small leading-relaxed text-muted-foreground">
+        <p className="max-w-prose text-small leading-relaxed whitespace-pre-wrap text-muted-foreground">
           {section.lines.join('\n')}
         </p>
       )}
@@ -78,7 +78,7 @@ function ParsedResumeEntry({ entry }: { entry: ResumeEntry }) {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div className="min-w-0">
           {entry.heading ? (
-            <h4 className="font-heading text-p font-semibold leading-snug text-foreground">{entry.heading}</h4>
+            <h4 className="font-heading text-p leading-snug font-semibold text-foreground">{entry.heading}</h4>
           ) : null}
           {entry.subheading ? (
             <p className="font-heading text-small font-medium text-muted-foreground">{entry.subheading}</p>
@@ -101,7 +101,7 @@ function ParsedResumeEntry({ entry }: { entry: ResumeEntry }) {
         </ul>
       ) : null}
       {entry.lines.length > 0 ? (
-        <p className="max-w-prose whitespace-pre-wrap text-small leading-relaxed text-muted-foreground">
+        <p className="max-w-prose text-small leading-relaxed whitespace-pre-wrap text-muted-foreground">
           {entry.lines.join('\n')}
         </p>
       ) : null}

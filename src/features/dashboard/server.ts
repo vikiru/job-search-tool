@@ -1,17 +1,18 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 
+import type { RecentApplicationActivity } from '@/features/applications/types';
+import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
+
+import { DASHBOARD_RECENT_ACTIVITY_LIMIT, findRecentApplicationActivity } from '@/server/db/queries/activity';
 import {
   findDashboardStats,
   findDashboardStatusCounts,
   findDashboardWeeklyActivity,
 } from '@/server/db/queries/dashboard';
-import { DASHBOARD_RECENT_ACTIVITY_LIMIT, findRecentApplicationActivity } from '@/server/db/queries/activity';
-import { error, success, type Result } from '@/shared/lib/result';
-import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
-import type { RecentApplicationActivity } from '@/features/applications/types';
 import { logServerError } from '@/server/lib/log-error';
+import { error, success, type Result } from '@/shared/lib/result';
 
 const weekSchema = z.object({ weekStart: z.string().date(), weekEnd: z.string().date() });
 

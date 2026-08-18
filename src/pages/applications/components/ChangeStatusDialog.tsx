@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import type { ApplicationRecord } from '@/pages/applications/application-model';
 import type { ApplicationStatus } from '@/server/db/zod';
+
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -45,7 +46,7 @@ function ChangeStatusDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md gap-7 p-6 sm:max-w-md sm:p-7">
         <DialogHeader className="gap-3 pr-8">
-          <DialogTitle className="font-heading text-h3 font-semibold leading-tight tracking-tight">
+          <DialogTitle className="font-heading text-h3 leading-tight font-semibold tracking-tight">
             Change application status
           </DialogTitle>
           <DialogDescription className="max-w-prose text-small leading-relaxed text-pretty">

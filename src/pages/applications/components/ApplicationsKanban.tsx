@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react';
 import {
   closestCorners,
   DndContext,
@@ -10,6 +9,8 @@ import {
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useMemo, useState } from 'react';
+
 import { kanbanColumns, type ApplicationRecord } from '@/pages/applications/application-model';
 import { KanbanColumn } from '@/pages/applications/components/KanbanColumn';
 import { KanbanDragOverlay } from '@/pages/applications/components/KanbanDragOverlay';
@@ -62,12 +63,12 @@ function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
     <div className="space-y-4 p-3 sm:space-y-5 sm:p-5">
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2 border-b border-border/60 pb-4">
         <div className="min-w-0">
-          <h2 className="font-heading text-p font-semibold leading-tight tracking-tight">Application pipeline</h2>
+          <h2 className="font-heading text-p leading-tight font-semibold tracking-tight">Application pipeline</h2>
           <p className="mt-1 max-w-md text-small leading-relaxed text-muted-foreground">
             See where each opportunity stands and what is moving forward.
           </p>
         </div>
-        <p className="font-mono text-caption tabular-nums text-muted-foreground" aria-live="polite">
+        <p className="font-mono text-caption text-muted-foreground tabular-nums" aria-live="polite">
           {applications.length} applications · {kanbanColumns.length} stages
         </p>
       </div>

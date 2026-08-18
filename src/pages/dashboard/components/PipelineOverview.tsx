@@ -1,7 +1,8 @@
 import { ArrowUpRight } from 'lucide-react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import type { DashboardStatusCount } from '@/server/db/queries/dashboard';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 const pipeline = [
   { label: 'Saved', status: 'SAVED', className: 'bg-primary/20' },
@@ -43,13 +44,13 @@ function PipelineOverview({ statusCounts }: { statusCounts: DashboardStatusCount
               <div className="h-2 overflow-hidden rounded-full bg-muted">
                 <div className={`h-full min-w-0 rounded-full ${stage.className}`} style={{ width }} />
               </div>
-              <span className="text-right font-mono text-caption tabular-nums text-foreground/80">{count}</span>
+              <span className="text-right font-mono text-caption text-foreground/80 tabular-nums">{count}</span>
             </div>
           );
         })}
         <div className="flex items-center justify-between border-t border-border/70 pt-4">
           <p className="font-heading text-small text-muted-foreground">Applications beyond saved</p>
-          <p className="flex items-center gap-1 font-heading text-small font-semibold tabular-nums text-foreground">
+          <p className="flex items-center gap-1 font-heading text-small font-semibold text-foreground tabular-nums">
             {beyondSavedPercentage}%
             <ArrowUpRight className="size-icon-xs text-primary" aria-hidden="true" />
           </p>

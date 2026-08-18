@@ -1,10 +1,11 @@
-import { stripBullet } from '@/features/resumes/parser/normalize';
 import type {
   ParsedResumeSection,
   ResumeEntry,
   ResumeSectionKind,
   ResumeSkillGroup,
 } from '@/features/resumes/parser/types';
+
+import { stripBullet } from '@/features/resumes/parser/normalize';
 
 const datePattern = /\b(?:\d{1,2}\/\d{4}|\d{4})\s*[–—-]\s*(?:\d{1,2}\/\d{4}|\d{4}|present|current)\b/i;
 const certificationProviders = ['Coursera', 'Udemy', 'LinkedIn Learning', 'edX', 'Pluralsight', 'Codecademy'];
@@ -34,7 +35,7 @@ function parseHeader(line: string, entry: ResumeEntry, kind: ResumeSectionKind):
   if (dateRange) entry.dateRange = dateRange;
 
   const [rawHeading, technologyText] = text
-    .replace(/\bView Certificate\b/gi, '')
+    .replaceAll(/\bView Certificate\b/gi, '')
     .split('|')
     .map((value) => value.trim());
   const { provider, title } =
@@ -60,7 +61,7 @@ function attachMetadata(line: string, entry: ResumeEntry, kind: ResumeSectionKin
   if (dateRange) entry.dateRange = dateRange;
 
   const [rawHeading, technologyText] = text
-    .replace(/\bView Certificate\b/gi, '')
+    .replaceAll(/\bView Certificate\b/gi, '')
     .split('|')
     .map((value) => value.trim());
   const { provider, title } =

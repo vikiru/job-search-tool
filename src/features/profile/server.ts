@@ -1,11 +1,12 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 
-import { findUserContactById, updateUserContact } from '@/server/db/queries/users';
-import { error, success, type Result } from '@/shared/lib/result';
 import type { UserContactData } from '@/features/profile/types';
+
+import { findUserContactById, updateUserContact } from '@/server/db/queries/users';
 import { logServerError } from '@/server/lib/log-error';
+import { error, success, type Result } from '@/shared/lib/result';
 import { toSafeHttpUrl } from '@/shared/lib/urls';
 
 const contactLinkSchema = z.object({

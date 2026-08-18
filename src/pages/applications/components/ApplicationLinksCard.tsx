@@ -1,6 +1,8 @@
-import { useState } from 'react';
 import { ExternalLink, FileText, Link2, Pencil, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
+
+import type { SelectApplicationLink } from '@/server/db/zod';
 
 import { useApplicationLinks } from '@/features/applications/hooks/useApplicationLinks';
 import {
@@ -8,7 +10,6 @@ import {
   type ApplicationLinkFormValues,
 } from '@/pages/applications/components/ApplicationLinkDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
-import type { SelectApplicationLink } from '@/server/db/zod';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
@@ -128,7 +129,7 @@ function ApplicationLinkRow({
   return (
     <div className="flex min-w-0 items-center gap-2 rounded-lg border border-border/70 p-2">
       <a
-        className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors motion-reduce:transition-none hover:bg-muted"
+        className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-muted motion-reduce:transition-none"
         href={link.href}
         target="_blank"
         rel="noreferrer"

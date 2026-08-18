@@ -45,7 +45,7 @@ export function EditNoteDialog({ content: initialContent, isSubmitting = false, 
       />
       <DialogContent className="max-w-xl gap-7 p-5 sm:max-w-2xl sm:p-7">
         <DialogHeader className="gap-3 pr-8">
-          <DialogTitle className="font-heading text-h3 font-semibold leading-tight tracking-tight">
+          <DialogTitle className="font-heading text-h3 leading-tight font-semibold tracking-tight">
             Edit note
           </DialogTitle>
           <DialogDescription className="max-w-prose text-small leading-relaxed text-pretty">

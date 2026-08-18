@@ -1,5 +1,7 @@
 'use client';
 
+import type { TooltipValueType } from 'recharts';
+
 import {
   createContext,
   useContext,
@@ -11,7 +13,6 @@ import {
   type ReactNode,
 } from 'react';
 import * as RechartsPrimitive from 'recharts';
-import type { TooltipValueType } from 'recharts';
 
 import { cn } from '@/shared/lib/utils';
 
@@ -61,7 +62,7 @@ function ChartContainer({
   };
 }) {
   const uniqueId = useId();
-  const chartId = `chart-${id ?? uniqueId.replace(/:/g, '')}`;
+  const chartId = `chart-${id ?? uniqueId.replaceAll(':', '')}`;
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -223,7 +224,7 @@ function ChartTooltipContent({
                         {nestLabel ? tooltipLabel : null}
                         <span className="text-muted-foreground">{itemConfig?.label ?? item.name}</span>
                       </div>
-                      {item.value != null && (
+                      {item.value !== null && item.value !== undefined && (
                         <span className="font-mono font-medium text-foreground tabular-nums">
                           {typeof item.value === 'number' ? item.value.toLocaleString() : String(item.value)}
                         </span>

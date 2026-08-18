@@ -27,7 +27,7 @@ function KpiCard({ label, value, detail, icon: Icon, tone = 'default' }: KpiCard
           </div>
         </div>
         <div>
-          <p className="font-heading text-h3 font-semibold leading-none tracking-tight tabular-nums">{value}</p>
+          <p className="font-heading text-h3 leading-none font-semibold tracking-tight tabular-nums">{value}</p>
           <p className="mt-2 text-small leading-normal text-muted-foreground">{detail}</p>
         </div>
       </CardContent>

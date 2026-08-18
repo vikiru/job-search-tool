@@ -1,10 +1,10 @@
-import { BriefcaseBusiness, FileText, Gauge, Home } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
 import { ClerkLoaded, Show, UserButton } from '@clerk/tanstack-react-start';
+import { Link } from '@tanstack/react-router';
+import { BriefcaseBusiness, FileText, Gauge, Home } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
 import { Logo } from '@/shared/components/Logo';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
+import { Button } from '@/shared/components/ui/button';
 
 function Navbar() {
   return (

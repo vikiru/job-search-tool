@@ -32,9 +32,9 @@ export function extractResumeLinks(lines: string[]): { lines: string[]; links: P
     }
 
     return line
-      .replace(linkPattern, '')
-      .replace(/\|+/g, ' ')
-      .replace(/\s{2,}/g, ' ')
+      .replaceAll(linkPattern, '')
+      .replaceAll(/\|+/g, ' ')
+      .replaceAll(/\s{2,}/g, ' ')
       .trim();
   });
 

@@ -1,5 +1,5 @@
-import { ArrowRight } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 
 import { useResumes } from '@/features/resumes/hooks/useResumes';
 import { ResumeEmptyState } from '@/pages/resumes/components/ResumeEmptyState';
@@ -21,13 +21,13 @@ export function ResumesPage({ userId }: ResumesPageProps) {
       <div className="space-y-6 sm:space-y-8">
         <header className="flex flex-col gap-5 border-b border-border/70 pb-6 sm:pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <h1 className="font-heading text-h1 font-semibold leading-tight tracking-tight">Your resume</h1>
+            <h1 className="font-heading text-h1 leading-tight font-semibold tracking-tight">Your resume</h1>
             <p className="mt-3 max-w-3xl text-p leading-relaxed text-pretty text-muted-foreground">
               Keep the version you trust close by, then use it to make every fit comparison more useful.
             </p>
           </div>
           <Link
-            className="inline-flex items-center gap-2 font-heading text-small font-medium text-muted-foreground transition-colors motion-reduce:transition-none hover:text-foreground"
+            className="inline-flex items-center gap-2 font-heading text-small font-medium text-muted-foreground transition-colors hover:text-foreground motion-reduce:transition-none"
             to="/applications"
           >
             View applications

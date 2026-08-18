@@ -2,8 +2,8 @@ import { format } from 'date-fns';
 import { CalendarDays } from 'lucide-react';
 import { useState } from 'react';
 
-import { Calendar } from '@/shared/components/ui/calendar';
 import { Button } from '@/shared/components/ui/button';
+import { Calendar } from '@/shared/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
 import { cn } from '@/shared/lib/utils';
 

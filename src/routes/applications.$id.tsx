@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { requireAuth } from '@/features/auth/server';
 import { applicationDetailQueryOptions, useApplication } from '@/features/applications/hooks/useApplication';
+import { requireAuth } from '@/features/auth/server';
 import { ApplicationDetailPage } from '@/pages/applications/details/ApplicationDetailPage';
 
 export const Route = createFileRoute('/applications/$id')({

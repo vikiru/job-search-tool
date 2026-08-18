@@ -1,10 +1,10 @@
-import { createContext, useContext, type CSSProperties } from 'react';
 import { Toggle as TogglePrimitive } from '@base-ui/react/toggle';
 import { ToggleGroup as ToggleGroupPrimitive } from '@base-ui/react/toggle-group';
 import { type VariantProps } from 'class-variance-authority';
+import { createContext, useContext, type CSSProperties } from 'react';
 
-import { cn } from '@/shared/lib/utils';
 import { toggleVariants } from '@/shared/components/ui/toggle';
+import { cn } from '@/shared/lib/utils';
 
 const ToggleGroupContext = createContext<
   VariantProps<typeof toggleVariants> & {

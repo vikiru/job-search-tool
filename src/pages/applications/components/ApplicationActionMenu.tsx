@@ -1,15 +1,16 @@
+import { Link } from '@tanstack/react-router';
 import { ExternalLink, MoreHorizontal, RefreshCw, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
+
+import type { ApplicationStatus } from '@/server/db/zod';
 
 import {
   useDeleteApplication,
   useUpdateApplicationStatus,
 } from '@/features/applications/hooks/useApplicationMutations';
-import { ChangeStatusDialog } from '@/pages/applications/components/ChangeStatusDialog';
 import { formatStatus, type ApplicationRecord } from '@/pages/applications/application-model';
-import type { ApplicationStatus } from '@/server/db/zod';
+import { ChangeStatusDialog } from '@/pages/applications/components/ChangeStatusDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -59,7 +60,7 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
       <DropdownMenuTrigger
         render={
           <Button
-            className="opacity-70 transition-opacity motion-reduce:transition-none group-hover:opacity-100"
+            className="opacity-70 transition-opacity group-hover:opacity-100 motion-reduce:transition-none"
             variant="ghost"
             size="icon"
           />
@@ -70,7 +71,7 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-56 p-2" align="end" sideOffset={8}>
         <DropdownMenuItem
-          className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
+          className="gap-2.5 py-2.5 font-heading text-small leading-normal font-medium tracking-tight"
           render={<Link to="/applications/$id" params={{ id: application.id }} />}
         >
           <ExternalLink className="size-icon-sm" aria-hidden="true" />
@@ -78,7 +79,7 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
         </DropdownMenuItem>
         {context === 'table' && (
           <DropdownMenuItem
-            className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
+            className="gap-2.5 py-2.5 font-heading text-small leading-normal font-medium tracking-tight"
             onClick={() => setStatusDialogOpen(true)}
           >
             <RefreshCw className="size-icon-sm" aria-hidden="true" />
@@ -87,7 +88,7 @@ function ApplicationActionMenu({ application, context = 'table', userId }: Appli
         )}
         <DropdownMenuSeparator className="my-1.5" />
         <DropdownMenuItem
-          className="gap-2.5 py-2.5 font-heading text-small font-medium leading-normal tracking-tight"
+          className="gap-2.5 py-2.5 font-heading text-small leading-normal font-medium tracking-tight"
           onClick={() => setDeleteDialogOpen(true)}
           variant="destructive"
         >

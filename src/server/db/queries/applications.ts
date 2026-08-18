@@ -1,12 +1,14 @@
 import { and, desc, eq } from 'drizzle-orm';
-import { db } from '@/server/db';
-import { applicationActivity, applicationAnalysis, applications } from '@/server/db/schema';
+
 import type {
   ApplicationStatus,
   InsertApplication,
   SelectApplication,
   SelectApplicationAnalysis,
 } from '@/server/db/zod';
+
+import { db } from '@/server/db';
+import { applicationActivity, applicationAnalysis, applications } from '@/server/db/schema';
 
 export interface ApplicationListRow {
   application: SelectApplication;

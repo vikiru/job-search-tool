@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { addApplicationLink, deleteApplicationLink, updateApplicationLink } from '@/features/applications/server';
 import { invalidateApplicationQueries, withFallback } from '@/features/applications/hooks/application-mutation-utils';
+import { addApplicationLink, deleteApplicationLink, updateApplicationLink } from '@/features/applications/server';
 
 export function useApplicationLinks(userId: string, applicationId: string) {
   const queryClient = useQueryClient();

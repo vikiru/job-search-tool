@@ -1,8 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 
 import { extractionGenerationConfig, GEMINI_EXTRACTION_MODEL } from '@/features/gemini/extract/extraction-config';
-import { buildExtractionPrompt } from '@/features/gemini/extract/extraction-prompt';
 import { normalizeExtractionPayload } from '@/features/gemini/extract/extraction-normalize';
+import { buildExtractionPrompt } from '@/features/gemini/extract/extraction-prompt';
 import { extractionSchema, type ExtractionData } from '@/features/gemini/extract/extraction-schema';
 import { validateServerEnv } from '@/shared/config/env';
 import { error, success, type Result } from '@/shared/lib/result';

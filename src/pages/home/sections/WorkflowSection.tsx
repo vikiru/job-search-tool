@@ -39,7 +39,7 @@ function WorkflowSection() {
       <div className="max-w-2xl">
         <h2
           id="workflow-title"
-          className="font-heading text-h2 font-semibold leading-tight tracking-tight text-balance"
+          className="font-heading text-h2 leading-tight font-semibold tracking-tight text-balance"
         >
           One place for the work behind every application.
         </h2>

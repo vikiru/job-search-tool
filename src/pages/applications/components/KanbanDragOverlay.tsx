@@ -1,5 +1,6 @@
-import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 import type { ApplicationRecord } from '@/pages/applications/application-model';
+
+import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 
 interface KanbanDragOverlayProps {
   application: ApplicationRecord | null;

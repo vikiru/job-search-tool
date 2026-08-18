@@ -1,7 +1,9 @@
 import { and, eq } from 'drizzle-orm';
+
+import type { InsertApplicationAnalysis, SelectApplicationAnalysis } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { applicationAnalysis, applications } from '@/server/db/schema';
-import type { InsertApplicationAnalysis, SelectApplicationAnalysis } from '@/server/db/zod';
 
 export async function findAnalysisByApplicationId(
   applicationId: string,

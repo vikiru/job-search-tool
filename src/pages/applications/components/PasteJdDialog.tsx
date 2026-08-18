@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { FilePenLine, FileText, Sparkles } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { FilePenLine, FileText, Sparkles } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -92,7 +92,7 @@ function PasteJdDialog({ userId }: { userId: string }) {
       />
       <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-2xl gap-7 overflow-y-auto p-5 sm:max-h-[calc(100dvh-3rem)] sm:max-w-3xl sm:p-7">
         <DialogHeader className="gap-3 pr-8">
-          <DialogTitle className="font-heading text-h3 font-semibold leading-tight tracking-tight">
+          <DialogTitle className="font-heading text-h3 leading-tight font-semibold tracking-tight">
             Add an application
           </DialogTitle>
           <DialogDescription className="max-w-prose text-small leading-relaxed text-pretty">
@@ -158,7 +158,9 @@ function formatSalary({
   salaryMax?: number | null;
   salaryMin?: number | null;
 }) {
-  if (salaryMin == null && salaryMax == null) return null;
+  if ((salaryMin === null || salaryMin === undefined) && (salaryMax === null || salaryMax === undefined)) {
+    return null;
+  }
   const range = [salaryMin, salaryMax]
     .filter((value): value is number => value !== null && value !== undefined)
     .map((value) => value.toLocaleString('en-CA'))

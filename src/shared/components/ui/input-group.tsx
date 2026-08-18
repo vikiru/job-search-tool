@@ -1,12 +1,13 @@
 /* oxlint-disable jsx_a11y/prefer-tag-over-role, jsx_a11y/no-noninteractive-element-interactions -- input group addons intentionally provide focus behavior for the associated control. */
 
 import type { ComponentProps } from 'react';
+
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
+import { cn } from '@/shared/lib/utils';
 
 function InputGroup({ className, ...props }: ComponentProps<'div'>) {
   return (

@@ -1,10 +1,11 @@
 import type { ComponentProps, ReactNode } from 'react';
-import { Command as CommandPrimitive } from 'cmdk';
 
-import { cn } from '@/shared/lib/utils';
+import { Command as CommandPrimitive } from 'cmdk';
+import { SearchIcon, CheckIcon } from 'lucide-react';
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import { InputGroup, InputGroupAddon } from '@/shared/components/ui/input-group';
-import { SearchIcon, CheckIcon } from 'lucide-react';
+import { cn } from '@/shared/lib/utils';
 
 function Command({ className, ...props }: ComponentProps<typeof CommandPrimitive>) {
   return (

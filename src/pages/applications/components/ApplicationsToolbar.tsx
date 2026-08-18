@@ -2,10 +2,11 @@
 
 import { ListFilter, Star } from 'lucide-react';
 
+import type { ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/application-model';
+
 import { ExportDropdown } from '@/features/applications/export/ExportDropdown';
 import { ApplicationsSearchBar } from '@/pages/applications/components/ApplicationsSearchBar';
 import { PasteJdDialog } from '@/pages/applications/components/PasteJdDialog';
-import type { ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/application-model';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 

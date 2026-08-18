@@ -1,16 +1,18 @@
-import { ApplicationsEmptyState } from '@/pages/applications/components/ApplicationsEmptyState';
-import { ApplicationsKanban } from '@/pages/applications/components/ApplicationsKanban';
-import { ApplicationsPagination } from '@/pages/applications/components/ApplicationsPagination';
-import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/applications/components/ApplicationsTable';
-import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
-import { KanbanSkeleton } from '@/pages/applications/components/KanbanSkeleton';
+import type { OnChangeFn, SortingState } from '@tanstack/react-table';
+
 import type {
   ApplicationRecord,
   ApplicationStatus,
   ApplicationView,
   InterestRating,
 } from '@/pages/applications/application-model';
-import type { OnChangeFn, SortingState } from '@tanstack/react-table';
+
+import { ApplicationsEmptyState } from '@/pages/applications/components/ApplicationsEmptyState';
+import { ApplicationsKanban } from '@/pages/applications/components/ApplicationsKanban';
+import { ApplicationsPagination } from '@/pages/applications/components/ApplicationsPagination';
+import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/applications/components/ApplicationsTable';
+import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
+import { KanbanSkeleton } from '@/pages/applications/components/KanbanSkeleton';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { Loader } from '@/shared/components/ui/Loader';
 

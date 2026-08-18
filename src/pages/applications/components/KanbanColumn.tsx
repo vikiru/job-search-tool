@@ -1,3 +1,5 @@
+import { useDroppable } from '@dnd-kit/core';
+
 import {
   formatStatus,
   kanbanColumns,
@@ -7,7 +9,6 @@ import {
 import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 import { KanbanColumnEmptyState } from '@/pages/applications/components/KanbanColumnEmptyState';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
-import { useDroppable } from '@dnd-kit/core';
 
 type KanbanColumnDefinition = (typeof kanbanColumns)[number];
 
@@ -54,7 +55,7 @@ function KanbanColumn({ applications, column, onStatusChange, userId }: KanbanCo
   return (
     <section
       ref={setNodeRef}
-      className={`min-w-0 rounded-xl border border-border/60 border-t bg-muted/45 p-2 transition-colors motion-reduce:transition-none ${styles.accent} ${
+      className={`min-w-0 rounded-xl border border-t border-border/60 bg-muted/45 p-2 transition-colors motion-reduce:transition-none ${styles.accent} ${
         isOver ? 'bg-primary/5 ring-2 ring-primary/20' : ''
       }`}
       aria-labelledby={`kanban-${column.id}`}

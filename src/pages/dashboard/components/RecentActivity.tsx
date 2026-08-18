@@ -1,8 +1,9 @@
-import { ArrowRight, CircleCheck, FileText } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { formatDistanceToNow } from 'date-fns';
+import { ArrowRight, CircleCheck, FileText } from 'lucide-react';
 
 import type { RecentApplicationActivity } from '@/features/applications/types';
+
 import { RecentActivityEmptyState } from '@/pages/dashboard/components/RecentActivityEmptyState';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
@@ -18,7 +19,7 @@ function RecentActivity({ activity }: { activity: RecentApplicationActivity[] })
           </p>
         </div>
         <Button
-          className="-mr-2 -mt-1 shrink-0 font-heading"
+          className="-mt-1 -mr-2 shrink-0 font-heading"
           variant="ghost"
           size="sm"
           render={<Link to="/applications" />}
@@ -36,7 +37,7 @@ function RecentActivity({ activity }: { activity: RecentApplicationActivity[] })
           return (
             <Link
               key={item.activity.id}
-              className="flex items-start gap-3 rounded-lg px-1 py-3 transition-colors motion-reduce:transition-none hover:bg-muted/60"
+              className="flex items-start gap-3 rounded-lg px-1 py-3 transition-colors hover:bg-muted/60 motion-reduce:transition-none"
               to="/applications/$id"
               params={{ id: item.activity.applicationId }}
             >

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+
 import { CircleAlert } from 'lucide-react';
 
 import {
@@ -43,7 +44,7 @@ function ConfirmDialog({
           <AlertDialogMedia className="size-11 rounded-full bg-destructive/10 text-destructive">
             <CircleAlert className="size-icon-base" aria-hidden="true" />
           </AlertDialogMedia>
-          <AlertDialogTitle className="max-w-[34ch] font-heading text-h3 font-semibold leading-[1.15] tracking-tight text-balance">
+          <AlertDialogTitle className="max-w-[34ch] font-heading text-h3 leading-[1.15] font-semibold tracking-tight text-balance">
             {heading}
           </AlertDialogTitle>
           <AlertDialogDescription className="max-w-[58ch] text-[0.9375rem] leading-7 text-pretty">
