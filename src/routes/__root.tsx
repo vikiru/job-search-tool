@@ -14,6 +14,7 @@ import { Footer } from '@/shared/components/Footer';
 import { Navbar } from '@/shared/components/Navbar';
 import { ThemeProvider } from '@/shared/components/ThemeProvider';
 import { clerkAppearance } from '@/shared/config/clerkAppearance';
+import { Toaster } from '@/shared/components/ui/sonner';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRouteWithContext<{
@@ -57,6 +58,7 @@ function RootComponent() {
         </head>
         <body className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-primary/20">
           <ThemeProvider>
+            <Toaster />
             <ClerkProvider
               appearance={clerkAppearance}
               telemetry={false}
