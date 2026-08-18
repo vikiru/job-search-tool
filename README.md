@@ -238,7 +238,7 @@ pnpm unused
 - [FlexSearch](https://github.com/nextapps-de/flexsearch)
 - [cmdk](https://cmdk.paco.me/)
 - [date-fns](https://date-fns.org/)
-- [pdf-parse](https://www.npmjs.com/package/pdf-parse)
+- [pdf-parse](https://github.com/mehmet-kozan/pdf-parse)
 - [Shields Badges](https://github.com/badges/shields)
 - [Semantic Release](https://github.com/semantic-release/semantic-release)
 - [Favicon Generator](https://favicon.io/favicon-generator/)
