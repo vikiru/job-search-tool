@@ -14,9 +14,14 @@ export const Route = createFileRoute('/resumes')({
     ],
   }),
   beforeLoad: async () => await requireAuth(),
+  loader: async () => {
+    const { userId } = await requireAuth();
+    return { userId };
+  },
   component: ResumesRoute,
 });
 
 function ResumesRoute() {
-  return <ResumesPage />;
+  const { userId } = Route.useLoaderData();
+  return <ResumesPage userId={userId} />;
 }

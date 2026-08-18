@@ -28,6 +28,15 @@ export async function upsertResume(userId: string, filename: string, extractedTe
   return upserted;
 }
 
+export async function updateResumeText(userId: string, extractedText: string): Promise<SelectResume | undefined> {
+  const [updated] = await db
+    .update(resumes)
+    .set({ extractedText, updatedAt: new Date() })
+    .where(eq(resumes.userId, userId))
+    .returning();
+  return updated;
+}
+
 export async function deleteResume(userId: string): Promise<boolean> {
   const [deleted] = await db.delete(resumes).where(eq(resumes.userId, userId)).returning({ id: resumes.id });
   return Boolean(deleted);
