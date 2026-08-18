@@ -7,6 +7,7 @@ import { parseResumePdf } from '@/server/resumes/parse-pdf';
 import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
 import { error, success, type Result } from '@/shared/lib/result';
 import type { SelectResume } from '@/server/db/zod';
+import { logServerError } from '@/server/lib/log-error';
 
 const uploadResumeSchema = z.object({
   filename: z.string().trim().min(1).max(255),
@@ -41,7 +42,8 @@ export const getResume = createServerFn({ method: 'GET' }).handler(async (): Pro
     }
 
     return success((await findResumeByUserId(userId)) ?? null);
-  } catch {
+  } catch (cause) {
+    logServerError('resumes:get', cause);
     return error('We could not load your resume.');
   }
 });
@@ -69,7 +71,8 @@ export const uploadResume = createServerFn({ method: 'POST' })
 
       return success(resume);
     } catch (cause) {
-      return error(cause instanceof Error ? cause.message : 'We could not process that resume.');
+      logServerError('resumes:upload', cause);
+      return error('We could not process that resume.');
     }
   });
 
@@ -88,7 +91,8 @@ export const saveResumeText = createServerFn({ method: 'POST' })
 
       const resume = await updateResumeText(userId, data.data.extractedText);
       return resume ? success(resume) : error('Resume not found.');
-    } catch {
+    } catch (cause) {
+      logServerError('resumes:save-text', cause);
       return error('We could not save your resume text.');
     }
   });
@@ -102,7 +106,8 @@ export const removeResume = createServerFn({ method: 'POST' }).handler(async ():
 
     await deleteResume(userId);
     return success(null);
-  } catch {
+  } catch (cause) {
+    logServerError('resumes:delete', cause);
     return error('We could not remove your resume.');
   }
 });

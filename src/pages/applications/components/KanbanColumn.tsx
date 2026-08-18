@@ -1,4 +1,9 @@
-import { formatStatus, kanbanColumns, type ApplicationRecord, type ApplicationStatus } from '@/pages/applications/data';
+import {
+  formatStatus,
+  kanbanColumns,
+  type ApplicationRecord,
+  type ApplicationStatus,
+} from '@/pages/applications/application-model';
 import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 import { KanbanColumnEmptyState } from '@/pages/applications/components/KanbanColumnEmptyState';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { ApplicationStatus, InterestRating } from '@/pages/applications/data';
+import type { ApplicationStatus, InterestRating } from '@/pages/applications/application-model';
 import { Button } from '@/shared/components/ui/button';
 import { DialogClose, DialogFooter } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
@@ -34,8 +34,9 @@ export type ManualApplicationSubmitValues = {
 interface ManualApplicationFormProps {
   initialValues?: ManualApplicationValues;
   idPrefix?: string;
-  submitLabel?: string;
   isSubmitting?: boolean;
+  onSubmit: (values: ManualApplicationSubmitValues) => void | Promise<void>;
+  submitLabel?: string;
 }
 
 function ManualApplicationForm({
@@ -44,9 +45,7 @@ function ManualApplicationForm({
   isSubmitting = false,
   onSubmit,
   submitLabel = 'Save application',
-}: ManualApplicationFormProps & {
-  onSubmit?: (values: ManualApplicationSubmitValues) => void | Promise<void>;
-}) {
+}: ManualApplicationFormProps) {
   const fieldId = (name: string) => `${idPrefix}-${name}`;
   const [company, setCompany] = useState(initialValues?.company ?? '');
   const [position, setPosition] = useState(initialValues?.position ?? '');
@@ -60,7 +59,7 @@ function ManualApplicationForm({
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    await onSubmit?.({
+    await onSubmit({
       applicationUrl,
       company,
       interestRating,
@@ -76,7 +75,7 @@ function ManualApplicationForm({
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
-        <ManualInput
+        <ManualApplicationInput
           id={fieldId('company')}
           label="Company"
           onChange={setCompany}
@@ -84,7 +83,7 @@ function ManualApplicationForm({
           placeholder="Northstar Labs"
           required
         />
-        <ManualInput
+        <ManualApplicationInput
           id={fieldId('position')}
           label="Role"
           onChange={setPosition}
@@ -92,7 +91,7 @@ function ManualApplicationForm({
           placeholder="Product Designer"
           required
         />
-        <ManualInput
+        <ManualApplicationInput
           id={fieldId('location')}
           label="Location"
           onChange={setLocation}
@@ -100,7 +99,7 @@ function ManualApplicationForm({
           placeholder="Remote or Toronto, ON"
           optional
         />
-        <ManualInput
+        <ManualApplicationInput
           id={fieldId('url')}
           label="Job posting URL"
           onChange={setApplicationUrl}
@@ -109,7 +108,7 @@ function ManualApplicationForm({
           type="url"
           optional
         />
-        <ManualInput
+        <ManualApplicationInput
           id={fieldId('source')}
           label="Source"
           onChange={setSource}
@@ -118,9 +117,11 @@ function ManualApplicationForm({
           optional
         />
         <div className="space-y-2">
-          <span className="block font-heading text-small font-medium tracking-tight">Status</span>
+          <label htmlFor={fieldId('status')} className="block font-heading text-small font-medium tracking-tight">
+            Status
+          </label>
           <Select value={status} onValueChange={(value) => setStatus(value as ApplicationStatus)}>
-            <SelectTrigger className="h-10 w-full" aria-label="Application status">
+            <SelectTrigger id={fieldId('status')} className="h-10 w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="p-2">
@@ -136,12 +137,14 @@ function ManualApplicationForm({
           </Select>
         </div>
         <div className="space-y-2">
-          <span className="block font-heading text-small font-medium tracking-tight">Interest</span>
+          <label htmlFor={fieldId('interest')} className="block font-heading text-small font-medium tracking-tight">
+            Interest
+          </label>
           <Select
             value={interestRating ? String(interestRating) : ''}
             onValueChange={(value) => setInterestRating(value ? (Number(value) as InterestRating) : null)}
           >
-            <SelectTrigger className="h-10 w-full" aria-label="Interest rating">
+            <SelectTrigger id={fieldId('interest')} className="h-10 w-full">
               <SelectValue placeholder="Not rated" />
             </SelectTrigger>
             <SelectContent className="p-2">
@@ -154,9 +157,14 @@ function ManualApplicationForm({
           </Select>
         </div>
         <div className="space-y-2">
-          <span className="block font-heading text-small font-medium tracking-tight">Work arrangement</span>
+          <label
+            htmlFor={fieldId('work-arrangement')}
+            className="block font-heading text-small font-medium tracking-tight"
+          >
+            Work arrangement
+          </label>
           <Select value={workArrangement} onValueChange={(value) => setWorkArrangement(value ?? '')}>
-            <SelectTrigger className="h-10 w-full" aria-label="Work arrangement">
+            <SelectTrigger id={fieldId('work-arrangement')} className="h-10 w-full">
               <SelectValue placeholder="Choose one" />
             </SelectTrigger>
             <SelectContent className="p-2">
@@ -193,16 +201,7 @@ function ManualApplicationForm({
   );
 }
 
-function ManualInput({
-  id,
-  label,
-  onChange,
-  optional = false,
-  placeholder,
-  required = false,
-  value,
-  type = 'text',
-}: {
+interface ManualApplicationInputProps {
   id: string;
   label: string;
   onChange: (value: string) => void;
@@ -211,7 +210,18 @@ function ManualInput({
   required?: boolean;
   type?: 'text' | 'url';
   value: string;
-}) {
+}
+
+function ManualApplicationInput({
+  id,
+  label,
+  onChange,
+  optional = false,
+  placeholder,
+  required = false,
+  value,
+  type = 'text',
+}: ManualApplicationInputProps) {
   return (
     <div className="space-y-2">
       <label htmlFor={id} className="block font-heading text-small font-medium tracking-tight">

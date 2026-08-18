@@ -2,6 +2,7 @@ import { Github, Globe2, Link2, Linkedin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/shared/components/ui/empty';
+import { toSafeHttpUrl } from '@/shared/lib/urls';
 
 interface PublicLink {
   href: string;
@@ -13,6 +14,10 @@ interface ResumePublicLinksProps {
 }
 
 export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
+  const safeLinks = links
+    .map((link) => ({ ...link, href: toSafeHttpUrl(link.href) }))
+    .filter((link): link is PublicLink => link.href !== null);
+
   return (
     <div className="mt-6 border-t border-border/60 pt-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -26,16 +31,16 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
           </p>
         </div>
         <span className="w-fit rounded-full bg-background/80 px-2.5 py-1 font-heading text-caption font-medium text-muted-foreground">
-          {links.length} {links.length === 1 ? 'link' : 'links'}
+          {safeLinks.length} {safeLinks.length === 1 ? 'link' : 'links'}
         </span>
       </div>
-      {links.length > 0 ? (
+      {safeLinks.length > 0 ? (
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {links.map((link) => (
+          {safeLinks.map((link) => (
             <a
               key={link.label}
               className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 px-3 py-3 transition-colors motion-reduce:transition-none hover:bg-background"
-              href={link.href.startsWith('http') ? link.href : `https://${link.href}`}
+              href={link.href}
               target="_blank"
               rel="noreferrer"
             >

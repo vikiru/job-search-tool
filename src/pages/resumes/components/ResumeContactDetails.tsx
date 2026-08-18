@@ -32,7 +32,12 @@ export function ResumeContactDetails({ contact, isSaving, onSaveContact }: Resum
           </h2>
         </div>
         <div className="flex shrink-0 items-center gap-1 self-end sm:self-start">
-          <Button variant="ghost" size="sm" onClick={() => setShowDetails((visible) => !visible)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-pressed={showDetails}
+            onClick={() => setShowDetails((visible) => !visible)}
+          >
             {showDetails ? (
               <EyeOff data-icon="inline-start" aria-hidden="true" />
             ) : (

@@ -50,6 +50,7 @@ export function ResumeUploader({ userId }: ResumeUploaderProps) {
 
   return (
     <div className="w-full space-y-4">
+      {/* oxlint-disable-next-line jsx_a11y/no-noninteractive-element-interactions -- the label is the native file-picker drop target */}
       <label
         htmlFor="resume-upload"
         onDragOver={(event) => event.preventDefault()}

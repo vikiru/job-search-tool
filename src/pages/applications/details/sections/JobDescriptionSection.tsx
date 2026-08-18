@@ -1,8 +1,9 @@
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import type { ApplicationRecord } from '@/pages/applications/data';
+import type { ApplicationRecord } from '@/pages/applications/application-model';
 import { Badge } from '@/shared/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { toSafeHttpUrl } from '@/shared/lib/urls';
 import { Separator } from '@/shared/components/ui/separator';
 
 export function JobDescriptionSection({
@@ -44,12 +45,12 @@ export function JobDescriptionSection({
               </p>
             </div>
             {applicationInstructions.length > 0 && (
-              <div className="max-w-[72ch]">
+              <div className="max-w-readable">
                 <PostingList title="Application instructions" items={applicationInstructions} />
               </div>
             )}
             {skillTerms.length > 0 && (
-              <div className="max-w-[72ch] space-y-4">
+              <div className="max-w-readable space-y-4">
                 <div className="space-y-1">
                   <h3 className="font-heading text-h4 font-semibold tracking-tight text-foreground">
                     Skills & technologies
@@ -129,14 +130,21 @@ const markdownComponents: Components = {
   ),
   li: ({ children }) => <li className="pl-1 leading-7">{children}</li>,
   strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
-  a: ({ children, href }) => (
-    <a
-      href={href}
-      className="font-medium text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary"
-    >
-      {children}
-    </a>
-  ),
+  a: ({ children, href }) => {
+    const safeHref = href ? toSafeHttpUrl(href) : null;
+    if (!safeHref) return <span>{children}</span>;
+
+    return (
+      <a
+        href={safeHref}
+        target="_blank"
+        rel="noreferrer"
+        className="font-medium text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary"
+      >
+        {children}
+      </a>
+    );
+  },
   blockquote: ({ children }) => (
     <blockquote className="my-6 border-l-2 border-primary/40 pl-4 italic text-muted-foreground">{children}</blockquote>
   ),

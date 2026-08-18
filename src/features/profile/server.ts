@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { findUserContactById, updateUserContact } from '@/server/db/queries/users';
 import { error, success, type Result } from '@/shared/lib/result';
 import type { UserContactData } from '@/features/profile/types';
+import { logServerError } from '@/server/lib/log-error';
+import { toSafeHttpUrl } from '@/shared/lib/urls';
 
 const contactLinkSchema = z.object({
   href: z.string().trim().min(1).max(2_000),
@@ -23,8 +25,8 @@ function validateContactInput(input: unknown): Result<z.infer<typeof contactSche
 }
 
 function normalizeLink(link: z.infer<typeof contactLinkSchema>): UserContactData['links'][number] | null {
-  const href = /^https?:\/\//i.test(link.href) ? link.href : `https://${link.href}`;
-  return URL.canParse(href) ? { href, label: link.label } : null;
+  const href = toSafeHttpUrl(link.href);
+  return href ? { href, label: link.label } : null;
 }
 
 export const getUserContact = createServerFn({ method: 'GET' }).handler(async (): Promise<Result<UserContactData>> => {
@@ -40,7 +42,8 @@ export const getUserContact = createServerFn({ method: 'GET' }).handler(async ()
       links: contact.links.map(({ url, label }) => ({ href: url, label })),
       phoneNumber: contact.phoneNumber,
     });
-  } catch {
+  } catch (cause) {
+    logServerError('profile:get-contact', cause);
     return error('We could not load your contact information.');
   }
 });
@@ -69,7 +72,8 @@ export const saveUserContact = createServerFn({ method: 'POST' })
         links: links.filter((link): link is UserContactData['links'][number] => link !== null),
         phoneNumber: user.phoneNumber,
       });
-    } catch {
+    } catch (cause) {
+      logServerError('profile:save-contact', cause);
       return error('We could not save your contact information.');
     }
   });

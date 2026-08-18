@@ -1,6 +1,6 @@
 import { InterestRating } from '@/pages/applications/components/InterestRating';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
-import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/data';
+import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/application-model';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Separator } from '@/shared/components/ui/separator';
 

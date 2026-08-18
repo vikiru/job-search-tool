@@ -11,7 +11,7 @@ function Footer() {
             search.
           </p>
           <p className="pt-2 font-heading text-sm leading-normal text-muted-foreground/80">
-            © {new Date().getFullYear()} JobApp. All rights reserved.
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> JobApp. All rights reserved.
           </p>
         </div>
       </div>

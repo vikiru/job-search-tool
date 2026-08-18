@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { getApplication } from '@/features/applications/server';
 import type { ApplicationDetail } from '@/features/applications/types';
-import { applicationKeys } from '@/features/applications/hooks/useApplications';
+import { applicationKeys } from '@/features/applications/application-keys';
 import { error, type Result } from '@/shared/lib/result';
 
 export function applicationDetailQueryOptions(userId: string, id: string) {

@@ -1,3 +1,5 @@
+/* oxlint-disable react/no-unstable-nested-components -- TanStack Table cell renderers are render callbacks, not component definitions. */
+
 import {
   createColumnHelper,
   createFilteredRowModel,
@@ -8,11 +10,13 @@ import {
   rowSortingFeature,
   tableFeatures,
   useTable,
+  flexRender,
   type ColumnFiltersState,
   type OnChangeFn,
   type PaginationState,
   type SortingState,
 } from '@tanstack/react-table';
+import { useMemo } from 'react';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
@@ -23,7 +27,7 @@ import {
   type ApplicationRecord,
   type ApplicationStatus,
   type InterestRating,
-} from '@/pages/applications/data';
+} from '@/pages/applications/application-model';
 import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
 import { InterestRating as InterestRatingDisplay } from '@/pages/applications/components/InterestRating';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
@@ -48,27 +52,6 @@ const features = tableFeatures({
 });
 
 const columnHelper = createColumnHelper<typeof features, ApplicationRecord>();
-
-const columns = columnHelper.columns([
-  columnHelper.accessor('company', { header: 'Company', sortFn: 'auto' }),
-  columnHelper.accessor('position', { header: 'Position', sortFn: 'auto' }),
-  columnHelper.accessor('status', {
-    header: 'Status',
-    sortFn: (rowA, rowB, columnId) =>
-      statusSortOrder[rowA.getValue<ApplicationStatus>(columnId)] -
-      statusSortOrder[rowB.getValue<ApplicationStatus>(columnId)],
-    filterFn: (row, columnId, value) => row.getValue(columnId) === value,
-  }),
-  columnHelper.accessor('location', { header: 'Location', sortFn: 'auto' }),
-  columnHelper.accessor('interestRating', {
-    header: 'Interest',
-    sortFn: 'auto',
-    filterFn: (row, columnId, value) => (row.getValue<InterestRating | null>(columnId) ?? 0) >= Number(value),
-  }),
-  columnHelper.accessor('applicationDate', { header: 'Application date', sortFn: 'auto' }),
-  columnHelper.accessor('source', { header: 'Source', sortFn: 'auto' }),
-  columnHelper.display({ id: 'actions', header: '' }),
-]);
 
 const columnWidthClasses: Record<string, string> = {
   actions: 'w-14',
@@ -98,6 +81,77 @@ function ApplicationsTable({
   sorting,
   userId,
 }: ApplicationsTableProps) {
+  const columns = useMemo(
+    () =>
+      columnHelper.columns([
+        columnHelper.accessor('company', {
+          header: 'Company',
+          sortFn: 'auto',
+          cell: ({ row }) => (
+            <Link
+              className="font-heading text-small font-semibold text-foreground transition-colors motion-reduce:transition-none hover:text-primary"
+              to="/applications/$id"
+              params={{ id: row.original.id }}
+            >
+              {row.original.company}
+            </Link>
+          ),
+        }),
+        columnHelper.accessor('position', {
+          header: 'Position',
+          sortFn: 'auto',
+          cell: ({ row }) => (
+            <Link
+              className="block truncate text-small text-muted-foreground transition-colors motion-reduce:transition-none hover:text-primary"
+              to="/applications/$id"
+              params={{ id: row.original.id }}
+            >
+              {row.original.position}
+            </Link>
+          ),
+        }),
+        columnHelper.accessor('status', {
+          header: 'Status',
+          sortFn: (rowA, rowB, columnId) =>
+            statusSortOrder[rowA.getValue<ApplicationStatus>(columnId)] -
+            statusSortOrder[rowB.getValue<ApplicationStatus>(columnId)],
+          filterFn: (row, columnId, value) => row.getValue(columnId) === value,
+          cell: ({ row }) => <StatusBadge status={row.original.status} />,
+        }),
+        columnHelper.accessor('location', {
+          header: 'Location',
+          sortFn: 'auto',
+          cell: ({ row }) => <span className="text-small text-muted-foreground">{row.original.location}</span>,
+        }),
+        columnHelper.accessor('interestRating', {
+          header: 'Interest',
+          sortFn: 'auto',
+          filterFn: (row, columnId, value) => (row.getValue<InterestRating | null>(columnId) ?? 0) >= Number(value),
+          cell: ({ row }) => <InterestRatingDisplay value={row.original.interestRating} />,
+        }),
+        columnHelper.accessor('applicationDate', {
+          header: 'Application date',
+          sortFn: 'auto',
+          cell: ({ row }) => (
+            <span className="font-mono text-caption tabular-nums text-muted-foreground">
+              {formatApplicationDate(row.original.applicationDate)}
+            </span>
+          ),
+        }),
+        columnHelper.accessor('source', {
+          header: 'Source',
+          sortFn: 'auto',
+          cell: ({ row }) => <span className="text-small text-muted-foreground">{row.original.source}</span>,
+        }),
+        columnHelper.display({
+          id: 'actions',
+          header: '',
+          cell: ({ row }) => <ApplicationActionMenu application={row.original} userId={userId} />,
+        }),
+      ]),
+    [userId],
+  );
+
   const table = useTable({
     features,
     columns,
@@ -105,7 +159,6 @@ function ApplicationsTable({
     state: { columnFilters, pagination, sorting },
     onSortingChange,
     getRowId: (application) => application.id,
-    pageCount: Math.ceil(applications.length / pagination.pageSize),
   });
 
   return (
@@ -135,7 +188,7 @@ function ApplicationsTable({
                       aria-label={`Sort by ${String(header.column.columnDef.header)}${sorted ? `, currently ${sorted}` : ''}`}
                       aria-describedby={`${header.id}-sort-help`}
                     >
-                      {header.column.columnDef.header as string}
+                      {flexRender(header.column.columnDef.header, header.getContext())}
                       {sorted === 'asc' ? (
                         <ArrowUp className="size-icon-xs" aria-hidden="true" />
                       ) : sorted === 'desc' ? (
@@ -159,38 +212,11 @@ function ApplicationsTable({
       <TableBody>
         {table.getRowModel().rows.map((row) => (
           <TableRow key={row.id} className="group">
-            <TableCell className="px-4 py-4">
-              <Link
-                className="font-heading text-small font-semibold text-foreground transition-colors motion-reduce:transition-none hover:text-primary"
-                to="/applications/$id"
-                params={{ id: row.original.id }}
-              >
-                {row.original.company}
-              </Link>
-            </TableCell>
-            <TableCell className="max-w-56 px-4 py-4">
-              <Link
-                className="block truncate text-small text-muted-foreground transition-colors motion-reduce:transition-none hover:text-primary"
-                to="/applications/$id"
-                params={{ id: row.original.id }}
-              >
-                {row.original.position}
-              </Link>
-            </TableCell>
-            <TableCell className="px-4 py-4">
-              <StatusBadge status={row.original.status} />
-            </TableCell>
-            <TableCell className="px-4 py-4 text-small text-muted-foreground">{row.original.location}</TableCell>
-            <TableCell className="px-4 py-4">
-              <InterestRatingDisplay value={row.original.interestRating} />
-            </TableCell>
-            <TableCell className="px-4 py-4 font-mono text-caption tabular-nums text-muted-foreground">
-              {formatApplicationDate(row.original.applicationDate)}
-            </TableCell>
-            <TableCell className="px-4 py-4 text-small text-muted-foreground">{row.original.source}</TableCell>
-            <TableCell className="px-4 py-4">
-              <ApplicationActionMenu application={row.original} userId={userId} />
-            </TableCell>
+            {row.getAllCells().map((cell) => (
+              <TableCell key={cell.id} className="px-4 py-4">
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </TableCell>
+            ))}
           </TableRow>
         ))}
       </TableBody>

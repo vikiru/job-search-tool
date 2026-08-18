@@ -1,3 +1,5 @@
+/* oxlint-disable react/react-compiler -- theme synchronization bridges React state with browser media and document APIs. */
+
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';

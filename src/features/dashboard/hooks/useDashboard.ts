@@ -9,14 +9,7 @@ import {
 import { error, type Result } from '@/shared/lib/result';
 import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 import type { RecentApplicationActivity } from '@/features/applications/types';
-
-export const dashboardKeys = {
-  all: (userId: string) => ['user', userId, 'dashboard'] as const,
-  stats: (userId: string) => [...dashboardKeys.all(userId), 'stats'] as const,
-  statuses: (userId: string) => [...dashboardKeys.all(userId), 'statuses'] as const,
-  weeklyActivity: (userId: string, weekStart: string) => [...dashboardKeys.all(userId), 'weekly', weekStart] as const,
-  recentActivity: (userId: string) => [...dashboardKeys.all(userId), 'recent-activity'] as const,
-};
+import { dashboardKeys } from '@/features/dashboard/dashboard-keys';
 
 export function dashboardStatsQueryOptions(userId: string) {
   return queryOptions<Result<DashboardStats>>({
