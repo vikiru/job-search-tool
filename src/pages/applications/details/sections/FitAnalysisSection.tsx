@@ -21,7 +21,7 @@ export function FitAnalysisSection({ analysis, applicationId, userId }: FitAnaly
       <CardHeader className="flex-col items-start justify-between gap-5 sm:flex-row">
         <div className="space-y-1">
           <CardTitle className="flex items-center gap-2 font-heading text-h4 font-semibold">
-            <Sparkles className="size-icon-base text-primary" aria-hidden="true" />
+            <Sparkles className="size-icon-sm text-primary" aria-hidden="true" />
             Fit analysis
           </CardTitle>
           <p className="text-small leading-relaxed text-muted-foreground">
@@ -60,7 +60,7 @@ function AnalysisSummary({ analysis }: { analysis: SelectApplicationAnalysis }) 
       {analysis.tldr && (
         <section className="space-y-3 rounded-lg bg-muted/40 p-4 sm:p-5">
           <h3 className="font-heading text-h4 leading-tight font-semibold tracking-tight">TL;DR</h3>
-          <p className="max-w-readable text-analysis break-words text-foreground/80">{analysis.tldr}</p>
+          <p className="max-w-readable text-analysis wrap-break-word text-foreground/80">{analysis.tldr}</p>
         </section>
       )}
       <div className="space-y-6">
@@ -102,7 +102,7 @@ function AnalysisTags({
                 className={`mt-[0.72em] size-1.5 shrink-0 rounded-full ${tone === 'warning' ? 'bg-destructive/70' : 'bg-success/70'}`}
                 aria-hidden="true"
               />
-              <span className="min-w-0 break-words">{value}</span>
+              <span className="min-w-0 wrap-break-word">{value}</span>
             </li>
           ))}
         </ul>
@@ -134,7 +134,7 @@ function AnalysisBlock({
           className={`max-w-readable list-disc space-y-3 pl-6 text-analysis ${tone === 'warning' ? 'marker:text-destructive' : 'marker:text-primary'} text-foreground/80`}
         >
           {items.map((item, index) => (
-            <li key={`${item}-${index}`} className="pl-1 break-words">
+            <li key={`${item}-${index}`} className="pl-1 wrap-break-word">
               {item}
             </li>
           ))}

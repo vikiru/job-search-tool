@@ -59,7 +59,7 @@ function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <dt className="text-small text-muted-foreground">{label}</dt>
-      <dd className="max-w-[62%] text-right font-heading text-small font-medium break-words">{value}</dd>
+      <dd className="max-w-[62%] text-right font-heading text-small font-medium wrap-break-word">{value}</dd>
     </div>
   );
 }

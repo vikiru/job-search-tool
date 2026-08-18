@@ -6,7 +6,7 @@ function AnalysisEmptyState() {
   return (
     <Empty className="min-h-44 rounded-lg border border-dashed border-border px-5 py-8">
       <EmptyMedia className="rounded-full bg-primary/10 text-primary" variant="icon">
-        <ScanSearch className="size-icon-base" aria-hidden="true" />
+        <ScanSearch className="size-icon-sm" aria-hidden="true" />
       </EmptyMedia>
       <EmptyHeader>
         <EmptyTitle>No fit analysis yet</EmptyTitle>

@@ -1,3 +1,5 @@
+/* oxlint-disable tailwindcss/no-unknown-classes -- Sonner requires its external toaster hook class. */
+
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from 'lucide-react';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
 

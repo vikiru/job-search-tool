@@ -1,4 +1,4 @@
-/* oxlint-disable react/react-compiler -- form state is synchronized with the selected link being edited. */
+/* oxlint-disable react/set-state-in-effect -- reset editable form state when the selected link changes. */
 
 import { useEffect, useState } from 'react';
 

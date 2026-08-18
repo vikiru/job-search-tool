@@ -1,4 +1,4 @@
-/* oxlint-disable react/react-compiler -- the editable analysis input is seeded from the loaded resume. */
+/* oxlint-disable react/set-state-in-effect -- seed editable analysis input from the loaded resume. */
 
 import { Sparkles } from 'lucide-react';
 import { useEffect, useState } from 'react';
