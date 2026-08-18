@@ -13,20 +13,21 @@ export const Route = createFileRoute('/applications/$id')({
   }),
   loader: async ({ context, params }) => {
     const { userId } = await requireAuth();
-    await context.queryClient.ensureQueryData(applicationDetailQueryOptions(userId, params.id));
-    return { userId };
+    const application = await context.queryClient.ensureQueryData(applicationDetailQueryOptions(userId, params.id));
+    return { application, userId };
   },
   component: ApplicationDetailRoute,
 });
 
 function ApplicationDetailRoute() {
   const { id } = Route.useParams();
-  const { userId } = Route.useLoaderData();
+  const { application: loaderApplication, userId } = Route.useLoaderData();
   const { data } = useApplication(userId, id);
+  const application = data ?? loaderApplication;
 
-  if (!data?.success) {
+  if (!application.success) {
     return <p className="px-4 py-12 text-center text-muted-foreground">Application not found.</p>;
   }
 
-  return <ApplicationDetailPage application={data.data} userId={userId} />;
+  return <ApplicationDetailPage application={application.data} userId={userId} />;
 }
