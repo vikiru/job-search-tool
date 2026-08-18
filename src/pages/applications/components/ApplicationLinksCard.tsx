@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { ExternalLink, FileText, Link2, Pencil, Plus, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
+import { useApplicationLinks } from '@/features/applications/hooks/useApplicationMutations';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
+import type { SelectApplicationLink } from '@/server/db/zod';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import {
@@ -21,13 +24,21 @@ interface ApplicationLink {
   label: string;
 }
 
-const initialLinks: ApplicationLink[] = [
-  { id: 'job-posting', label: 'Job posting', href: 'https://commonground.example/jobs/service-designer' },
-  { id: 'resume-used', label: 'Resume used', href: 'https://app.jobapp.example/resumes/john-doe' },
-];
-
-export function ApplicationLinksCard() {
-  const [links, setLinks] = useState(initialLinks);
+export function ApplicationLinksCard({
+  applicationId,
+  userId,
+  links: persistedLinks,
+}: {
+  applicationId: string;
+  userId: string;
+  links: SelectApplicationLink[];
+}) {
+  const links = persistedLinks.map((link) => ({
+    href: link.url,
+    id: link.id,
+    label: link.label ?? 'Application link',
+  }));
+  const linkMutations = useApplicationLinks(userId, applicationId);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingLink, setEditingLink] = useState<ApplicationLink | null>(null);
   const [label, setLabel] = useState('');
@@ -47,16 +58,16 @@ export function ApplicationLinksCard() {
     setDialogOpen(true);
   }
 
-  function saveLink(event: React.FormEvent<HTMLFormElement>) {
+  async function saveLink(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const nextLink = { id: editingLink?.id ?? `link-${Date.now()}`, label: label.trim(), href: href.trim() };
-
-    if (editingLink) {
-      setLinks((currentLinks) => currentLinks.map((link) => (link.id === editingLink.id ? nextLink : link)));
-    } else {
-      setLinks((currentLinks) => [...currentLinks, nextLink]);
+    const result = editingLink
+      ? await linkMutations.update.mutateAsync({ id: editingLink.id, label: label.trim(), url: href.trim() })
+      : await linkMutations.add.mutateAsync({ label: label.trim(), url: href.trim() });
+    if (!result.success) {
+      toast.error(result.error);
+      return;
     }
-
+    toast.success(editingLink ? 'Link updated.' : 'Link added.');
     setDialogOpen(false);
   }
 
@@ -82,7 +93,11 @@ export function ApplicationLinksCard() {
               key={link.id}
               link={link}
               onEdit={openEditDialog}
-              onRemove={() => setLinks((current) => current.filter((item) => item.id !== link.id))}
+              onRemove={async () => {
+                const result = await linkMutations.remove.mutateAsync(link.id);
+                if (result.success) toast.success('Link removed.');
+                else toast.error(result.error);
+              }}
             />
           ))}
         </CardContent>
@@ -132,7 +147,9 @@ export function ApplicationLinksCard() {
             </div>
             <DialogFooter className="-mx-5 -mb-5 gap-3 border-border/60 pt-6 sm:-mx-6 sm:-mb-6 sm:gap-2">
               <DialogClose render={<Button variant="outline" type="button" />}>Cancel</DialogClose>
-              <Button type="submit">{editingLink ? 'Save link' : 'Add link'}</Button>
+              <Button type="submit" disabled={linkMutations.add.isPending || linkMutations.update.isPending}>
+                {editingLink ? 'Save link' : 'Add link'}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

@@ -22,6 +22,7 @@ interface ApplicationsToolbarProps {
   onInterestFilterChange: (value: InterestRating | 'ALL') => void;
   view: ApplicationView;
   onViewChange: (value: ApplicationView) => void;
+  userId: string;
 }
 
 function ApplicationsToolbar({
@@ -33,6 +34,7 @@ function ApplicationsToolbar({
   onInterestFilterChange,
   view,
   onViewChange,
+  userId,
 }: ApplicationsToolbarProps) {
   return (
     <div className="space-y-4 border-b border-border/70 p-3 sm:p-5">
@@ -113,7 +115,7 @@ function ApplicationsToolbar({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <PasteJdDialog />
+          <PasteJdDialog userId={userId} />
         </div>
       </div>
     </div>
