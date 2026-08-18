@@ -6,11 +6,13 @@ import {
   applicationLinks,
   applicationNotes,
   applicationAnalysis,
+  applicationActivity,
   resumes,
   userLinks,
   applicationStatusEnum,
   workArrangementEnum,
   salaryPeriodEnum,
+  applicationActivityEventEnum,
 } from '@/server/db/schema';
 
 export const ApplicationStatusSchema = z.enum(applicationStatusEnum.enumValues);
@@ -21,6 +23,9 @@ export type WorkArrangement = z.infer<typeof WorkArrangementSchema>;
 
 export const SalaryPeriodSchema = z.enum(salaryPeriodEnum.enumValues);
 export type SalaryPeriod = z.infer<typeof SalaryPeriodSchema>;
+
+export const ApplicationActivityEventSchema = z.enum(applicationActivityEventEnum.enumValues);
+export type ApplicationActivityEvent = z.infer<typeof ApplicationActivityEventSchema>;
 
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
@@ -51,6 +56,11 @@ export const insertApplicationAnalysisSchema = createInsertSchema(applicationAna
 export const selectApplicationAnalysisSchema = createSelectSchema(applicationAnalysis);
 export type InsertApplicationAnalysis = z.infer<typeof insertApplicationAnalysisSchema>;
 export type SelectApplicationAnalysis = z.infer<typeof selectApplicationAnalysisSchema>;
+
+export const insertApplicationActivitySchema = createInsertSchema(applicationActivity);
+export const selectApplicationActivitySchema = createSelectSchema(applicationActivity);
+export type InsertApplicationActivity = z.infer<typeof insertApplicationActivitySchema>;
+export type SelectApplicationActivity = z.infer<typeof selectApplicationActivitySchema>;
 
 export const insertResumeSchema = createInsertSchema(resumes);
 export const selectResumeSchema = createSelectSchema(resumes);
