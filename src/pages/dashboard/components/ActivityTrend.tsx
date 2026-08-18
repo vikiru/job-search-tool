@@ -1,30 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { format, parseISO } from 'date-fns';
+import type { DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
 
-const activity = [
-  { label: 'Mon', fullDay: 'Monday', value: 1 },
-  { label: 'Tue', fullDay: 'Tuesday', value: 3 },
-  { label: 'Wed', fullDay: 'Wednesday', value: 2 },
-  { label: 'Thu', fullDay: 'Thursday', value: 5 },
-  { label: 'Fri', fullDay: 'Friday', value: 4 },
-  { label: 'Sat', fullDay: 'Saturday', value: 2 },
-  { label: 'Sun', fullDay: 'Sunday', value: 0 },
-];
+function ActivityTrend({
+  weekEnd,
+  weekStart,
+  weeklyActivity,
+}: {
+  weekEnd: string;
+  weekStart: string;
+  weeklyActivity: DashboardWeeklyActivity[];
+}) {
+  const activity = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(`${weekStart}T12:00:00`);
+    date.setDate(date.getDate() + index);
+    const dateValue = format(date, 'yyyy-MM-dd');
+    const count = weeklyActivity.find((item) => item.applicationDate === dateValue)?.count ?? 0;
+    return { dateValue, fullDay: format(date, 'EEEE'), label: format(date, 'EEE'), value: count };
+  });
+  const maxValue = Math.max(4, ...activity.map((day) => day.value));
+  const yAxisLabels = [maxValue, Math.ceil(maxValue * 0.75), Math.ceil(maxValue * 0.5), Math.ceil(maxValue * 0.25), 0];
 
-const yAxisLabels = [8, 6, 4, 2, 0];
-const maxValue = 8;
-
-function ActivityTrend() {
   return (
     <Card className="h-full min-w-0">
       <CardHeader>
         <CardTitle className="font-heading text-h4 font-semibold">Applications this week</CardTitle>
-        <p className="mt-1 font-mono text-small leading-normal tabular-nums text-muted-foreground">Aug 17–23, 2026</p>
+        <p className="mt-2 font-mono text-small font-medium leading-normal tracking-tight text-muted-foreground">
+          {format(parseISO(weekStart), 'MMM d')} {'–'} {format(parseISO(weekEnd), 'MMM d, yyyy')}
+        </p>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col pt-4">
         <div
           className="grid min-h-0 min-w-0 flex-1 grid-cols-[1.75rem_minmax(0,1fr)] gap-2 sm:grid-cols-[2rem_minmax(0,1fr)] sm:gap-3"
           role="img"
-          aria-label="Bar chart showing applications added from August 17 through August 23, 2026"
+          aria-label={`Bar chart showing applications added from ${format(parseISO(weekStart), 'MMMM d')} through ${format(parseISO(weekEnd), 'MMMM d, yyyy')}`}
         >
           <div className="flex h-40 flex-col justify-between pb-6 text-right font-mono text-caption leading-none tabular-nums text-muted-foreground sm:h-56 lg:h-80">
             {yAxisLabels.map((label) => (
