@@ -52,19 +52,20 @@ Key application statistics are available through the dashboard, and application 
 
 - Backend: [Node.js](https://nodejs.org/), [Drizzle ORM](https://orm.drizzle.team/), [PostgreSQL](https://www.postgresql.org/), [Zod](https://zod.dev/), [Clerk](https://clerk.com/), [Google Gemini](https://ai.google.dev/gemini-api/docs).
 
-- Linting & Formatting: [Oxlint](https://oxc.rs/docs/guide/usage/linter), [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html).
+- Dev Tools: [pnpm](https://pnpm.io/), [Oxlint](https://oxc.rs/docs/guide/usage/linter), [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) [Knip](https://github.com/webpro-nl/knip), [Lefthook](https://github.com/evilmartians/lefthook), [commitlint](https://commitlint.js.org/), [semantic-release](https://github.com/semantic-release/semantic-release).
 
-- Dev Tools: [pnpm](https://pnpm.io/), [Knip](https://github.com/webpro-nl/knip), [Lefthook](https://github.com/evilmartians/lefthook), [commitlint](https://commitlint.js.org/), [semantic-release](https://github.com/semantic-release/semantic-release).
+- AI Tools: [Google AI Studio](https://aistudio.google.com/), Spec-driven development using [OpenSpec](https://openspec.dev/).
+
 
 ## 📝 Prerequisites
 
 Ensure that the following prerequisites are installed or configured on your system by following the [Setup Instructions](#-setup-instructions):
 
-- [Node.js](https://nodejs.org/) `>= 22.12`
-- [pnpm](https://pnpm.io/) `>= 11.20`
-- A running [PostgreSQL](https://www.postgresql.org/) database
-- A [Clerk](https://clerk.com/) application
-- A [Google AI Studio](https://aistudio.google.com/) Gemini API key
+- [Node.js](https://nodejs.org/) `>= 22.12`.
+- [pnpm](https://pnpm.io/) `>= 11.20`.
+- A running [PostgreSQL](https://www.postgresql.org/) database.
+- A [Clerk](https://clerk.com/) application.
+- A [Google AI Studio](https://aistudio.google.com/) Gemini API key.
 
 ## ⚡ Setup Instructions
 
