@@ -1,8 +1,9 @@
 import { and, asc, eq, gte, lte, sql } from 'drizzle-orm';
 
+import type { ApplicationStatus } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { applications } from '@/server/db/schema';
-import type { ApplicationStatus } from '@/server/db/zod';
 
 export interface DashboardStats {
   activePipeline: number;

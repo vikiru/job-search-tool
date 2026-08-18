@@ -1,3 +1,5 @@
+import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -8,14 +10,13 @@ import {
   Link,
 } from '@tanstack/react-router';
 import { useEffect, useRef } from 'react';
-import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
-import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
-import { Button } from '@/shared/components/ui/button';
+
 import { Footer } from '@/shared/components/Footer';
 import { Navbar } from '@/shared/components/Navbar';
 import { ThemeProvider } from '@/shared/components/ThemeProvider';
-import { clerkAppearance } from '@/shared/config/clerkAppearance';
+import { Button } from '@/shared/components/ui/button';
 import { Toaster } from '@/shared/components/ui/sonner';
+import { clerkAppearance } from '@/shared/config/clerkAppearance';
 import appCss from '@/styles/app.css?url';
 
 const themeInitScript = `
@@ -156,7 +157,7 @@ function RootNotFoundComponent() {
     <div className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
       <div className="max-w-md space-y-4">
         <h1 className="font-heading text-4xl font-bold tracking-tight">404 - Page Not Found</h1>
-        <p className="text-sm text-muted-foreground font-body">
+        <p className="font-body text-sm text-muted-foreground">
           The page you are looking for does not exist or has been moved.
         </p>
         <div className="pt-2">

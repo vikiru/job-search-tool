@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { addApplicationNote, deleteApplicationNote, updateApplicationNote } from '@/features/applications/server';
 import { invalidateApplicationQueries, withFallback } from '@/features/applications/hooks/application-mutation-utils';
+import { addApplicationNote, deleteApplicationNote, updateApplicationNote } from '@/features/applications/server';
 
 export function useApplicationNotes(userId: string, applicationId: string) {
   const queryClient = useQueryClient();

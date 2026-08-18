@@ -1,6 +1,6 @@
-import { ArrowRight } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
 import { ClerkLoaded, Show } from '@clerk/tanstack-react-start';
+import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 
 import { Button } from '@/shared/components/ui/button';
 
@@ -10,7 +10,7 @@ function HomeCtaSection() {
       aria-labelledby="home-cta-title"
       className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24"
     >
-      <div className="relative overflow-hidden rounded-2xl bg-secondary/70 px-6 py-12 text-secondary-foreground shadow-sm ring-1 ring-foreground/10 dark:bg-card/80 sm:px-10 lg:px-16 lg:py-14">
+      <div className="relative overflow-hidden rounded-2xl bg-secondary/70 px-6 py-12 text-secondary-foreground shadow-sm ring-1 ring-foreground/10 sm:px-10 lg:px-16 lg:py-14 dark:bg-card/80">
         <div
           className="absolute -right-20 -bottom-28 size-72 rounded-full border border-primary/15"
           aria-hidden="true"

@@ -1,7 +1,9 @@
 import { eq } from 'drizzle-orm';
+
+import type { SelectResume } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { resumes } from '@/server/db/schema';
-import type { SelectResume } from '@/server/db/zod';
 
 export async function findResumeByUserId(userId: string): Promise<SelectResume | undefined> {
   const [resume] = await db.select().from(resumes).where(eq(resumes.userId, userId));

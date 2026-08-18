@@ -1,8 +1,9 @@
+import type { ParsedResume, ResumeHeader } from '@/features/resumes/parser/types';
+
 import { parseSection } from '@/features/resumes/parser/entries';
 import { extractResumeLinks } from '@/features/resumes/parser/links';
 import { normalizeResumeLines } from '@/features/resumes/parser/normalize';
 import { groupResumeSections } from '@/features/resumes/parser/sections';
-import type { ParsedResume, ResumeHeader } from '@/features/resumes/parser/types';
 
 function parseHeader(lines: string[]): ResumeHeader {
   const [name, ...remaining] = lines;

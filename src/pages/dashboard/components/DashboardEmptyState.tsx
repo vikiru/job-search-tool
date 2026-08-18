@@ -1,5 +1,5 @@
-import { BriefcaseBusiness } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { BriefcaseBusiness } from 'lucide-react';
 
 import { Button } from '@/shared/components/ui/button';
 import {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import type { ApplicationStatus, InterestRating } from '@/pages/applications/application-model';
+
 import { Button } from '@/shared/components/ui/button';
 import { DialogClose, DialogFooter } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';

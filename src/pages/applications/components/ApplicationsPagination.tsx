@@ -28,7 +28,7 @@ function ApplicationsPagination({
 
   return (
     <div className="flex flex-col gap-4 border-t border-border/70 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-      <p className="font-mono text-small tabular-nums text-muted-foreground" aria-live="polite">
+      <p className="font-mono text-small text-muted-foreground tabular-nums" aria-live="polite">
         Showing{' '}
         <span className="font-semibold text-foreground">
           {firstItem}–{lastItem}
@@ -61,7 +61,7 @@ function ApplicationsPagination({
                 />
               </PaginationItem>
               <PaginationItem>
-                <span className="px-2 font-mono text-caption tabular-nums text-muted-foreground">
+                <span className="px-2 font-mono text-caption text-muted-foreground tabular-nums">
                   {pageIndex + 1} / {pageCount}
                 </span>
               </PaginationItem>

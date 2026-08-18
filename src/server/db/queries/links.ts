@@ -1,7 +1,9 @@
 import { and, eq, desc } from 'drizzle-orm';
+
+import type { SelectApplicationLink } from '@/server/db/zod';
+
 import { db } from '@/server/db';
 import { applicationLinks, applications } from '@/server/db/schema';
-import type { SelectApplicationLink } from '@/server/db/zod';
 
 export async function findLinksByApplicationId(
   applicationId: string,

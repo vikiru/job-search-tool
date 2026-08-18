@@ -2,9 +2,10 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import type { ApplicationRecord } from '@/pages/applications/application-model';
+
 import { useUpdateApplication } from '@/features/applications/hooks/useApplicationMutations';
 import { ManualApplicationForm } from '@/pages/applications/components/ManualApplicationForm';
-import type { ApplicationRecord } from '@/pages/applications/application-model';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -58,7 +59,7 @@ function EditApplicationDialog({ application, userId }: { application: Applicati
       />
       <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-2xl gap-7 overflow-y-auto p-5 sm:max-h-[calc(100dvh-3rem)] sm:max-w-3xl sm:p-7">
         <DialogHeader className="gap-3 pr-8">
-          <DialogTitle className="font-heading text-h3 font-semibold leading-tight tracking-tight">
+          <DialogTitle className="font-heading text-h3 leading-tight font-semibold tracking-tight">
             Edit application
           </DialogTitle>
           <DialogDescription className="max-w-prose text-small leading-relaxed text-pretty">

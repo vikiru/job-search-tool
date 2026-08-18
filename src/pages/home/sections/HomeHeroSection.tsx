@@ -1,6 +1,6 @@
-import { ArrowRight } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
 import { ClerkLoaded, Show } from '@clerk/tanstack-react-start';
+import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 
 import { HeroPreview } from '@/pages/home/components/HeroPreview';
 import { Button } from '@/shared/components/ui/button';
@@ -13,7 +13,7 @@ function HomeHeroSection() {
         <div className="max-w-2xl">
           <h1
             id="home-hero-title"
-            className="max-w-[13ch] text-display font-heading font-semibold leading-tight tracking-tight text-balance"
+            className="max-w-[13ch] font-heading text-display leading-tight font-semibold tracking-tight text-balance"
           >
             Keep your job search moving.
           </h1>

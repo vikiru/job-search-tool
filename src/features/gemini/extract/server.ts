@@ -1,13 +1,13 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 
 import { extractJobDescription } from '@/features/gemini/extract/extract-jd';
-import { getOrCreateUser } from '@/server/db/users';
-import { insertApplicationWithActivity } from '@/server/db/queries/applications';
 import { upsertAnalysis } from '@/server/db/queries/analysis';
-import { error, success, type Result } from '@/shared/lib/result';
+import { insertApplicationWithActivity } from '@/server/db/queries/applications';
+import { getOrCreateUser } from '@/server/db/users';
 import { logServerError } from '@/server/lib/log-error';
+import { error, success, type Result } from '@/shared/lib/result';
 import { isSafeHttpUrl } from '@/shared/lib/urls';
 
 const createFromJobDescriptionSchema = z.object({

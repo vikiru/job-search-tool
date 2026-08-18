@@ -1,7 +1,8 @@
 import { BriefcaseBusiness, CalendarDays, CircleCheck, Handshake } from 'lucide-react';
 
-import { KpiCard } from '@/pages/dashboard/components/KpiCard';
 import type { DashboardStats } from '@/server/db/queries/dashboard';
+
+import { KpiCard } from '@/pages/dashboard/components/KpiCard';
 
 function DashboardOverviewSection({ stats }: { stats: DashboardStats | null }) {
   const metrics = [

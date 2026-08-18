@@ -1,5 +1,6 @@
-import { RecentActivity } from '@/pages/dashboard/components/RecentActivity';
 import type { RecentApplicationActivity } from '@/features/applications/types';
+
+import { RecentActivity } from '@/pages/dashboard/components/RecentActivity';
 
 function DashboardActivitySection({ activity }: { activity: RecentApplicationActivity[] }) {
   return (

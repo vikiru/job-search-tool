@@ -33,7 +33,7 @@ function CardTitle({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-title"
-      className={cn('text-base font-medium leading-none tracking-tight group-data-[size=sm]/card:text-sm', className)}
+      className={cn('text-base leading-none font-medium tracking-tight group-data-[size=sm]/card:text-sm', className)}
       {...props}
     />
   );

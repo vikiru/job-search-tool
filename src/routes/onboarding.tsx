@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { OnboardingPage } from '@/pages/onboarding/OnboardingPage';
 import { getUserProfile, requireAuth } from '@/features/auth/server';
+import { OnboardingPage } from '@/pages/onboarding/OnboardingPage';
 
 export const Route = createFileRoute('/onboarding')({
   head: () => ({

@@ -4,7 +4,7 @@ export function ResumeInsightsSection() {
   return (
     <aside className="rounded-xl border border-border/70 bg-muted/30 p-5 sm:p-6">
       <Sparkles className="size-icon-base text-primary" aria-hidden="true" />
-      <h2 className="mt-4 font-heading text-h5 font-semibold leading-tight tracking-tight text-balance">
+      <h2 className="mt-4 font-heading text-h5 leading-tight font-semibold tracking-tight text-balance">
         Make more of your resume
       </h2>
       <p className="mt-3 max-w-prose text-small leading-relaxed text-pretty text-muted-foreground">

@@ -1,7 +1,7 @@
 /* oxlint-disable react/react-compiler -- mounted state prevents an SSR/client theme-label mismatch. */
 
-import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { useTheme } from '@/shared/components/ThemeProvider';
 import { Button } from '@/shared/components/ui/button';
@@ -17,7 +17,7 @@ function ThemeToggle() {
   return (
     <Button
       aria-label={mounted && isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="touch-target relative size-11 rounded-full text-muted-foreground transition-colors hover:bg-transparent hover:text-primary motion-reduce:transition-none dark:hover:bg-transparent"
+      className="relative size-11 touch-target rounded-full text-muted-foreground transition-colors hover:bg-transparent hover:text-primary motion-reduce:transition-none dark:hover:bg-transparent"
       onClick={toggleTheme}
       size="icon"
       type="button"
@@ -25,11 +25,11 @@ function ThemeToggle() {
     >
       <Sun
         aria-hidden="true"
-        className="size-icon-md rotate-0 scale-100 transition-all motion-reduce:transition-none dark:-rotate-90 dark:scale-0"
+        className="size-icon-md scale-100 rotate-0 transition-all motion-reduce:transition-none dark:scale-0 dark:-rotate-90"
       />
       <Moon
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 size-icon-md -translate-x-1/2 -translate-y-1/2 rotate-90 scale-0 transition-all motion-reduce:transition-none dark:rotate-0 dark:scale-100"
+        className="absolute top-1/2 left-1/2 size-icon-md -translate-x-1/2 -translate-y-1/2 scale-0 rotate-90 transition-all motion-reduce:transition-none dark:scale-100 dark:rotate-0"
       />
     </Button>
   );

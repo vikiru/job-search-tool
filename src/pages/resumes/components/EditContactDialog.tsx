@@ -1,6 +1,7 @@
 import type { FormEvent } from 'react';
 
 import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
   DialogTrigger,
 } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
+import { getFormString } from '@/shared/lib/utils';
 
 interface EditContactDialogProps {
   contact: UserContactData;
@@ -27,13 +29,13 @@ function EditContactDialog({ contact, isSaving, onOpenChange, onSaveContact, ope
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const saved = await onSaveContact({
-      email: String(formData.get('resume-contact-email') ?? '').trim(),
+      email: getFormString(formData, 'resume-contact-email').trim(),
       links: [
-        { label: 'LinkedIn', href: String(formData.get('resume-contact-linkedin') ?? '').trim() },
-        { label: 'GitHub', href: String(formData.get('resume-contact-github') ?? '').trim() },
-        { label: 'Portfolio', href: String(formData.get('resume-contact-portfolio') ?? '').trim() },
+        { label: 'LinkedIn', href: getFormString(formData, 'resume-contact-linkedin').trim() },
+        { label: 'GitHub', href: getFormString(formData, 'resume-contact-github').trim() },
+        { label: 'Portfolio', href: getFormString(formData, 'resume-contact-portfolio').trim() },
       ].filter((link) => link.href),
-      phoneNumber: String(formData.get('resume-contact-phone') ?? '').trim(),
+      phoneNumber: getFormString(formData, 'resume-contact-phone').trim(),
     });
     if (saved) onOpenChange(false);
   }

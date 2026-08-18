@@ -1,10 +1,11 @@
 import { CheckCircle2, CircleAlert, Sparkles } from 'lucide-react';
 
-import { AnalyzeMatchDialog } from '@/pages/applications/details/components/AnalyzeMatchDialog';
+import type { SelectApplicationAnalysis } from '@/server/db/zod';
+
 import { AnalysisEmptyState } from '@/pages/applications/components/AnalysisEmptyState';
+import { AnalyzeMatchDialog } from '@/pages/applications/details/components/AnalyzeMatchDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Progress } from '@/shared/components/ui/progress';
-import type { SelectApplicationAnalysis } from '@/server/db/zod';
 
 interface FitAnalysisSectionProps {
   analysis: SelectApplicationAnalysis | null;
@@ -30,8 +31,8 @@ export function FitAnalysisSection({ analysis, applicationId, userId }: FitAnaly
         {!hasMatchAnalysis && <AnalyzeMatchDialog applicationId={applicationId} userId={userId} />}
         {hasMatchAnalysis && (
           <div className="shrink-0 text-right">
-            <p className="font-mono text-caption uppercase tracking-[0.08em] text-muted-foreground">Match score</p>
-            <p className="font-mono text-h3 font-semibold leading-none tabular-nums text-primary">{score}%</p>
+            <p className="font-mono text-caption tracking-[0.08em] text-muted-foreground uppercase">Match score</p>
+            <p className="font-mono text-h3 leading-none font-semibold text-primary tabular-nums">{score}%</p>
           </div>
         )}
       </CardHeader>
@@ -58,8 +59,8 @@ function AnalysisSummary({ analysis }: { analysis: SelectApplicationAnalysis }) 
     <div className="min-w-0 space-y-8">
       {analysis.tldr && (
         <section className="space-y-3 rounded-lg bg-muted/40 p-4 sm:p-5">
-          <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">TL;DR</h3>
-          <p className="max-w-readable break-words text-analysis text-foreground/80">{analysis.tldr}</p>
+          <h3 className="font-heading text-h4 leading-tight font-semibold tracking-tight">TL;DR</h3>
+          <p className="max-w-readable text-analysis break-words text-foreground/80">{analysis.tldr}</p>
         </section>
       )}
       <div className="space-y-6">
@@ -91,7 +92,7 @@ function AnalysisTags({
         ) : (
           <CheckCircle2 className="size-icon-sm text-success" aria-hidden="true" />
         )}
-        <h3 className="font-heading text-h4 font-semibold leading-tight tracking-tight">{title}</h3>
+        <h3 className="font-heading text-h4 leading-tight font-semibold tracking-tight">{title}</h3>
       </div>
       {values.length > 0 ? (
         <ul className="max-w-readable space-y-3.5 pl-1 text-analysis text-foreground/80">
@@ -124,7 +125,7 @@ function AnalysisBlock({
   return (
     <section className="min-w-0 space-y-3 border-t border-border/60 pt-6 first:border-t-0 first:pt-0">
       <h3
-        className={`font-heading text-h4 font-semibold leading-tight tracking-tight ${tone === 'warning' ? 'text-destructive' : ''}`}
+        className={`font-heading text-h4 leading-tight font-semibold tracking-tight ${tone === 'warning' ? 'text-destructive' : ''}`}
       >
         {title}
       </h3>
@@ -133,7 +134,7 @@ function AnalysisBlock({
           className={`max-w-readable list-disc space-y-3 pl-6 text-analysis ${tone === 'warning' ? 'marker:text-destructive' : 'marker:text-primary'} text-foreground/80`}
         >
           {items.map((item, index) => (
-            <li key={`${item}-${index}`} className="break-words pl-1">
+            <li key={`${item}-${index}`} className="pl-1 break-words">
               {item}
             </li>
           ))}

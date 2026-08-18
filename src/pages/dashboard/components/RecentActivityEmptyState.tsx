@@ -6,7 +6,7 @@ function RecentActivityEmptyState() {
   return (
     <Empty className="min-h-52 rounded-lg border border-dashed border-border px-4 py-8">
       <EmptyMedia
-        className="size-10 rounded-full bg-muted text-muted-foreground [&_svg:not([class*='size-'])]:size-icon-base"
+        className="[&_svg:not([class*='size-'])]:size-icon-base size-10 rounded-full bg-muted text-muted-foreground"
         variant="icon"
       >
         <Activity className="size-icon-base" aria-hidden="true" />

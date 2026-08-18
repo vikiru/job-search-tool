@@ -1,18 +1,18 @@
 /* oxlint-disable jsx_a11y/no-noninteractive-tabindex -- dnd-kit uses this focusable drag surface for keyboard dragging. */
 
-import { Link } from '@tanstack/react-router';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Link } from '@tanstack/react-router';
 
-import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
-import { InterestRating } from '@/pages/applications/components/InterestRating';
-import { KanbanStatusSelect } from '@/pages/applications/components/KanbanStatusSelect';
-import { StatusBadge } from '@/pages/applications/components/StatusBadge';
 import {
   formatApplicationDate,
   type ApplicationRecord,
   type ApplicationStatus,
 } from '@/pages/applications/application-model';
+import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
+import { InterestRating } from '@/pages/applications/components/InterestRating';
+import { KanbanStatusSelect } from '@/pages/applications/components/KanbanStatusSelect';
+import { StatusBadge } from '@/pages/applications/components/StatusBadge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 interface KanbanCardProps {
@@ -77,7 +77,7 @@ function KanbanCardContent({
   return (
     <Card
       size="sm"
-      className={`gap-3 border-border/70 bg-card shadow-xs transition-[border-color,box-shadow] motion-reduce:transition-none hover:border-border ${
+      className={`gap-3 border-border/70 bg-card shadow-xs transition-[border-color,box-shadow] hover:border-border motion-reduce:transition-none ${
         isOverlay ? 'rotate-2 shadow-lg' : ''
       }`}
     >
@@ -86,7 +86,7 @@ function KanbanCardContent({
           <div className="min-w-0">
             <CardTitle className="truncate font-heading text-small font-semibold tracking-tight">
               <Link
-                className="transition-colors motion-reduce:transition-none hover:text-primary"
+                className="transition-colors hover:text-primary motion-reduce:transition-none"
                 to="/applications/$id"
                 params={{ id: application.id }}
               >
@@ -94,7 +94,7 @@ function KanbanCardContent({
               </Link>
             </CardTitle>
             <Link
-              className="mt-1 line-clamp-2 text-caption leading-relaxed text-muted-foreground transition-colors motion-reduce:transition-none hover:text-primary"
+              className="mt-1 line-clamp-2 text-caption leading-relaxed text-muted-foreground transition-colors hover:text-primary motion-reduce:transition-none"
               to="/applications/$id"
               params={{ id: application.id }}
             >

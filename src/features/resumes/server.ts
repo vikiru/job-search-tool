@@ -1,13 +1,14 @@
-import { createServerFn } from '@tanstack/react-start';
 import { auth } from '@clerk/tanstack-react-start/server';
+import { createServerFn } from '@tanstack/react-start';
 import { z, type ZodType } from 'zod';
 
-import { deleteResume, findResumeByUserId, updateResumeText, upsertResume } from '@/server/db/queries/resumes';
-import { parseResumePdf } from '@/server/resumes/parse-pdf';
-import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
-import { error, success, type Result } from '@/shared/lib/result';
 import type { SelectResume } from '@/server/db/zod';
+
+import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
+import { deleteResume, findResumeByUserId, updateResumeText, upsertResume } from '@/server/db/queries/resumes';
 import { logServerError } from '@/server/lib/log-error';
+import { parseResumePdf } from '@/server/resumes/parse-pdf';
+import { error, success, type Result } from '@/shared/lib/result';
 
 const uploadResumeSchema = z.object({
   filename: z.string().trim().min(1).max(255),

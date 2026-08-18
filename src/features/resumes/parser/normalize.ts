@@ -10,7 +10,7 @@ function normalizeLine(line: string): string {
   return splitAttachedTokens(
     line
       .replaceAll('\u00a0', ' ')
-      .replace(/[ \t]+/g, ' ')
+      .replaceAll(/[ \t]+/g, ' ')
       .trim(),
   );
 }
@@ -24,6 +24,6 @@ export function normalizeResumeLines(text: string): string[] {
 }
 
 export function stripBullet(line: string): { isBullet: boolean; text: string } {
-  const match = line.match(/^[•●▪◦‣·*-]\s*(.*)$/);
-  return match ? { isBullet: true, text: match[1].trim() } : { isBullet: false, text: line };
+  const match = line.match(/^[•●▪◦‣·*-]/u);
+  return match ? { isBullet: true, text: line.slice(match[0].length).trim() } : { isBullet: false, text: line };
 }

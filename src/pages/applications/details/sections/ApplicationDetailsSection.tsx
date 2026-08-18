@@ -1,6 +1,6 @@
+import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/application-model';
 import { InterestRating } from '@/pages/applications/components/InterestRating';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
-import { formatApplicationDate, type ApplicationRecord } from '@/pages/applications/application-model';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Separator } from '@/shared/components/ui/separator';
 
@@ -59,7 +59,7 @@ function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <dt className="text-small text-muted-foreground">{label}</dt>
-      <dd className="max-w-[62%] break-words text-right font-heading text-small font-medium">{value}</dd>
+      <dd className="max-w-[62%] text-right font-heading text-small font-medium break-words">{value}</dd>
     </div>
   );
 }

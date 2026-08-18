@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { Eye, EyeOff, LockKeyhole } from 'lucide-react';
+import { useState } from 'react';
 
 import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+
 import { EditContactDialog } from '@/pages/resumes/components/EditContactDialog';
 import { ResumePublicLinks } from '@/pages/resumes/components/ResumePublicLinks';
 import { Button } from '@/shared/components/ui/button';

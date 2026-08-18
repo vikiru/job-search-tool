@@ -1,5 +1,9 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
+import type { RecentApplicationActivity } from '@/features/applications/types';
+import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
+
+import { dashboardKeys } from '@/features/dashboard/dashboard-keys';
 import {
   getDashboardStats,
   getDashboardRecentActivity,
@@ -7,9 +11,6 @@ import {
   getDashboardWeeklyActivity,
 } from '@/features/dashboard/server';
 import { error, type Result } from '@/shared/lib/result';
-import type { DashboardStats, DashboardStatusCount, DashboardWeeklyActivity } from '@/server/db/queries/dashboard';
-import type { RecentApplicationActivity } from '@/features/applications/types';
-import { dashboardKeys } from '@/features/dashboard/dashboard-keys';
 
 export function dashboardStatsQueryOptions(userId: string) {
   return queryOptions<Result<DashboardStats>>({
