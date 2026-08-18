@@ -1,4 +1,4 @@
-/* oxlint-disable react/react-compiler -- theme synchronization bridges React state with browser media and document APIs. */
+/* oxlint-disable react/set-state-in-effect -- theme state synchronizes with browser storage and media APIs. */
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 

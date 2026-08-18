@@ -56,7 +56,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
       ) : (
         <Empty className="mt-4 min-h-28 rounded-lg border border-dashed border-border px-4 py-5">
           <EmptyMedia className="mb-0 text-muted-foreground" variant="default">
-            <Link2 className="size-icon-base" aria-hidden="true" />
+            <Link2 className="size-icon-sm" aria-hidden="true" />
           </EmptyMedia>
           <EmptyHeader>
             <EmptyTitle className="text-small">No public links yet</EmptyTitle>
@@ -72,7 +72,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
 
 function PublicLinkIcon({ label }: { label: string }) {
   const Icon = publicLinkIcons[label] ?? Globe2;
-  return <Icon className="size-icon-base shrink-0 text-primary" aria-hidden="true" />;
+  return <Icon className="size-icon-sm shrink-0 text-primary" aria-hidden="true" />;
 }
 
 const publicLinkIcons: Record<string, LucideIcon> = {

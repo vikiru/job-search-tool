@@ -1,4 +1,4 @@
-/* oxlint-disable react/react-compiler -- mounted state prevents an SSR/client theme-label mismatch. */
+/* oxlint-disable react/set-state-in-effect -- mounted state prevents an SSR/client theme-label mismatch. */
 
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';

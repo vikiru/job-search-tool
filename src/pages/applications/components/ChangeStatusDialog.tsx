@@ -1,4 +1,4 @@
-/* oxlint-disable react/react-compiler -- dialog draft state is reset when its selected application changes. */
+/* oxlint-disable react/set-state-in-effect -- reset dialog draft state when the selected application changes. */
 
 import { useEffect, useState } from 'react';
 

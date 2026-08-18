@@ -42,7 +42,7 @@ function ConfirmDialog({
       <AlertDialogContent className="max-w-xl gap-8 p-6 sm:max-w-xl sm:p-8">
         <AlertDialogHeader className="max-w-2xl place-items-start gap-4 text-left">
           <AlertDialogMedia className="size-11 rounded-full bg-destructive/10 text-destructive">
-            <CircleAlert className="size-icon-base" aria-hidden="true" />
+            <CircleAlert className="size-icon-sm" aria-hidden="true" />
           </AlertDialogMedia>
           <AlertDialogTitle className="max-w-[34ch] font-heading text-h3 leading-[1.15] font-semibold tracking-tight text-balance">
             {heading}
