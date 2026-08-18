@@ -1,17 +1,35 @@
 import type { ReactNode } from 'react';
-import { FileText, RefreshCw } from 'lucide-react';
+import { useRef } from 'react';
+import { FileText, RefreshCw, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
+import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
+import { Spinner } from '@/shared/components/ui/spinner';
 
 interface ResumeDocumentProps {
+  createdAt: Date;
   filename: string;
+  isDeleting: boolean;
+  isReplacing: boolean;
+  onDelete: () => void;
+  onReplace: (file: File) => void;
   children: ReactNode;
 }
 
-function ResumeDocument({ children, filename }: ResumeDocumentProps) {
+function ResumeDocument({
+  children,
+  createdAt,
+  filename,
+  isDeleting,
+  isReplacing,
+  onDelete,
+  onReplace,
+}: ResumeDocumentProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
     <Card className="min-w-0">
       <CardHeader className="gap-4 border-b border-border/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-6">
@@ -26,16 +44,51 @@ function ResumeDocument({ children, filename }: ResumeDocumentProps) {
                 Current
               </Badge>
             </div>
-            <p className="mt-1 text-small leading-relaxed text-muted-foreground">PDF · Added August 17, 2026</p>
+            <p className="mt-1 text-small leading-relaxed text-muted-foreground">
+              PDF · Added {createdAt.toLocaleDateString('en-CA')}
+            </p>
           </div>
         </div>
-        <label htmlFor="replace-resume" className="inline-flex shrink-0 cursor-pointer items-center justify-center">
-          <Button render={<span />} variant="outline" size="sm">
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={isReplacing}
+            onClick={() => inputRef.current?.click()}
+          >
             <RefreshCw data-icon="inline-start" aria-hidden="true" />
-            Replace resume
+            {isReplacing ? 'Replacing…' : 'Replace resume'}
           </Button>
-          <input id="replace-resume" className="sr-only" type="file" accept="application/pdf" />
-        </label>
+          <ConfirmDialog
+            actionLabel="Delete resume"
+            body="This permanently removes the extracted resume text from your workspace. Your original PDF was never stored."
+            heading={`Delete ${filename}?`}
+            onConfirm={onDelete}
+            trigger={
+              <Button type="button" variant="destructive" size="sm" disabled={isDeleting || isReplacing}>
+                {isDeleting ? (
+                  <Spinner data-icon="inline-start" />
+                ) : (
+                  <Trash2 data-icon="inline-start" aria-hidden="true" />
+                )}
+                {isDeleting ? 'Deleting…' : 'Delete resume'}
+              </Button>
+            }
+          />
+          <input
+            ref={inputRef}
+            id="replace-resume"
+            className="sr-only"
+            type="file"
+            accept="application/pdf,.pdf"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) onReplace(file);
+              event.target.value = '';
+            }}
+          />
+        </div>
       </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[min(34rem,65vh)]">

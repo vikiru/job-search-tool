@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Eye, EyeOff, LockKeyhole } from 'lucide-react';
 
 import { EditResumeContactDialog } from '@/pages/resumes/components/EditResumeContactDialog';
 import { ResumePublicLinks, type PublicLink } from '@/pages/resumes/components/ResumePublicLinks';
 import { Button } from '@/shared/components/ui/button';
 
-const initialPublicLinks: PublicLink[] = [
-  { label: 'LinkedIn', href: 'linkedin.com/in/johndoe' },
-  { label: 'Portfolio', href: 'johndoe.design' },
-];
+interface ResumeContactDetailsProps {
+  links: PublicLink[];
+}
 
-export function ResumeContactDetails() {
+export function ResumeContactDetails({ links }: ResumeContactDetailsProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [publicLinks, setPublicLinks] = useState(initialPublicLinks);
+  const [publicLinks, setPublicLinks] = useState(links);
+
+  useEffect(() => setPublicLinks(links), [links]);
 
   return (
     <section
