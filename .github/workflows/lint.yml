@@ -23,7 +23,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup pnpm
-        uses: pnpm/setup@bf5bfae7d43e2b2b1191383f5005cd3fb69b848d # v2.0.2
+        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           runtime: node@22
           install: false
