@@ -4,11 +4,14 @@ import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon
 import { useTheme } from '@/shared/components/ThemeProvider';
 
 const Toaster = ({ ...props }: ToasterProps) => {
+  const TOAST_DURATION_MS = 5000;
   const { theme = 'system' } = useTheme();
 
   return (
     <Sonner
+      position="bottom-right"
       theme={theme as ToasterProps['theme']}
+      richColors
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,
@@ -26,6 +29,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         } as React.CSSProperties
       }
       toastOptions={{
+        duration: TOAST_DURATION_MS,
         classNames: {
           toast: 'cn-toast',
         },

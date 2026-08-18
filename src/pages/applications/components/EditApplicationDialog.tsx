@@ -40,7 +40,9 @@ function EditApplicationDialog({ application, userId }: { application: Applicati
       toast.error(result.error);
       return;
     }
-    toast.success('Application updated.');
+    toast.success('Application updated.', {
+      description: `${values.position} at ${values.company}`,
+    });
     setOpen(false);
   }
 

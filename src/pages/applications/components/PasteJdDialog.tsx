@@ -47,7 +47,13 @@ function PasteJdDialog({ userId }: { userId: string }) {
       return;
     }
 
-    toast.success('Application added');
+    toast.success('Application added', {
+      description: formatApplicationDescription({
+        company: values.company,
+        location: values.location,
+        position: values.position,
+      }),
+    });
     setOpen(false);
     await navigate({ to: '/applications/$id', params: { id: result.data.id } });
   }
@@ -61,9 +67,13 @@ function PasteJdDialog({ userId }: { userId: string }) {
     }
 
     if (result.data.extractionFailed) {
-      toast.error('AI extraction failed. The application was saved for you to complete manually.');
+      toast.error('AI extraction failed.', {
+        description: 'The application was saved for you to complete manually.',
+      });
     } else {
-      toast.success('Application added');
+      toast.success('Application added', {
+        description: formatApplicationDescription(result.data.metadata),
+      });
     }
 
     setOpen(false);
@@ -118,6 +128,42 @@ function PasteJdDialog({ userId }: { userId: string }) {
       </DialogContent>
     </Dialog>
   );
+}
+
+function formatApplicationDescription({
+  company,
+  location,
+  position,
+  salaryCurrency,
+  salaryMax,
+  salaryMin,
+}: {
+  company: string;
+  location?: string | null;
+  position: string;
+  salaryCurrency?: string | null;
+  salaryMax?: number | null;
+  salaryMin?: number | null;
+}) {
+  const salary = formatSalary({ salaryCurrency, salaryMax, salaryMin });
+  return [position, company, location, salary].filter(Boolean).join(' · ');
+}
+
+function formatSalary({
+  salaryCurrency,
+  salaryMax,
+  salaryMin,
+}: {
+  salaryCurrency?: string | null;
+  salaryMax?: number | null;
+  salaryMin?: number | null;
+}) {
+  if (salaryMin === null && salaryMax === null) return null;
+  const range = [salaryMin, salaryMax]
+    .filter((value): value is number => value !== null && value !== undefined)
+    .map((value) => value.toLocaleString('en-CA'))
+    .join('–');
+  return `${salaryCurrency ? `${salaryCurrency} ` : ''}${range}`;
 }
 
 export { PasteJdDialog };
