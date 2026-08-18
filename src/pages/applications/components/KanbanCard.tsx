@@ -8,9 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui
 
 interface KanbanCardProps {
   application: ApplicationRecord;
+  userId: string;
 }
 
-function KanbanCard({ application }: KanbanCardProps) {
+function KanbanCard({ application, userId }: KanbanCardProps) {
   return (
     <Card
       size="sm"
@@ -36,7 +37,7 @@ function KanbanCard({ application }: KanbanCardProps) {
               {application.position}
             </Link>
           </div>
-          <ApplicationActionMenu application={application} context="kanban" />
+          <ApplicationActionMenu application={application} context="kanban" userId={userId} />
         </div>
         <div className="flex items-center justify-between gap-2">
           <StatusBadge status={application.status} />
