@@ -246,4 +246,4 @@ pnpm unused
 
 The contents of this repository are licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
-[MIT](LICENSE) &copy; 2025-present Visakan Kirubakaran.
+[MIT](LICENSE) &copy; 2026-present Visakan Kirubakaran.
