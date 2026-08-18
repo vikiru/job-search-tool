@@ -1,8 +1,7 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "$schema": "https://unpkg.com/knip@6/schema.json",
   "project": ["tsconfig.json"],
   "entry": ["src/router.tsx", "src/start.ts", "src/routes/**", "src/server/**", "*.config.ts", "*.config.mjs"],
-  "ignore": ["drizzle/**", "src/routeTree.gen.ts"],
   "ignoreDependencies": ["@tailwindcss/typography", "@semantic-release/git", "semantic-release"],
   "ignoreExportsUsedInFile": {
     "interface": true,
