@@ -135,7 +135,7 @@ pnpm dev
 The application will be available at:
 
 ```text
-http://localhost:3000
+http://localhost:5173
 ```
 
 You can open Drizzle Studio in a separate terminal to view the state of the database with:
