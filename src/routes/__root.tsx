@@ -7,8 +7,9 @@ import {
   useRouteContext,
   Link,
 } from '@tanstack/react-router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ClerkProvider } from '@clerk/tanstack-react-start';
+import { useEffect, useRef } from 'react';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
 import { Button } from '@/shared/components/ui/button';
 import { Footer } from '@/shared/components/Footer';
 import { Navbar } from '@/shared/components/Navbar';
@@ -77,19 +78,21 @@ function RootComponent() {
               signInFallbackRedirectUrl={import.meta.env.VITE_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL}
               signUpForceRedirectUrl={import.meta.env.VITE_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL}
             >
-              {isAuthRoute ? (
-                <main id="main-content" className="min-h-screen">
-                  <Outlet />
-                </main>
-              ) : (
-                <div className="flex min-h-screen flex-col">
-                  <Navbar />
-                  <main id="main-content" className="flex-1">
+              <QueryCacheIdentityBoundary>
+                {isAuthRoute ? (
+                  <main id="main-content" className="min-h-screen">
                     <Outlet />
                   </main>
-                  <Footer />
-                </div>
-              )}
+                ) : (
+                  <div className="flex min-h-screen flex-col">
+                    <Navbar />
+                    <main id="main-content" className="flex-1">
+                      <Outlet />
+                    </main>
+                    <Footer />
+                  </div>
+                )}
+              </QueryCacheIdentityBoundary>
             </ClerkProvider>
           </ThemeProvider>
           <Scripts />
@@ -97,6 +100,24 @@ function RootComponent() {
       </html>
     </QueryClientProvider>
   );
+}
+
+function QueryCacheIdentityBoundary({ children }: { children: React.ReactNode }) {
+  const { isLoaded, userId } = useAuth();
+  const queryClient = useQueryClient();
+  const previousUserId = useRef<string | null | 'uninitialized'>('uninitialized');
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    if (previousUserId.current !== 'uninitialized' && previousUserId.current !== userId) {
+      queryClient.clear();
+    }
+
+    previousUserId.current = userId;
+  }, [isLoaded, queryClient, userId]);
+
+  return children;
 }
 
 function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
