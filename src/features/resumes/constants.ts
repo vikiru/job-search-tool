@@ -1,1 +1,1 @@
-export const MAX_RESUME_FILE_SIZE = 5 * 1024 * 1024;
+export { MAX_RESUME_FILE_SIZE } from '@/shared/constants/file-limits';

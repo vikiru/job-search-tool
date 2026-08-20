@@ -1,18 +1,11 @@
 import { z } from 'zod';
 
 import { ApplicationStatusSchema, SalaryPeriodSchema, WorkArrangementSchema } from '@/server/db/zod';
-import { isSafeHttpUrl } from '@/shared/lib/urls';
+import { httpUrlSchema, optionalHttpUrlSchema } from '@/shared/lib/validation';
 
 const optionalText = (maxLength: number) => z.string().trim().max(maxLength).nullable().optional();
 
-const optionalUrl = z
-  .string()
-  .trim()
-  .url('Enter a valid URL.')
-  .refine(isSafeHttpUrl, 'Enter an HTTP or HTTPS URL.')
-  .or(z.literal(''))
-  .nullable()
-  .optional();
+const optionalUrl = optionalHttpUrlSchema;
 
 const optionalNumeric = (max?: number) => {
   const schema = z.number().finite().nonnegative();
@@ -67,13 +60,13 @@ export const noteUpdateSchema = z.object({ id: z.string().uuid(), content: z.str
 
 export const linkMutationSchema = z.object({
   applicationId: z.string().uuid(),
-  url: z.string().trim().url().refine(isSafeHttpUrl, 'Enter an HTTP or HTTPS URL.'),
+  url: httpUrlSchema,
   label: optionalText(100),
 });
 
 export const linkUpdateSchema = z.object({
   id: z.string().uuid(),
-  url: z.string().trim().url().refine(isSafeHttpUrl, 'Enter an HTTP or HTTPS URL.'),
+  url: httpUrlSchema,
   label: optionalText(100),
 });
 export const recentActivitySchema = z.object({ limit: z.number().int().min(1).max(50).default(10) });

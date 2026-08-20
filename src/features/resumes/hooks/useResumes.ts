@@ -4,6 +4,7 @@ import type { SelectResume } from '@/server/db/zod';
 
 import { resumeKeys } from '@/features/resumes/resume-keys';
 import { getResume, removeResume, saveResumeText, uploadResume } from '@/features/resumes/server';
+import { fileToBase64 } from '@/shared/lib/files';
 import { error } from '@/shared/lib/result';
 
 export function resumesQueryOptions(userId: string) {
@@ -15,20 +16,6 @@ export function resumesQueryOptions(userId: string) {
 
 export function useResumes(userId: string) {
   return useQuery(resumesQueryOptions(userId));
-}
-
-async function fileToBase64(file: File): Promise<string> {
-  return file.arrayBuffer().then((buffer) => {
-    const bytes = new Uint8Array(buffer);
-    let binary = '';
-    const chunkSize = 0x8000;
-
-    for (let index = 0; index < bytes.length; index += chunkSize) {
-      binary += String.fromCharCode(...bytes.subarray(index, index + chunkSize));
-    }
-
-    return btoa(binary);
-  });
 }
 
 export function useUploadResume(userId: string) {
