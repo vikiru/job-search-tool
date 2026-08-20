@@ -36,12 +36,12 @@ Key application statistics are available through the dashboard, and application 
 
 ## 🌟 Features
 
-- **Application Management**: Manage applications using a table or Kanban view, moving them between various statuses (e.g. saved, applied, screening, interview, offer, rejected, withdrawn, and ghosted) - refer to [key application models](./src/pages/applications/application-model.ts).
+- **Application Management**: Manage applications using a table or Kanban view, moving them between various statuses (e.g. saved, applied, screening, interview, offer, rejected, withdrawn, and ghosted) - refer to [key application models](./src/entities/application/model.ts).
 - **Application Search and Filtering**: Search applications by role or company with FlexSearch, then filter by `status` or `interest rating`.
 - **Application Workspace**: Add, edit, and delete notes and useful links such as the original posting, company website, or interview references.
-- **Job Metadata Extraction**: Enter a job description manually or paste it from a job board for structured or AI-assisted extraction - refer to [extraction prompt](./src/features/gemini/extract/extraction-prompt.ts).
+- **Job Metadata Extraction**: Enter a job description manually or paste it from a job board for structured or AI-assisted extraction - refer to [extraction prompt](./src/server/ai/extraction-prompt.ts).
 - **Structured Application Metadata**: Use Gemini to identify relevant role information while ignoring navigation, promotional content, employer branding, and other page noise.
-- **Resume Analysis Report via Gemini**: Run an on-demand fit analysis comparing a job description with a saved or pasted resume - refer to [analysis prompt](./src/features/gemini/analysis/analysis-prompt.ts).
+- **Resume Analysis Report via Gemini**: Run an on-demand fit analysis comparing a job description with a saved or pasted resume - refer to [analysis prompt](./src/server/ai/fit-analysis-prompt.ts).
 - **Resume Upload**: Upload a resume as a PDF and extract its text-based representation server-side. PDF files are not stored; resume content is saved as text. Relevant contact information and public links such as email, phone number, GitHub, LinkedIn, and a portfolio website can also be managed.
 - **Dashboard Overview**: View application statistics, activity, and the current pipeline at a glance.
 - **Export Application Data**: Export application records and related details as JSON or CSV using native browser APIs.
