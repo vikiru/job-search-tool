@@ -6,8 +6,8 @@ import { toast } from 'sonner';
 import {
   useCreateApplication,
   useCreateApplicationFromJobDescription,
-} from '@/features/applications/hooks/useApplicationMutations';
-import { AiApplicationForm } from '@/pages/applications/components/AiApplicationForm';
+} from '@/features/application-data/useApplicationMutations';
+import { AiApplicationDialog } from '@/pages/applications/components/AiApplicationDialog';
 import {
   ManualApplicationForm,
   type ManualApplicationSubmitValues,
@@ -112,7 +112,7 @@ function PasteJdDialog({ userId }: { userId: string }) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="ai">
-            <AiApplicationForm
+            <AiApplicationDialog
               isSubmitting={createApplicationFromJobDescription.isPending}
               onSubmit={analyzeJobDescription}
             />

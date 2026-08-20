@@ -1,4 +1,4 @@
-import type { RecentApplicationActivity } from '@/features/applications/types';
+import type { RecentApplicationActivity } from '@/features/application-data/types';
 
 import { RecentActivity } from '@/pages/dashboard/components/RecentActivity';
 

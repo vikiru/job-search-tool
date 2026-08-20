@@ -1,20 +1,12 @@
-import {
-  closestCorners,
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core';
-import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useMemo, useState } from 'react';
+import { closestCorners, DndContext, DragOverlay, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useMemo } from 'react';
 
-import { kanbanColumns, type ApplicationRecord } from '@/pages/applications/application-model';
+import { kanbanColumns, type ApplicationRecord } from '@/entities/application/model';
+import { useKanban } from '@/features/application-status/useKanban';
+import { useKanbanDrag } from '@/features/application-status/useKanbanDrag';
 import { KanbanColumn } from '@/pages/applications/components/KanbanColumn';
 import { KanbanDragOverlay } from '@/pages/applications/components/KanbanDragOverlay';
-import { useKanban } from '@/pages/applications/hooks/useKanban';
 
 const columnStatus = {
   SAVED: 'SAVED',
@@ -29,12 +21,8 @@ interface ApplicationsKanbanProps {
 }
 
 function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const { activeId, clearActiveId, sensors, setActiveId } = useKanbanDrag();
   const { handleStatusChange, statusOverrides } = useKanban(userId);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
   const displayedApplications = useMemo(
     () =>
       applications.map((application) => ({
@@ -46,7 +34,7 @@ function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
   const activeApplication = displayedApplications.find((application) => application.id === activeId) ?? null;
 
   function handleDragEnd({ active, over }: DragEndEvent) {
-    setActiveId(null);
+    clearActiveId();
     if (!over || active.id === over.id) return;
 
     const application = displayedApplications.find((candidate) => candidate.id === active.id);
@@ -76,7 +64,7 @@ function ApplicationsKanban({ applications, userId }: ApplicationsKanbanProps) {
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={({ active }) => setActiveId(String(active.id))}
-        onDragCancel={() => setActiveId(null)}
+        onDragCancel={clearActiveId}
         onDragEnd={handleDragEnd}
       >
         <div className="overflow-x-auto overscroll-x-contain pb-1">

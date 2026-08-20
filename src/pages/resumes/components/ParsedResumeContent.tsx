@@ -1,6 +1,6 @@
 import { MapPin } from 'lucide-react';
 
-import type { ParsedResume, ParsedResumeSection, ResumeEntry } from '@/features/resumes/parser/types';
+import type { ParsedResume, ParsedResumeSection, ResumeEntry } from '@/entities/resume/types';
 
 interface ParsedResumeContentProps {
   parsedResume: ParsedResume;

@@ -2,14 +2,14 @@ import { ShieldCheck } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+import type { UserContactData, UserContactUpdate } from '@/entities/user/schemas';
 
-import { useSaveUserContact, useUserContact } from '@/features/profile/hooks/useUserContact';
-import { useRemoveResume, useUploadResume, type ResumeData } from '@/features/resumes/hooks/useResumes';
-import { parseResumeText } from '@/features/resumes/parser/parse-resume-text';
+import { useRemoveResume, useUploadResume, type ResumeData } from '@/features/resume-management/useResumes';
+import { parseResumeText } from '@/features/resume-parser/parse-resume-text';
 import { ParsedResumeContent } from '@/pages/resumes/components/ParsedResumeContent';
 import { ResumeContactDetails } from '@/pages/resumes/components/ResumeContactDetails';
 import { ResumeDocument } from '@/pages/resumes/components/ResumeDocument';
+import { useSaveUserContact, useUserContact } from '@/pages/resumes/useUserContact';
 
 interface ResumeContentSectionProps {
   resume: ResumeData;
@@ -87,7 +87,7 @@ export function ResumeContentSection({ resume, userId }: ResumeContentSectionPro
         </p>
       ) : null}
       <ResumeContactDetails contact={contact} isSaving={saveContact.isPending} onSaveContact={updateContact} />
-      <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/5 px-4 py-4 sm:px-5">
+      <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/5 p-4 sm:px-5">
         <ShieldCheck className="mt-0.5 size-icon-sm shrink-0 text-success" aria-hidden="true" />
         <div className="min-w-0 space-y-1">
           <p className="font-heading text-small leading-snug font-semibold tracking-tight">

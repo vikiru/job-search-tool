@@ -1,13 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { applicationDetailQueryOptions, useApplication } from '@/features/applications/hooks/useApplication';
+import { applicationDetailQueryOptions, useApplication } from '@/features/application-data/useApplication';
 import { requireAuth } from '@/features/auth/server';
-import { ApplicationDetailPage } from '@/pages/applications/details/ApplicationDetailPage';
+import { ApplicationDetailPage } from '@/pages/application-details/ApplicationDetailPage';
 
 export const Route = createFileRoute('/applications/$id')({
   head: () => ({
     meta: [
       { title: 'Application | JobApp' },
+      { name: 'robots', content: 'noindex, nofollow' },
       { name: 'description', content: 'Review the details, notes, links, and fit analysis for this application.' },
     ],
   }),

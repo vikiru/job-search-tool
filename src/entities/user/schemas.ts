@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
+import { httpUrlSchema } from '@/shared/lib/validation';
+
 export const userContactLinkSchema = z.object({
-  href: z.string().trim().min(1).url(),
+  href: httpUrlSchema.refine((value) => value.length <= 2_000, 'URL is too long.'),
   label: z.string().trim().min(1).max(100),
 });
 

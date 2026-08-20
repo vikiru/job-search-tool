@@ -47,7 +47,7 @@ function WorkflowSection() {
           JobApp keeps the details, decisions, and follow-ups together so you can spend less time rebuilding context.
         </p>
       </div>
-      <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 md:gap-x-12 md:gap-y-12">
+      <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 md:gap-12">
         {workflowSteps.map((step) => (
           <WorkflowStepCard key={step.title} {...step} />
         ))}

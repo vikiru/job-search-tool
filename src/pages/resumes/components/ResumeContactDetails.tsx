@@ -1,7 +1,7 @@
 import { Eye, EyeOff, LockKeyhole } from 'lucide-react';
 import { useState } from 'react';
 
-import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+import type { UserContactData, UserContactUpdate } from '@/entities/user/schemas';
 
 import { EditContactDialog } from '@/pages/resumes/components/EditContactDialog';
 import { ResumePublicLinks } from '@/pages/resumes/components/ResumePublicLinks';
@@ -61,13 +61,13 @@ export function ResumeContactDetails({ contact, isSaving, onSaveContact }: Resum
       </p>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-lg border border-border/70 bg-background/70 px-3 py-3">
+        <div className="rounded-lg border border-border/70 bg-background/70 p-3">
           <p className="font-heading text-caption font-medium text-muted-foreground">Email</p>
           <p className="mt-1 truncate text-small font-medium">
             {showDetails ? (contact.email ?? 'Not added') : maskEmail(contact.email)}
           </p>
         </div>
-        <div className="rounded-lg border border-border/70 bg-background/70 px-3 py-3">
+        <div className="rounded-lg border border-border/70 bg-background/70 p-3">
           <p className="font-heading text-caption font-medium text-muted-foreground">Phone</p>
           <p className="mt-1 text-small font-medium">
             {showDetails ? (contact.phoneNumber ?? 'Not added') : maskPhone(contact.phoneNumber)}

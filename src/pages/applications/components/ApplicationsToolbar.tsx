@@ -2,10 +2,11 @@
 
 import { ListFilter, Star } from 'lucide-react';
 
-import type { ApplicationStatus, ApplicationView, InterestRating } from '@/pages/applications/application-model';
+import type { ApplicationStatus, ApplicationView, InterestRating } from '@/entities/application/model';
 
-import { ExportDropdown } from '@/features/applications/export/ExportDropdown';
+import { isApplicationStatus, isApplicationView, parseInterestRating } from '@/entities/application/search-params';
 import { ApplicationsSearchBar } from '@/pages/applications/components/ApplicationsSearchBar';
+import { ExportDropdown } from '@/pages/applications/components/ExportDropdown';
 import { PasteJdDialog } from '@/pages/applications/components/PasteJdDialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
@@ -44,7 +45,9 @@ function ApplicationsToolbar({
         >
           <Select
             value={statusFilter}
-            onValueChange={(value) => onStatusFilterChange(value as ApplicationStatus | 'ALL')}
+            onValueChange={(value) => {
+              if (value === 'ALL' || isApplicationStatus(value)) onStatusFilterChange(value);
+            }}
           >
             <SelectTrigger className="h-10 w-full min-w-0" aria-label="Filter by status">
               <ListFilter className="size-icon-sm text-muted-foreground" aria-hidden="true" />
@@ -66,7 +69,11 @@ function ApplicationsToolbar({
             value={String(interestFilter)}
             onValueChange={(value) => {
               const nextValue = String(value);
-              onInterestFilterChange(nextValue === 'ALL' ? 'ALL' : (Number(nextValue) as InterestRating));
+              if (nextValue === 'ALL') onInterestFilterChange('ALL');
+              else {
+                const interest = parseInterestRating(nextValue);
+                if (interest !== null) onInterestFilterChange(interest);
+              }
             }}
           >
             <SelectTrigger className="h-10 w-full min-w-0" aria-label="Filter by interest rating">
@@ -85,7 +92,7 @@ function ApplicationsToolbar({
         </div>
       </div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Tabs value={view} onValueChange={(value) => onViewChange(value as ApplicationView)}>
+        <Tabs value={view} onValueChange={(value) => isApplicationView(value) && onViewChange(value)}>
           <TabsList className="w-full sm:w-auto" aria-label="Applications view">
             <TabsTrigger className="min-w-24 font-heading" value="table">
               Table

@@ -5,7 +5,7 @@ import {
   kanbanColumns,
   type ApplicationRecord,
   type ApplicationStatus,
-} from '@/pages/applications/application-model';
+} from '@/entities/application/model';
 import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 import { KanbanColumnEmptyState } from '@/pages/applications/components/KanbanColumnEmptyState';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
@@ -60,7 +60,7 @@ function KanbanColumn({ applications, column, onStatusChange, userId }: KanbanCo
       }`}
       aria-labelledby={`kanban-${column.id}`}
     >
-      <header className="flex min-h-16 items-start justify-between gap-2 px-2 py-2">
+      <header className="flex min-h-16 items-start justify-between gap-2 p-2">
         <div className="min-w-0">
           <h2 id={`kanban-${column.id}`} className="truncate font-heading text-small font-semibold tracking-tight">
             {column.label}

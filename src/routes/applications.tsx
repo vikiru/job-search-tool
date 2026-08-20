@@ -6,6 +6,7 @@ export const Route = createFileRoute('/applications')({
   head: () => ({
     meta: [
       { title: 'Applications | JobApp' },
+      { name: 'robots', content: 'noindex, nofollow' },
       { name: 'description', content: 'Track every application, follow-up, and next step in one focused workspace.' },
     ],
   }),

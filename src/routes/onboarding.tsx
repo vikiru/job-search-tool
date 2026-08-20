@@ -7,6 +7,7 @@ export const Route = createFileRoute('/onboarding')({
   head: () => ({
     meta: [
       { title: 'Onboarding | JobApp' },
+      { name: 'robots', content: 'noindex, nofollow' },
       { name: 'description', content: 'Add a few details to personalize your JobApp workspace.' },
     ],
   }),

@@ -1,7 +1,5 @@
-import type { ReactNode } from 'react';
-
 import { FileText, RefreshCw, Trash2 } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, type ReactNode } from 'react';
 
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Badge } from '@/shared/components/ui/badge';
@@ -33,7 +31,7 @@ function ResumeDocument({
 
   return (
     <Card className="min-w-0">
-      <CardHeader className="gap-4 border-b border-border/60 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-6">
+      <CardHeader className="gap-4 border-b border-border/60 p-5 sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-6">
         <div className="flex min-w-0 items-start gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
             <FileText className="size-icon-sm" aria-hidden="true" />

@@ -1,4 +1,4 @@
-import { formatStatus, type ApplicationStatus } from '@/pages/applications/application-model';
+import { formatStatus, type ApplicationStatus } from '@/entities/application/model';
 import { Badge } from '@/shared/components/ui/badge';
 
 const statusClassNames: Record<ApplicationStatus, string> = {

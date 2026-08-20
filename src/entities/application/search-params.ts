@@ -38,3 +38,20 @@ export type ApplicationsSearch = z.infer<typeof applicationsSearchSchema>;
 export type ApplicationsSearchStatus = ApplicationStatus | 'ALL';
 export type ApplicationsSearchInterest = InterestRating | 'ALL';
 export type ApplicationsSearchView = ApplicationView;
+
+export function isApplicationStatus(value: unknown): value is ApplicationStatus {
+  return applicationStatusSchema.safeParse(value).success;
+}
+
+export function isApplicationView(value: unknown): value is ApplicationView {
+  return applicationViewSchema.safeParse(value).success;
+}
+
+export function parseInterestRating(value: string): InterestRating | null {
+  const parsed = interestRatingSchema.safeParse(Number(value));
+  return parsed.success ? parsed.data : null;
+}
+
+export function isApplicationSortKey(value: unknown): value is ApplicationSortKey {
+  return applicationSortKeySchema.safeParse(value).success;
+}

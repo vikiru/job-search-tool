@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import type { ApplicationRecord } from '@/pages/applications/application-model';
+import type { ApplicationRecord } from '@/entities/application/model';
 import type { ApplicationStatus } from '@/server/db/zod';
 
+import { isApplicationStatus } from '@/entities/application/search-params';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -60,7 +61,7 @@ function ChangeStatusDialog({
           >
             Status
           </label>
-          <Select value={status} onValueChange={(value) => setStatus(value as ApplicationStatus)}>
+          <Select value={status} onValueChange={(value) => isApplicationStatus(value) && setStatus(value)}>
             <SelectTrigger id={`status-${application.id}`} className="h-10 w-full" aria-label="Application status">
               <SelectValue />
             </SelectTrigger>

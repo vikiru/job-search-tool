@@ -5,11 +5,8 @@ import { toast } from 'sonner';
 
 import type { ApplicationStatus } from '@/server/db/zod';
 
-import {
-  useDeleteApplication,
-  useUpdateApplicationStatus,
-} from '@/features/applications/hooks/useApplicationMutations';
-import { formatStatus, type ApplicationRecord } from '@/pages/applications/application-model';
+import { formatStatus, type ApplicationRecord } from '@/entities/application/model';
+import { useDeleteApplication, useUpdateApplicationStatus } from '@/features/application-data/useApplicationMutations';
 import { ChangeStatusDialog } from '@/pages/applications/components/ChangeStatusDialog';
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { Button } from '@/shared/components/ui/button';

@@ -7,8 +7,9 @@ import { useTheme } from '@/shared/components/ThemeProvider';
 import { Button } from '@/shared/components/ui/button';
 
 function ThemeToggle() {
-  const { isDark, toggleTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const isDark = resolvedTheme === 'dark';
 
   useEffect(() => {
     setMounted(true);
@@ -18,7 +19,7 @@ function ThemeToggle() {
     <Button
       aria-label={mounted && isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       className="relative size-11 touch-target rounded-full text-muted-foreground transition-colors hover:bg-transparent hover:text-primary motion-reduce:transition-none dark:hover:bg-transparent"
-      onClick={toggleTheme}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
       size="icon"
       type="button"
       variant="ghost"

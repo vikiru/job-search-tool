@@ -1,70 +1,49 @@
-import type { OnChangeFn, SortingState } from '@tanstack/react-table';
-
-import type {
-  ApplicationRecord,
-  ApplicationStatus,
-  ApplicationView,
-  InterestRating,
-} from '@/pages/applications/application-model';
+import type { InterestRating } from '@/entities/application/model';
+import type { useApplicationsTable } from '@/pages/applications/useApplicationsTable';
 
 import { ApplicationsEmptyState } from '@/pages/applications/components/ApplicationsEmptyState';
 import { ApplicationsKanban } from '@/pages/applications/components/ApplicationsKanban';
 import { ApplicationsPagination } from '@/pages/applications/components/ApplicationsPagination';
-import { ApplicationsTable, type SortDirection, type SortKey } from '@/pages/applications/components/ApplicationsTable';
+import { ApplicationsTable } from '@/pages/applications/components/ApplicationsTable';
 import { ApplicationsToolbar } from '@/pages/applications/components/ApplicationsToolbar';
 import { KanbanSkeleton } from '@/pages/applications/components/KanbanSkeleton';
 import { Card, CardContent } from '@/shared/components/ui/card';
-import { Loader } from '@/shared/components/ui/Loader';
+import { Loader } from '@/shared/components/ui/loader';
 
 interface ApplicationsWorkspaceSectionProps {
-  errorMessage: string | null;
-  filteredApplications: ApplicationRecord[];
-  searchFilteredApplications: ApplicationRecord[];
+  workspace: ReturnType<typeof useApplicationsTable>;
   isLoading: boolean;
   interestFilter: InterestRating | 'ALL';
-  isFiltered: boolean;
-  onClearFilters: () => void;
-  onInterestFilterChange: (value: InterestRating | 'ALL') => void;
-  onPageChange: (pageIndex: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-  onSearchChange: (value: string) => void;
-  onSortingChange: OnChangeFn<SortingState>;
-  onStatusFilterChange: (value: ApplicationStatus | 'ALL') => void;
-  onViewChange: (value: ApplicationView) => void;
-  pageIndex: number;
-  pageSize: number;
-  search: string;
-  sortDirection: SortDirection;
-  sortKey: SortKey;
-  statusFilter: ApplicationStatus | 'ALL';
-  view: ApplicationView;
   userId: string;
 }
 
 export function ApplicationsWorkspaceSection({
-  errorMessage,
-  filteredApplications,
-  searchFilteredApplications,
+  workspace,
   isLoading,
   interestFilter,
-  isFiltered,
-  onClearFilters,
-  onInterestFilterChange,
-  onPageChange,
-  onPageSizeChange,
-  onSearchChange,
-  onSortingChange,
-  onStatusFilterChange,
-  onViewChange,
-  pageIndex,
-  pageSize,
-  search,
-  sortDirection,
-  sortKey,
-  statusFilter,
-  view,
   userId,
 }: ApplicationsWorkspaceSectionProps) {
+  const {
+    errorMessage,
+    filteredApplications,
+    handleSortingChange,
+    isFiltered,
+    onClearFilters,
+    onInterestFilterChange,
+    onPageChange,
+    onPageSizeChange,
+    onSearchChange,
+    onStatusFilterChange,
+    onViewChange,
+    pageIndex,
+    pageSize,
+    search,
+    searchFilteredApplications,
+    sortDirection,
+    sortKey,
+    statusFilter,
+    view,
+  } = workspace;
   return (
     <Card className="min-w-0 overflow-hidden">
       <ApplicationsToolbar
@@ -103,7 +82,7 @@ export function ApplicationsWorkspaceSection({
               ...(statusFilter === 'ALL' ? [] : [{ id: 'status', value: statusFilter }]),
               ...(interestFilter === 'ALL' ? [] : [{ id: 'interestRating', value: interestFilter }]),
             ]}
-            onSortingChange={onSortingChange}
+            onSortingChange={handleSortingChange}
             pagination={{ pageIndex, pageSize }}
             sorting={[{ id: sortKey, desc: sortDirection === 'desc' }]}
             userId={userId}

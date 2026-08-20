@@ -1,6 +1,6 @@
 import { Star } from 'lucide-react';
 
-import type { InterestRating as InterestRatingValue } from '@/pages/applications/application-model';
+import type { InterestRating as InterestRatingValue } from '@/entities/application/model';
 
 function InterestRating({ value }: { value: InterestRatingValue | null }) {
   if (!value) {

@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 
-import type { UserContactData, UserContactUpdate } from '@/features/profile/types';
+import type { UserContactData, UserContactUpdate } from '@/entities/user/schemas';
 
 import { Button } from '@/shared/components/ui/button';
 import {

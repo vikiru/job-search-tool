@@ -3,6 +3,7 @@ import { and, asc, eq, gte, lte, sql } from 'drizzle-orm';
 import type { ApplicationStatus } from '@/server/db/zod';
 
 import { db } from '@/server/db';
+import { DASHBOARD_RECENT_ACTIVITY_LIMIT, findRecentApplicationActivity } from '@/server/db/queries/activity';
 import { applications } from '@/server/db/schema';
 
 export interface DashboardStats {
@@ -74,4 +75,15 @@ export async function findDashboardWeeklyActivity(
     )
     .groupBy(applications.applicationDate)
     .orderBy(asc(applications.applicationDate));
+}
+
+export async function findDashboardOverview(userId: string, weekStart: string, weekEnd: string) {
+  const [stats, statusCounts, weeklyActivity, recentActivity] = await Promise.all([
+    findDashboardStats(userId),
+    findDashboardStatusCounts(userId),
+    findDashboardWeeklyActivity(userId, weekStart, weekEnd),
+    findRecentApplicationActivity(userId, DASHBOARD_RECENT_ACTIVITY_LIMIT),
+  ]);
+
+  return { recentActivity, stats, statusCounts, weeklyActivity };
 }

@@ -26,8 +26,8 @@ import {
   type ApplicationRecord,
   type ApplicationStatus,
   type InterestRating,
-} from '@/pages/applications/application-model';
-import { type ApplicationSortDirection, type ApplicationSortKey } from '@/pages/applications/application-search-params';
+} from '@/entities/application/model';
+import { type ApplicationSortDirection, type ApplicationSortKey } from '@/entities/application/search-params';
 import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
 import { InterestRating as InterestRatingDisplay } from '@/pages/applications/components/InterestRating';
 import { StatusBadge } from '@/pages/applications/components/StatusBadge';
@@ -213,7 +213,7 @@ function ApplicationsTable({
         {table.getRowModel().rows.map((row) => (
           <TableRow key={row.id} className="group">
             {row.getAllCells().map((cell) => (
-              <TableCell key={cell.id} className="px-4 py-4">
+              <TableCell key={cell.id} className="p-4">
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

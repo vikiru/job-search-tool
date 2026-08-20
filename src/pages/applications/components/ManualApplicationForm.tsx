@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import type { ApplicationStatus, InterestRating } from '@/pages/applications/application-model';
+import type { ApplicationStatus, InterestRating } from '@/entities/application/model';
 
+import { isApplicationStatus, parseInterestRating } from '@/entities/application/search-params';
 import { Button } from '@/shared/components/ui/button';
 import { DialogClose, DialogFooter } from '@/shared/components/ui/dialog';
 import { Input } from '@/shared/components/ui/input';
@@ -121,7 +122,7 @@ function ManualApplicationForm({
           <label htmlFor={fieldId('status')} className="block font-heading text-small font-medium tracking-tight">
             Status
           </label>
-          <Select value={status} onValueChange={(value) => setStatus(value as ApplicationStatus)}>
+          <Select value={status} onValueChange={(value) => isApplicationStatus(value) && setStatus(value)}>
             <SelectTrigger id={fieldId('status')} className="h-10 w-full">
               <SelectValue />
             </SelectTrigger>
@@ -143,7 +144,7 @@ function ManualApplicationForm({
           </label>
           <Select
             value={interestRating ? String(interestRating) : ''}
-            onValueChange={(value) => setInterestRating(value ? (Number(value) as InterestRating) : null)}
+            onValueChange={(value) => setInterestRating(value ? parseInterestRating(value) : null)}
           >
             <SelectTrigger id={fieldId('interest')} className="h-10 w-full">
               <SelectValue placeholder="Not rated" />

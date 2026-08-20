@@ -1,14 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { requireAuth } from '@/features/auth/server';
-import { userContactQueryOptions } from '@/features/profile/hooks/useUserContact';
-import { resumesQueryOptions } from '@/features/resumes/hooks/useResumes';
+import { resumesQueryOptions } from '@/features/resume-management/useResumes';
 import { ResumesPage } from '@/pages/resumes/ResumesPage';
+import { userContactQueryOptions } from '@/pages/resumes/useUserContact';
 
 export const Route = createFileRoute('/resumes')({
   head: () => ({
     meta: [
       { title: 'Resume | JobApp' },
+      { name: 'robots', content: 'noindex, nofollow' },
       {
         name: 'description',
         content: 'Keep your resume, extracted text, and professional links ready for every application.',

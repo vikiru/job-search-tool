@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowRight } from 'lucide-react';
 
-import { useResumes } from '@/features/resumes/hooks/useResumes';
+import { useResumes } from '@/features/resume-management/useResumes';
 import { ResumeEmptyState } from '@/pages/resumes/components/ResumeEmptyState';
 import { ResumeContentSection } from '@/pages/resumes/sections/ResumeContentSection';
 import { ResumeInsightsSection } from '@/pages/resumes/sections/ResumeInsightsSection';
@@ -17,7 +17,7 @@ export function ResumesPage({ userId }: ResumesPageProps) {
   const errorMessage = resumeResult && !resumeResult.success ? resumeResult.error : null;
 
   return (
-    <div className="mx-auto max-w-[var(--breakpoint-2xl)] px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+    <div className="mx-auto max-w-(--breakpoint-2xl) px-3 py-6 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
       <div className="space-y-6 sm:space-y-8">
         <header className="flex flex-col gap-5 border-b border-border/70 pb-6 sm:pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
