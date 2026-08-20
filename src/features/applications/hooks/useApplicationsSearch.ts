@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import type { ApplicationRecord } from '@/pages/applications/application-model';
+import type { ApplicationRecord } from '@/entities/application/model';
 
 import { createApplicationsSearchIndex, searchApplicationIds } from '@/features/applications/workspace/search-index';
 
