@@ -8,9 +8,10 @@ import { findUserContactById, updateUserContact } from '@/server/db/queries/user
 import { logServerError } from '@/server/lib/log-error';
 import { error, success, type Result } from '@/shared/lib/result';
 import { toSafeHttpUrl } from '@/shared/lib/urls';
+import { httpUrlSchema } from '@/shared/lib/validation';
 
 const contactLinkSchema = z.object({
-  href: z.string().trim().min(1).max(2_000),
+  href: httpUrlSchema.refine((value) => value.length <= 2_000, 'URL is too long.'),
   label: z.string().trim().min(1).max(100),
 });
 
