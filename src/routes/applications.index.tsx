@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { applicationsQueryOptions } from '@/features/applications/hooks/useApplications';
+import { applicationsSearchSchema } from '@/entities/application/search-params';
+import { applicationsQueryOptions } from '@/features/application-data/useApplications';
 import { requireAuth } from '@/features/auth/server';
-import { applicationsSearchSchema } from '@/pages/applications/application-search-params';
 import { ApplicationsPage } from '@/pages/applications/ApplicationsPage';
 
 export const Route = createFileRoute('/applications/')({

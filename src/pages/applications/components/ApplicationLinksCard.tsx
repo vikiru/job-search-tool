@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import type { SelectApplicationLink } from '@/server/db/zod';
 
-import { useApplicationLinks } from '@/features/applications/hooks/useApplicationLinks';
+import { useApplicationLinks } from '@/features/application-data/useApplicationLinks';
 import {
   ApplicationLinkDialog,
   type ApplicationLinkFormValues,

@@ -1,10 +1,18 @@
 import { eq } from 'drizzle-orm';
 
-import type { UserContactUpdate } from '@/entities/user/types';
+import type { UserContactUpdate } from '@/entities/user/schemas';
 import type { InsertUser, SelectUser, SelectUserLink } from '@/server/db/zod';
 
 import { db } from '@/server/db';
 import { userLinks, users } from '@/server/db/schema';
+
+export interface UserProfileUpdate {
+  email: string | null;
+  firstName: string;
+  lastName: string;
+  location: string | null;
+  phoneNumber: string | null;
+}
 
 export async function getOrCreateUser(
   userId: string,
@@ -26,6 +34,21 @@ export async function getOrCreateUser(
     .returning();
 
   return created;
+}
+
+export async function upsertUserProfile(userId: string, data: UserProfileUpdate): Promise<void> {
+  await db
+    .insert(users)
+    .values({ id: userId, ...data })
+    .onConflictDoUpdate({
+      target: users.id,
+      set: { ...data, updatedAt: new Date() },
+    });
+}
+
+export async function findUserProfile(userId: string): Promise<SelectUser | null> {
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  return user ?? null;
 }
 
 export async function findUserContactById(userId: string): Promise<{

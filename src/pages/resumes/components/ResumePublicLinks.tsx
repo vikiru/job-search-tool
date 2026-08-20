@@ -1,6 +1,4 @@
-import type { LucideIcon } from 'lucide-react';
-
-import { Github, Globe2, Link2, Linkedin } from 'lucide-react';
+import { Github, Globe2, Link2, Linkedin, type LucideIcon } from 'lucide-react';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/shared/components/ui/empty';
 import { toSafeHttpUrl } from '@/shared/lib/urls';
@@ -40,7 +38,7 @@ export function ResumePublicLinks({ links }: ResumePublicLinksProps) {
           {safeLinks.map((link) => (
             <a
               key={link.label}
-              className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 px-3 py-3 transition-colors hover:bg-background motion-reduce:transition-none"
+              className="flex min-w-0 items-center gap-3 rounded-lg border border-border/70 bg-background/70 p-3 transition-colors hover:bg-background motion-reduce:transition-none"
               href={link.href}
               target="_blank"
               rel="noreferrer"

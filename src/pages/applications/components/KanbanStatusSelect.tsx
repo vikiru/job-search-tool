@@ -1,4 +1,5 @@
-import { formatStatus, type ApplicationStatus } from '@/pages/applications/application-model';
+import { formatStatus, type ApplicationStatus } from '@/entities/application/model';
+import { isApplicationStatus } from '@/entities/application/search-params';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 
 interface KanbanStatusSelectProps {
@@ -10,7 +11,7 @@ interface KanbanStatusSelectProps {
 export function KanbanStatusSelect({ onChange, statuses, value }: KanbanStatusSelectProps) {
   return (
     <div onPointerDown={(event) => event.stopPropagation()}>
-      <Select value={value} onValueChange={(nextValue) => nextValue && onChange(nextValue as ApplicationStatus)}>
+      <Select value={value} onValueChange={(nextValue) => isApplicationStatus(nextValue) && onChange(nextValue)}>
         <SelectTrigger
           className="h-7 max-w-full min-w-0 gap-1 rounded-full border-border/70 bg-muted/50 px-2 text-caption font-medium"
           aria-label={`Change status from ${formatStatus(value)}`}

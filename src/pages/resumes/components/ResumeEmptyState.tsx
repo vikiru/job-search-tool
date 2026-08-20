@@ -1,6 +1,6 @@
 import { Check, FileText } from 'lucide-react';
 
-import { ResumeUploader } from '@/features/resumes/components/ResumeUploader';
+import { ResumeUploader } from '@/pages/resumes/components/ResumeUploader';
 import {
   Empty,
   EmptyContent,

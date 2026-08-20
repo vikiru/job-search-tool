@@ -1,4 +1,4 @@
-import type { ApplicationRecord } from '@/pages/applications/application-model';
+import type { ApplicationRecord } from '@/entities/application/model';
 
 import { KanbanCard } from '@/pages/applications/components/KanbanCard';
 

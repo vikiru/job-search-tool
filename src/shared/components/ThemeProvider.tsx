@@ -14,8 +14,6 @@ interface ThemeContextValue {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-  isDark: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -55,8 +53,6 @@ function ThemeProvider({ children, storageKey = 'jobapp-theme' }: ThemeProviderP
       theme,
       resolvedTheme,
       setTheme,
-      toggleTheme: () => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark'),
-      isDark: resolvedTheme === 'dark',
     };
   }, [resolvedTheme, storageKey, theme]);
 

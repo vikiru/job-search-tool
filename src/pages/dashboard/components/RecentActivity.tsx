@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { formatDistanceToNow } from 'date-fns';
 import { ArrowRight, CircleCheck, FileText } from 'lucide-react';
 
-import type { RecentApplicationActivity } from '@/features/applications/types';
+import type { RecentApplicationActivity } from '@/features/application-data/types';
 
 import { RecentActivityEmptyState } from '@/pages/dashboard/components/RecentActivityEmptyState';
 import { Button } from '@/shared/components/ui/button';

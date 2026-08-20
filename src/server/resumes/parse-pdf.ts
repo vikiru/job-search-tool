@@ -2,17 +2,19 @@
 
 import '@tanstack/react-start/server-only';
 import pdf from 'pdf-parse';
+import { z } from 'zod';
 
-import { MAX_RESUME_FILE_SIZE } from '@/features/resumes/constants';
 import { logServerError } from '@/server/lib/log-error';
+import { MAX_RESUME_FILE_SIZE } from '@/shared/constants/file-limits';
 import { error, success, type Result } from '@/shared/lib/result';
 
 const emailPattern = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 const phonePattern = /(?<!\w)(?:\+?\d[\d\s().-]{7,}\d)(?!\w)/g;
+const emailSchema = z.string().email();
 
 function sanitizeResumeText(text: string): string {
   return text
-    .replaceAll(emailPattern, '')
+    .replaceAll(emailPattern, (candidate) => (emailSchema.safeParse(candidate).success ? '' : candidate))
     .replaceAll(phonePattern, '')
     .replaceAll(/[ \t]+\n/g, '\n')
     .replaceAll(/\n{3,}/g, '\n\n')

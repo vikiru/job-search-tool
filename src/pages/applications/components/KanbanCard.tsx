@@ -4,11 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Link } from '@tanstack/react-router';
 
-import {
-  formatApplicationDate,
-  type ApplicationRecord,
-  type ApplicationStatus,
-} from '@/pages/applications/application-model';
+import { formatApplicationDate, type ApplicationRecord, type ApplicationStatus } from '@/entities/application/model';
 import { ApplicationActionMenu } from '@/pages/applications/components/ApplicationActionMenu';
 import { InterestRating } from '@/pages/applications/components/InterestRating';
 import { KanbanStatusSelect } from '@/pages/applications/components/KanbanStatusSelect';
