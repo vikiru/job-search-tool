@@ -1,9 +1,9 @@
-export {
-  applicationSortDirectionSchema,
-  applicationSortKeySchema,
-  applicationSortKeys,
-  applicationsSearchSchema,
-} from '@/entities/application/search-params';
+export type {
+  ApplicationRecord,
+  ApplicationStatus,
+  ApplicationView,
+  InterestRating,
+} from '@/entities/application/model';
 export type {
   ApplicationSortDirection,
   ApplicationSortKey,
