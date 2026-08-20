@@ -27,7 +27,7 @@ import {
 } from '@/server/db/queries/applications';
 import { deleteLink, findLinksByApplicationId, insertLink, updateLink } from '@/server/db/queries/links';
 import { deleteNote, findNotesByApplicationId, insertNote, updateNote } from '@/server/db/queries/notes';
-import { getOrCreateUser } from '@/server/db/users';
+import { getOrCreateUser } from '@/server/db/queries/users';
 import { logServerError } from '@/server/lib/log-error';
 import { error, success, type Result } from '@/shared/lib/result';
 

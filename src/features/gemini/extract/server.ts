@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { extractJobDescription } from '@/features/gemini/extract/extract-jd';
 import { upsertAnalysis } from '@/server/db/queries/analysis';
 import { insertApplicationWithActivity } from '@/server/db/queries/applications';
-import { getOrCreateUser } from '@/server/db/users';
+import { getOrCreateUser } from '@/server/db/queries/users';
 import { logServerError } from '@/server/lib/log-error';
 import { error, success, type Result } from '@/shared/lib/result';
 import { isSafeHttpUrl } from '@/shared/lib/urls';

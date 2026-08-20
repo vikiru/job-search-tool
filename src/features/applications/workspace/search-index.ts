@@ -1,6 +1,6 @@
 import FlexSearch from 'flexsearch';
 
-import type { ApplicationRecord } from '@/pages/applications/application-model';
+import type { ApplicationRecord } from '@/entities/application/model';
 
 export interface ApplicationSearchDocument {
   company: string;

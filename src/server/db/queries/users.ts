@@ -1,10 +1,32 @@
 import { eq } from 'drizzle-orm';
 
-import type { UserContactUpdate } from '@/features/profile/types';
-import type { SelectUser, SelectUserLink } from '@/server/db/zod';
+import type { UserContactUpdate } from '@/entities/user/types';
+import type { InsertUser, SelectUser, SelectUserLink } from '@/server/db/zod';
 
 import { db } from '@/server/db';
 import { userLinks, users } from '@/server/db/schema';
+
+export async function getOrCreateUser(
+  userId: string,
+  profileData?: Partial<Omit<InsertUser, 'id'>>,
+): Promise<SelectUser> {
+  const existing = await db.query.users.findFirst({ where: eq(users.id, userId) });
+  if (existing) return existing;
+
+  const [created] = await db
+    .insert(users)
+    .values({
+      id: userId,
+      email: profileData?.email ?? null,
+      firstName: profileData?.firstName ?? null,
+      lastName: profileData?.lastName ?? null,
+      phoneNumber: profileData?.phoneNumber ?? null,
+      location: profileData?.location ?? null,
+    })
+    .returning();
+
+  return created;
+}
 
 export async function findUserContactById(userId: string): Promise<{
   email: string | null;
