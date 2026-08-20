@@ -6,6 +6,11 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  build: {
+    sourcemap: false,
+    minify: 'oxc',
+    cssMinify: 'esbuild',
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
